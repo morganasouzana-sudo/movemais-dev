@@ -36,18 +36,49 @@
     .menu a{font-size:14px;padding:8px 10px;border-radius:8px;cursor:pointer;color:rgba(255,255,255,0.9)}
     .menu a:hover{background:rgba(255,255,255,0.06)}
 
-    /* HERO + CAROUSEL */
-    .hero{padding:36px 0 16px;border-bottom:1px solid rgba(255,255,255,0.05)}
-    .hero-inner{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
-    .hero-left{flex:1;min-width:220px}
+    /* HERO + CAROUSEL (AJUSTES PARA EVITAR SOBREPOSIÇÃO) */
+    .hero{
+      padding:48px 0 36px; /* mais espaço embaixo para evitar encavalamento */
+      border-bottom:1px solid rgba(255,255,255,0.05);
+      position:relative;
+      z-index:10;
+    }
+
+    .hero-inner{
+      display:flex;
+      align-items:flex-start;   /* garantir que o texto alinha topo */
+      gap:22px;
+      flex-wrap:wrap;
+    }
+
+    .hero-left{
+      flex: 1 1 520px;         /* cresce prioritariamente, evita invasão do carrossel */
+      min-width:260px;
+      z-index:12;
+    }
+
     .hero-title{font-size:44px;margin:0;line-height:1;font-weight:800}
     .hero-lead{margin-top:8px;color:var(--muted);max-width:860px}
+
     .hero-ctas{display:flex;gap:12px;margin-top:12px}
     .btn{background:linear-gradient(180deg,var(--accent),var(--accent-2));padding:10px 16px;border-radius:10px;color:#fff;font-weight:700;display:inline-block}
 
-    /* small carousel cards */
-    .home-carousel{display:flex;gap:12px;flex:1;min-width:260px;justify-content:flex-end}
-    .carousel-card{background:var(--card-bg);padding:14px;border-radius:12px;min-width:220px;box-shadow:0 8px 18px rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.02);cursor:pointer;transition:transform .18s ease}
+    /* carousel: largura fixa, não expande além do necessário */
+    .home-carousel{
+      display:flex;
+      gap:12px;
+      flex: 0 0 auto;      /* <--- evita que o carrossel "puxe" o layout e encavale o texto */
+      min-width:240px;
+      align-items:flex-start;
+    }
+
+    .carousel-card{
+      background:var(--card-bg);
+      padding:14px;border-radius:12px;min-width:220px;
+      box-shadow:0 8px 18px rgba(0,0,0,0.25);
+      border:1px solid rgba(255,255,255,0.02);
+      transition:transform .18s ease;
+    }
     .carousel-card:hover{transform:translateY(-4px)}
     .carousel-card h4{margin:0 0 6px;font-size:16px}
     .carousel-card p{margin:0;color:var(--muted);font-size:13px}
@@ -62,9 +93,9 @@
     .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:12px}
     .item{background:rgba(255,255,255,0.06);padding:18px;border-radius:12px;min-height:120px;display:flex;flex-direction:column;gap:8px;transition:transform .12s ease;cursor:pointer}
     .item:hover{transform:translateY(-4px)}
-    .item .icon{width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;border-radius:8px;background:linear-gradient(180deg,var(--accent),var(--accent-2));box-shadow:0 6px 14px rgba(11,40,20,0.14)}
+    .item .icon{width:46px;height:46px;display:inline-flex;align-items:center;justify-content:center;border-radius:10px;background:linear-gradient(180deg,var(--accent),var(--accent-2))}
 
-    /* TODOS INSIGHTS (list & filter) */
+    /* TODOS INSIGHTS (lista/filtro) */
     .controls{display:flex;gap:12px;align-items:center;margin-bottom:12px;flex-wrap:wrap}
     .search{flex:1;min-width:200px}
     .search input{width:100%;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:rgba(255,255,255,0.02);color:#fff}
@@ -72,19 +103,32 @@
     .chip{padding:8px 12px;border-radius:999px;background:rgba(255,255,255,0.03);cursor:pointer;font-weight:600;color:var(--muted)}
     .chip.active{background:linear-gradient(180deg,var(--accent),var(--accent-2));color:#fff}
 
-    .insights-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:12px}
-    .insight-card{background:rgba(255,255,255,0.04);padding:16px;border-radius:12px;min-height:120px;display:flex;flex-direction:column;gap:8px}
+    .insights-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:12px}
+    .insight-card{background:rgba(255,255,255,0.04);padding:18px;border-radius:12px;min-height:140px;display:flex;flex-direction:column;gap:12px}
     .insight-meta{font-size:13px;color:var(--muted);margin-top:auto;display:flex;justify-content:space-between;align-items:center}
     .tag-small{font-size:12px;padding:6px 8px;border-radius:8px;background:rgba(0,0,0,0.15);color:var(--muted)}
 
-    /* SOURCES */
     .sources{margin-top:12px;background:var(--glass);padding:12px;border-radius:10px;color:var(--muted);font-size:13px;border:1px solid rgba(255,255,255,0.02)}
 
     footer{padding:20px 0;text-align:center;color:rgba(255,255,255,0.65);margin-top:30px}
 
-    /* RESPONSIVE */
-    @media (max-width:980px){.grid{grid-template-columns:repeat(2,1fr)}.insights-grid{grid-template-columns:repeat(2,1fr)}.hero-title{font-size:34px}}
-    @media (max-width:640px){.grid{grid-template-columns:1fr}.insights-grid{grid-template-columns:1fr}.menu{display:none}.hero-inner{flex-direction:column}.home-carousel{width:100%;justify-content:flex-start}}
+    /* RESPONSIVE (corrige encavalamento em telas menores) */
+    @media (max-width:980px){
+      .grid{grid-template-columns:repeat(2,1fr)}
+      .insights-grid{grid-template-columns:repeat(2,1fr)}
+      .hero-title{font-size:34px}
+      .home-carousel{min-width:200px}
+    }
+
+    @media (max-width:740px){
+      /* aqui empilhamos: carrossel vai para baixo do texto */
+      .hero-inner{flex-direction:column}
+      .home-carousel{order:2;width:100%;justify-content:flex-start}
+      .hero-left{order:1;width:100%}
+      .grid{grid-template-columns:1fr}
+      .insights-grid{grid-template-columns:1fr}
+      .hero{padding:28px 0 18px} /* reduz um pouco em mobile */
+    }
   </style>
 </head>
 <body>
@@ -126,7 +170,6 @@
         <a href="insights_bares_restaurantes.html" class="carousel-card" title="Bares e Restaurantes">
           <div style="display:flex;gap:10px;align-items:center">
             <div class="icon" style="width:46px;height:46px;border-radius:10px;background:linear-gradient(180deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center">
-              <!-- drink SVG -->
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden focusable="false"><path d="M5 3h14l-1 10a3 3 0 01-3 3h-6a3 3 0 01-3-3L5 3z" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M9 21h6" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
             </div>
             <div>
@@ -140,7 +183,6 @@
         <a href="insights_varejo_moda.html" class="carousel-card" title="Varejo de Moda">
           <div style="display:flex;gap:10px;align-items:center">
             <div class="icon" style="width:46px;height:46px;border-radius:10px;background:linear-gradient(180deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center">
-              <!-- shirt SVG -->
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden focusable="false"><path d="M4 7l2-3h12l2 3v11a1 1 0 01-1 1H5a1 1 0 01-1-1V7z" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </div>
             <div>
@@ -154,8 +196,7 @@
         <a href="insights_minimercados.html" class="carousel-card" title="Minimercados">
           <div style="display:flex;gap:10px;align-items:center">
             <div class="icon" style="width:46px;height:46px;border-radius:10px;background:linear-gradient(180deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center">
-              <!-- cart SVG -->
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden focusable="false"><path d="M6 6h15l-1.5 9h-12L6 6z" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="10" cy="20" r="1" fill="#fff"/><circle cx="18" cy="20" r="1" fill="#fff"/></svg>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden focusable="false"><path d="M6 6h15l-1.5 9h-12L6 6z" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </div>
             <div>
               <h4 style="margin:0 0 6px">Minimercados</h4>
@@ -184,37 +225,22 @@
       <div class="grid" role="list">
         <a class="item" href="insights_bares_restaurantes.html">
           <div style="display:flex;gap:10px;align-items:center">
-            <div class="icon" aria-hidden style="width:46px;height:46px;border-radius:10px;background:linear-gradient(180deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M5 3h14l-1 10a3 3 0 01-3 3h-6a3 3 0 01-3-3L5 3z" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-            </div>
-            <div>
-              <h3>Bares e Restaurantes</h3>
-              <p>Comportamento de consumo, canais e sazonalidade.</p>
-            </div>
+            <div class="icon" aria-hidden><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M5 3h14l-1 10a3 3 0 01-3 3h-6a3 3 0 01-3-3L5 3z" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div><h3>Bares e Restaurantes</h3><p>Comportamento de consumo, canais e sazonalidade.</p></div>
           </div>
         </a>
 
         <a class="item" href="insights_varejo_moda.html">
           <div style="display:flex;gap:10px;align-items:center">
-            <div class="icon" aria-hidden style="width:46px;height:46px;border-radius:10px;background:linear-gradient(180deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 7l2-3h12l2 3v11a1 1 0 01-1 1H5a1 1 0 01-1-1V7z" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-            <div>
-              <h3>Varejo de Moda</h3>
-              <p>Sortimento, preço, inventário e tendências.</p>
-            </div>
+            <div class="icon" aria-hidden><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 7l2-3h12l2 3v11a1 1 0 01-1 1H5a1 1 0 01-1-1V7z" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div><h3>Varejo de Moda</h3><p>Sortimento, preço, inventário e tendências.</p></div>
           </div>
         </a>
 
         <a class="item" href="insights_minimercados.html">
           <div style="display:flex;gap:10px;align-items:center">
-            <div class="icon" aria-hidden style="width:46px;height:46px;border-radius:10px;background:linear-gradient(180deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 6h15l-1.5 9h-12L6 6z" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-            <div>
-              <h3>Minimercados</h3>
-              <p>Giro, proximidade e mix de conveniência.</p>
-            </div>
+            <div class="icon" aria-hidden><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 6h15l-1.5 9h-12L6 6z" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div><h3>Minimercados</h3><p>Giro, proximidade e mix de conveniência.</p></div>
           </div>
         </a>
       </div>
@@ -241,16 +267,11 @@
         </div>
 
         <div id="insightsGrid" class="insights-grid" role="list">
-          <!-- Insight: Bares -->
+          <!-- cards (mesmos do seu conteúdo) -->
           <article class="insight-card" data-tags="sazonalidade digital delivery" data-seg="bares" role="listitem">
             <div style="display:flex;gap:10px;align-items:center">
-              <div class="icon" aria-hidden style="width:46px;height:46px;border-radius:10px;background:linear-gradient(180deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M5 3h14l-1 10a3 3 0 01-3 3h-6a3 3 0 01-3-3L5 3z" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </div>
-              <div>
-                <h3 style="margin:0">Bares & Restaurantes — Dez/2025</h3>
-                <p style="margin-top:6px;color:var(--muted)">Confraternizações impulsionam alta no faturamento; digital e delivery são críticos para captura da demanda.</p>
-              </div>
+              <div class="icon" aria-hidden><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M5 3h14l-1 10a3 3 0 01-3 3h-6a3 3 0 01-3-3L5 3z" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div><h3 style="margin:0">Bares & Restaurantes — Dez/2025</h3><p style="margin-top:6px;color:var(--muted)">Confraternizações impulsionam alta no faturamento; digital e delivery são críticos para captura da demanda.</p></div>
             </div>
             <div class="insight-meta">
               <div class="tag-small">Sazonalidade</div>
@@ -261,16 +282,10 @@
             </div>
           </article>
 
-          <!-- Insight: Moda -->
           <article class="insight-card" data-tags="omnichannel redes vendas ecommerce" data-seg="moda" role="listitem">
             <div style="display:flex;gap:10px;align-items:center">
-              <div class="icon" aria-hidden style="width:46px;height:46px;border-radius:10px;background:linear-gradient(180deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 7l2-3h12l2 3v11a1 1 0 01-1 1H5a1 1 0 01-1-1V7z" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </div>
-              <div>
-                <h3 style="margin:0">Varejo de Moda — Dez/2025</h3>
-                <p style="margin-top:6px;color:var(--muted)">Moda segue entre as categorias líderes do e-commerce; omnichannel e redes sociais aceleram conversão.</p>
-              </div>
+              <div class="icon" aria-hidden><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 7l2-3h12l2 3v11a1 1 0 01-1 1H5a1 1 0 01-1-1V7z" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div><h3 style="margin:0">Varejo de Moda — Dez/2025</h3><p style="margin-top:6px;color:var(--muted)">Moda segue entre as categorias líderes do e-commerce; omnichannel e redes sociais aceleram conversão.</p></div>
             </div>
             <div class="insight-meta">
               <div class="tag-small">Omnichannel</div>
@@ -281,16 +296,10 @@
             </div>
           </article>
 
-          <!-- Insight: Minimercados -->
           <article class="insight-card" data-tags="conveniência proximidade apps entrega" data-seg="mini" role="listitem">
             <div style="display:flex;gap:10px;align-items:center">
-              <div class="icon" aria-hidden style="width:46px;height:46px;border-radius:10px;background:linear-gradient(180deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 6h15l-1.5 9h-12L6 6z" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </div>
-              <div>
-                <h3 style="margin:0">Minimercados — Dez/2025</h3>
-                <p style="margin-top:6px;color:var(--muted)">Proximidade e conveniência impulsionam demanda; digitalização leve (WhatsApp, apps locais) aumenta alcance.</p>
-              </div>
+              <div class="icon" aria-hidden><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 6h15l-1.5 9h-12L6 6z" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+              <div><h3 style="margin:0">Minimercados — Dez/2025</h3><p style="margin-top:6px;color:var(--muted)">Proximidade e conveniência impulsionam demanda; digitalização leve (WhatsApp, apps locais) aumenta alcance.</p></div>
             </div>
             <div class="insight-meta">
               <div class="tag-small">Conveniência</div>
@@ -346,10 +355,8 @@
 
   <!-- SCRIPTS: busca/filtro + carousel autoplay + form -->
   <script>
-    // Navigation helper
     function goHome(){ window.location.hash=''; window.scrollTo({top:0,behavior:'smooth'}); }
 
-    // Simple carousel autoplay for the small cards (cycles class highlight if needed)
     (function(){
       const links = document.querySelectorAll('.home-carousel .carousel-card');
       let i = 0;
@@ -360,23 +367,14 @@
       }, 4500);
     })();
 
-    // Search + Filter
     (function(){
       const searchInput = document.getElementById('searchInput');
       const chips = Array.from(document.querySelectorAll('.chip'));
       const cards = Array.from(document.querySelectorAll('.insight-card'));
-
-      function setActiveChip(filter){
-        chips.forEach(c => {
-          c.classList.toggle('active', c.dataset.filter === filter);
-        });
-      }
-
       function applyFilter(){
         const q = (searchInput.value || '').trim().toLowerCase();
-        const activeChip = chips.find(c => c.classList.contains('active'));
-        const seg = activeChip ? activeChip.dataset.filter : 'all';
-
+        const active = chips.find(c=>c.classList.contains('active'));
+        const seg = active ? active.dataset.filter : 'all';
         cards.forEach(card => {
           const text = (card.innerText || '').toLowerCase();
           const tags = (card.dataset.tags || '').toLowerCase();
@@ -386,31 +384,14 @@
           card.style.display = (matchesQuery && matchesSeg) ? 'flex' : 'none';
         });
       }
-
-      // chip clicks
-      chips.forEach(chip => {
-        chip.addEventListener('click', ()=> {
-          chips.forEach(c=>c.classList.remove('active'));
-          chip.classList.add('active');
-          applyFilter();
-        });
-      });
-
-      // search
+      chips.forEach(chip => chip.addEventListener('click', ()=>{ chips.forEach(c=>c.classList.remove('active')); chip.classList.add('active'); applyFilter(); }));
       searchInput.addEventListener('input', applyFilter);
-
-      // initial
-      setActiveChip('all');
       applyFilter();
     })();
 
-    // Contact form (mailto fallback)
     document.getElementById('contactForm').addEventListener('submit', function(e){
       e.preventDefault();
       const f = e.target;
-      const nome = encodeURIComponent(f.nome.value || '');
-      const email = encodeURIComponent(f.email.value || '');
-      const mensagem = encodeURIComponent(f.mensagem.value || '');
       const subject = encodeURIComponent('Contato — IM: ' + (f.nome.value || ''));
       const body = encodeURIComponent('Nome: ' + (f.nome.value || '') + '\nEmail: ' + (f.email.value || '') + '\n\nMensagem:\n' + (f.mensagem.value || ''));
       window.location.href = 'mailto:seu-email@exemplo.com?subject=' + subject + '&body=' + body;
