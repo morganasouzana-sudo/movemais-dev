@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Inteligência de Mercado — Canal IM (Beta)</title>
+
+  <!-- Fonte Unbounded -->
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* ===========================
+       VARS
+       =========================== */
+    :root{
+      --bg:#071f2a;
+      --muted:#c9d6d9;
+      --accent:#376a45;
+      --accent-2:#2f5a3b;
+      --card-bg: rgba(255,255,255,0.07);
+      --max-inner:1200px;
+      --gutter:20px;
+    }
+
+    /* ===========================
+       RESET / BASE
+       =========================== */
+    html, body {
+      width:100%;
+      height:100%;
+      min-height:100vh;
+      margin:0;
+      padding:0;
+      background:var(--bg) !important;
+      overflow-x:hidden;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      font-family:'Unbounded', system-ui, Arial, sans-serif;
+      color:#fff;
+      line-height:1.5;
+    }
+    *, *::before, *::after { box-sizing:border-box; }
+    a { color:inherit; text-decoration:none; }
+    img { max-width:100%; height:auto; display:block; }
+
+    /* ===========================
+       LAYOUT: full-bleed + inner
+       =========================== */
+    .section-full { width:100%; background:var(--bg); }
+    .inner { max-width:var(--max-inner); margin:0 auto; padding:24px var(--gutter); }
+
+    /* ===========================
+       HEADER / NAV
+       =========================== */
+    header.site-header {
+      width:100%;
+      background:var(--bg);
+      border-bottom:1px solid rgba(255,255,255,0.03);
+      position:relative;
+      z-index:40;
+    }
+    .nav {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:12px 0;
+    }
+    .brand { display:flex; align-items:center; gap:12px; font-weight:800; font-size:20px; }
+    .brand img{ height:34px; display:block; }
+    .menu { display:flex; gap:16px; align-items:center; }
+    .menu a { font-size:13px; padding:8px 10px; border-radius:8px; cursor:pointer; color: rgba(255,255,255,0.95); }
+    .menu a:hover { background: rgba(255,255,255,0.03); }
+
+    /* ===========================
+       HERO
+       =========================== */
+    .hero-full { width:100%; background:var(--bg); padding:56px 0 40px; text-align:center; border-bottom:1px solid rgba(255,255,255,0.03); }
+    .hero-inner { max-width:var(--max-inner); margin:0 auto; padding:0 var(--gutter); }
+    .hero-title { font-size:64px; margin:0; line-height:0.95; font-weight:700; }
+    .hero-lead { font-size:18px; max-width:900px; margin:20px auto 24px; color:var(--muted); }
+
+    /* tags/buttons under hero (distance ~48px) */
+    .tags { display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:48px; }
+    .tag {
+      background: linear-gradient(180deg,var(--accent),var(--accent-2));
+      padding:10px 18px;
+      border-radius:10px;
+      color:#fff;
+      font-weight:700;
+      box-shadow: 0 6px 14px rgba(11,40,20,0.14);
+      font-size:14px;
+      display:inline-block;
+      cursor:pointer;
+    }
+
+    /* ===========================
+       SECTIONS / CARDS / GRID
+       =========================== */
+    .section { padding: 8px 0; width:100%; } /* compact vertical padding */
+    .card {
+      background: var(--card-bg);
+      padding: 26px 22px;
+      border-radius: 14px;
+      margin-bottom: 6px;
+      box-shadow: 0 8px 22px rgba(0,0,0,0.28);
+    }
+
+    .grid {
+      display:grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 10px;
+      margin-top: 8px;
+      align-items:start;
+    }
+    .grid .item {
+      background: rgba(255,255,255,0.08);
+      padding: 20px;
+      border-radius: 12px;
+      min-height: 140px;
+    }
+
+    h1,h2,h3 { margin:0 0 8px 0; }
+    h2 { font-size:20px; }
+    p, ul, li { margin:0 0 6px 0; color:var(--muted); font-size:14px; }
+
+    footer.site-footer {
+      padding:20px 0;
+      text-align:center;
+      color:rgba(255,255,255,0.65);
+    }
+
+    /* ===========================
+       COMPACT OVERRIDES (global)
+       =========================== */
+    /* These keep sections compact but readable */
+    .section { padding-top: 6px !important; padding-bottom: 6px !important; }
+    .inner { padding-top: 8px !important; padding-bottom: 8px !important; }
+    .card { padding-top: 18px !important; padding-bottom: 18px !important; }
+    .grid { gap:8px !important; margin-top:6px !important; }
+    .grid .item { padding-top:14px !important; padding-bottom:14px !important; min-height:120px !important; }
+
+    /* specific fine tuning in case a section looks too separated */
+    #sobre .inner, #segmentos .inner, #processo .inner, #solucoes .inner, #materiais .inner, #modelo .inner, #contato .inner {
+      padding-top:6px !important;
+      padding-bottom:6px !important;
+    }
+
+    /* hero responsiveness & tags mobile spacing */
+    @media (max-width:1000px) {
+      .hero-title { font-size:48px; }
+      .grid { grid-template-columns: repeat(2,1fr); }
+    }
+    @media (max-width:640px) {
+      .hero-title { font-size:32px; }
+      .menu { display:none; }
+      .grid { grid-template-columns: 1fr; }
+      .inner { padding: 14px 12px !important; }
+      .tags { margin-top:28px; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- =========================
+       HEADER
+       ========================= -->
+  <header class="site-header section-full" role="banner">
+    <div class="inner">
+      <div class="nav" role="navigation" aria-label="Menu principal">
+        <div class="brand">
+          <span>Mercado.</span>
+          <!-- trocar pelo logo oficial quando tiver -->
+          <img src="https://upload.wikimedia.org/wikipedia/commons/6/6e/Sebrae_logo.svg" alt="Sebrae" style="height:34px;margin-left:6px;">
+        </div>
+
+        <nav class="menu" aria-label="Navegação principal">
+          <a onclick="scrollToSection('sobre')">Sobre</a>
+          <a onclick="scrollToSection('segmentos')">Segmentos</a>
+          <a onclick="scrollToSection('processo')">Processo</a>
+          <a onclick="scrollToSection('solucoes')">Soluções</a>
+          <a onclick="scrollToSection('materiais')">Materiais</a>
+          <a onclick="scrollToSection('contato')">Contato</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================
+       HERO
+       ========================= -->
+  <section class="hero-full section-full" role="region" aria-label="hero">
+    <div class="hero-inner inner">
+      <h1 class="hero-title">Inteligência de<br/>Mercado.</h1>
+      <p class="hero-lead">Canal digital que reúne insights, análises, tendências e oportunidades para apoiar a Rede Sebrae e os Pequenos Negócios.</p>
+
+      <div class="tags" role="list">
+        <span class="tag" onclick="scrollToSection('boletins')">Boletins</span>
+        <span class="tag" onclick="scrollToSection('estudos')">Estudos</span>
+        <span class="tag" onclick="scrollToSection('tendencias')">Tendências</span>
+        <span class="tag" onclick="scrollToSection('alertas')">Alertas</span>
+        <span class="tag" onclick="scrollToSection('oportunidades')">Oportunidades</span>
+        <span class="tag" onclick="scrollToSection('relatorios')">Relatórios</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================
+       SOBRE
+       ========================= -->
+  <section id="sobre" class="section" role="region" aria-label="sobre">
+    <div class="inner">
+      <div class="card">
+        <h2>Sobre o Canal</h2>
+        <p>Canal digital de Inteligência de Mercado — reunindo análises, dados e materiais para apoiar tomadas de decisão da Rede Sebrae e dos Pequenos Negócios. Conteúdo em versão beta; foco inicial em três segmentos prioritários.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================
+       SEGMENTOS
+       ========================= -->
+  <section id="segmentos" class="section" role="region" aria-label="segmentos">
+    <div class="inner">
+      <h2>Segmentos Prioritários</h2>
+      <div class="grid" role="list">
+        <div class="item" role="listitem">
+          <h3>Bares e Restaurantes</h3>
+          <p>Comportamento de consumo, canais de venda e sazonalidade.</p>
+        </div>
+
+        <div class="item" role="listitem">
+          <h3>Varejo de Moda</h3>
+          <p>Sortimento, preço, inventário e tendências do público.</p>
+        </div>
+
+        <div class="item" role="listitem">
+          <h3>Minimercados</h3>
+          <p>Giro, proximidade e mix de conveniência.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================
+       PROCESSO
+       ========================= -->
+  <section id="processo" class="section" role="region" aria-label="processo">
+    <div class="inner">
+      <div class="card">
+        <h2>Processo Operacional (visão simplificada)</h2>
+        <p>Coleta → Tratamento → Análise → Entrega.</p>
+        <ol style="margin-top:10px;color:var(--muted)">
+          <li>Coleta: fontes internas e externas</li>
+          <li>Tratamento: limpeza e enriquecimento</li>
+          <li>Análise: dashboards e relatórios</li>
+          <li>Entrega: kits de insight e recomendações</li>
+          <li>Validação: testes e iteração</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================
+       SOLUÇÕES & PRODUTOS
+       ========================= -->
+  <section id="solucoes" class="section" role="region" aria-label="solucoes">
+    <div class="inner">
+      <div class="card">
+        <h2>Soluções & Produtos</h2>
+        <div class="grid" role="list">
+          <div class="item" role="listitem">
+            <h3>O Ponto Certo (Sebrae)</h3>
+            <p>Painel para análise territorial — <a href="https://opontocerto.sebrae.com.br" target="_blank" rel="noopener">Acessar painel</a></p>
+          </div>
+
+          <div class="item" role="listitem">
+            <h3>Dashboard Operacional</h3>
+            <p>Visão consolidada dos indicadores-chave.</p>
+          </div>
+
+          <div class="item" role="listitem">
+            <h3>Kits de Recomendação</h3>
+            <p>Ações priorizadas por segmento.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================
+       MATERIAIS
+       ========================= -->
+  <section id="materiais" class="section" role="region" aria-label="materiais">
+    <div class="inner">
+      <div class="card">
+        <h2>Materiais</h2>
+        <p>Repositório simplificado de documentos e templates.</p>
+        <ul style="margin-top:8px;color:var(--muted)">
+          <li><a onclick="scrollToSection('modelo')" style="cursor:pointer">Modelo Operacional (Resumo)</a></li>
+          <li><a href="#" target="_blank">Brief do Projeto (PDF)</a></li>
+          <li><a href="#" target="_blank">Template de Coleta (Planilha)</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================
+       MODELO OPERACIONAL (RESUMO)
+       ========================= -->
+  <section id="modelo" class="section" role="region" aria-label="modelo">
+    <div class="inner">
+      <div class="card">
+        <h2>Modelo Operacional — Resumo</h2>
+
+        <p>Versão pública do Modelo Operacional de Inteligência de Mercado (beta). O documento completo pode ser disponibilizado mediante solicitação.</p>
+
+        <h3 style="margin-top:12px">Conteúdos publicados</h3>
+        <ul style="margin-top:8px;color:var(--muted)">
+          <li>Visão geral do processo (Coleta, Tratamento, Análise, Entrega)</li>
+          <li>Resumo dos segmentos prioritários</li>
+          <li>Taxonomia inicial (Boletins, Estudos, Tendências, Alertas, Oportunidades, Relatórios)</li>
+          <li>Materiais e ferramentas vinculadas</li>
+        </ul>
+
+        <a id="download-modelo" class="tag" href="#" style="display:inline-block;margin-top:14px">Baixar Modelo Operacional (PDF)</a>
+
+        <p style="margin-top:12px;color:var(--muted)">Observação: este resumo não inclui informações internas operacionais da equipe.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================
+       CONTATO
+       ========================= -->
+  <section id="contato" class="section" role="region" aria-label="contato">
+    <div class="inner">
+      <div class="card">
+        <h2>Contato</h2>
+        <p>Envie comentários ou sugestões sobre o canal e suas funcionalidades.</p>
+
+        <div style="display:grid;grid-template-columns:1fr 320px;gap:18px;margin-top:12px">
+          <form onsubmit="handleSubmit(event)" style="display:flex;flex-direction:column;gap:10px">
+            <input required name="nome" placeholder="Nome" />
+            <input required name="email" type="email" placeholder="E-mail" />
+            <textarea required name="mensagem" placeholder="Mensagem" rows="4"></textarea>
+            <button class="tag" type="submit">Enviar</button>
+          </form>
+
+          <div style="color:var(--muted)">
+            <h4>Atualmente publicados</h4>
+            <p>Segmentos: Bares e Restaurantes; Varejo de Moda; Minimercados.</p>
+            <p>Produto destaque: <a href="https://opontocerto.sebrae.com.br/painel" target="_blank">O Ponto Certo</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================
+       FOOTER
+       ========================= -->
+  <footer class="site-footer">
+    © Canal de Inteligência de Mercado — Sebrae • Versão Beta
+  </footer>
+
+  <!-- =========================
+       SCRIPTS
+       ========================= -->
+  <script>
+    // smooth scroll that works inside iframes
+    function scrollToSection(id) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // simple mailto fallback for contact form
+    function handleSubmit(e) {
+      e.preventDefault();
+      const f = e.target;
+      const nome = (f.nome && f.nome.value) || '';
+      const email = (f.email && f.email.value) || '';
+      const mensagem = (f.mensagem && f.mensagem.value) || '';
+      const subject = encodeURIComponent('Contato — IM: ' + nome);
+      const body = encodeURIComponent('Nome: ' + nome + '\nEmail: ' + email + '\n\nMensagem:\n' + mensagem);
+      window.location.href = 'mailto:seu-email@exemplo.com?subject=' + subject + '&body=' + body;
+      setTimeout(() => alert('Seu cliente de e-mail abrirá para envio.'), 200);
+    }
+  </script>
+</body>
+</html>
