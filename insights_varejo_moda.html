@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Inteligência de Mercado — Varejo de Moda (Dez/2025)</title>
+
+  <!-- Fonte Unbounded -->
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* ===== VARS (mesmas do template principal) ===== */
+    :root{
+      --bg:#071f2a;
+      --muted:#c9d6d9;
+      --accent:#376a45;
+      --accent-2:#2f5a3b;
+      --card-bg: rgba(255,255,255,0.07);
+      --max-inner:1200px;
+      --gutter:20px;
+      --radius:14px;
+    }
+    /* ===== BASE ===== */
+    html,body{margin:0;padding:0;height:100%;min-height:100vh;background:var(--bg);font-family:'Unbounded',system-ui,Arial,sans-serif;color:#fff;-webkit-font-smoothing:antialiased;}
+    *,*::before,*::after{box-sizing:border-box}
+    a{color:inherit}
+    .inner{max-width:var(--max-inner);margin:0 auto;padding:24px var(--gutter)}
+    /* header */
+    header.site-header{background:var(--bg);border-bottom:1px solid rgba(255,255,255,0.03)}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:12px 0}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:800}
+    .brand img{height:30px}
+    /* hero */
+    .hero-mini{padding:28px 0 18px;border-bottom:1px solid rgba(255,255,255,0.03)}
+    .hero-title{font-size:28px;margin:0}
+    .hero-lead{color:var(--muted);margin-top:6px;font-size:14px}
+    /* main */
+    .wrap{max-width:var(--max-inner);margin:24px auto;padding:0 var(--gutter)}
+    .card{background:var(--card-bg);padding:20px 18px;border-radius:var(--radius);margin-bottom:12px;box-shadow:0 8px 22px rgba(0,0,0,0.28);border:1px solid rgba(255,255,255,0.02)}
+    h1,h2,h3{margin:0;color:#fff}
+    p,ul,li{margin:0 0 6px 0;color:var(--muted);font-size:14px}
+    .meta{font-size:13px;color:var(--muted);margin-top:10px}
+    /* carousel */
+    .carousel-wrap{padding:12px;border-radius:12px;margin-bottom:14px;border:1px solid rgba(255,255,255,0.02)}
+    .slides{position:relative;overflow:hidden;border-radius:10px}
+    .slides input{display:none}
+    .track{display:flex;width:400%;transition:transform .45s ease}
+    .panel{min-width:100%;padding:18px;box-sizing:border-box;display:flex;gap:18px;align-items:center}
+    .panel .left{flex:1}
+    .panel h3{margin:0 0 6px;font-size:18px;color:#fff}
+    .panel p{margin:0;color:var(--muted)}
+    .dots{display:flex;gap:8px;justify-content:center;padding:12px 0}
+    .dot{width:10px;height:10px;border-radius:50%;background:#26424a;cursor:pointer;border:1px solid rgba(255,255,255,0.04)}
+    #v1:checked ~ .track { transform:translateX(0%); }
+    #v2:checked ~ .track { transform:translateX(-100%); }
+    #v3:checked ~ .track { transform:translateX(-200%); }
+    #v4:checked ~ .track { transform:translateX(-300%); }
+    #v1:checked ~ .dots label[for="v1"], #v2:checked ~ .dots label[for="v2"], #v3:checked ~ .dots label[for="v3"], #v4:checked ~ .dots label[for="v4"] { background:linear-gradient(180deg,var(--accent),var(--accent-2));box-shadow:0 6px 14px rgba(11,40,20,0.18)}
+    /* grid */
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+    .grid .item{background:rgba(255,255,255,0.03);padding:16px;border-radius:12px;min-height:120px}
+    .sources{background:rgba(255,255,255,0.02);padding:12px;border-radius:10px;font-size:13px;color:var(--muted);margin-top:12px;border:1px solid rgba(255,255,255,0.02)}
+    footer.site-footer{padding:18px 0;text-align:center;color:rgba(255,255,255,0.6);font-size:13px;margin-top:18px}
+    @media(max-width:1000px){.grid{grid-template-columns:repeat(2,1fr)}.panel{flex-direction:column;align-items:flex-start}}
+    @media(max-width:640px){.grid{grid-template-columns:1fr}.panel{padding:12px}.hero-title{font-size:20px}}
+  </style>
+</head>
+<body>
+  <!-- header -->
+  <header class="site-header section-full" role="banner">
+    <div class="inner">
+      <div class="nav" role="navigation">
+        <div class="brand">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/6/6e/Sebrae_logo.svg" alt="Sebrae">
+          <span>Canal IM — Varejo de Moda</span>
+        </div>
+        <nav class="menu">
+          <a href="https://morganasouzana-sudo.github.io/CanalIM/" target="_blank">Voltar ao site</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- hero -->
+  <section class="hero-mini section-full" role="region">
+    <div class="hero-inner inner">
+      <h1 class="hero-title">Varejo de Moda — Dez/2025</h1>
+      <p class="hero-lead">Foco: comportamento digital, omnichannel e tendências de compra para pequenos varejistas de moda.</p>
+    </div>
+  </section>
+
+  <main class="wrap" role="main">
+    <section class="card" aria-labelledby="resumo">
+      <h2 id="resumo">Resumo rápido</h2>
+      <p>Moda segue entre as categorias mais relevantes do e-commerce no Brasil. Micro e pequenos varejistas que adotam estratégias digitais e omnichannel apresentam vantagem competitiva — destaque para curadoria, visual e logística de entrega/retirada.</p>
+      <div class="meta">Perspectiva digital • Fontes setoriais</div>
+    </section>
+
+    <!-- carousel -->
+    <section class="carousel-wrap card" aria-label="Destaques">
+      <div class="slides" aria-live="polite">
+        <input type="radio" name="v" id="v1" checked>
+        <input type="radio" name="v" id="v2">
+        <input type="radio" name="v" id="v3">
+        <input type="radio" name="v" id="v4">
+
+        <div class="track" role="list">
+          <div class="panel" role="listitem" aria-labelledby="vol1">
+            <div class="left">
+              <h3 id="vol1">Moda entre as categorias líderes no e-commerce</h3>
+              <p>Dados de vendas online mostram que moda permanece como categoria de destaque em faturamento e frequência de compra.</p>
+            </div>
+          </div>
+
+          <div class="panel" role="listitem" aria-labelledby="vol2">
+            <div class="left">
+              <h3 id="vol2">Omnichannel em alta</h3>
+              <p>Compra online + retirada em loja (click & collect) e provas agendadas fortalecem a experiência e aumentam conversão.</p>
+            </div>
+          </div>
+
+          <div class="panel" role="listitem" aria-labelledby="vol3">
+            <div class="left">
+              <h3 id="vol3">Influência das redes sociais</h3>
+              <p>Reels, fotos e microinfluenciadores locais têm impacto direto na descoberta e intenção de compra.</p>
+            </div>
+          </div>
+
+          <div class="panel" role="listitem" aria-labelledby="vol4">
+            <div class="left">
+              <h3 id="vol4">Logística e devolução</h3>
+              <p>Políticas de troca e prazos de entrega são decisivos; pequenos varejistas que oferecem retirada rápida e troca facilitada aumentam retenção.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="dots" role="tablist" aria-label="Navegação">
+          <label class="dot" for="v1" role="tab" aria-selected="true" aria-controls="vol1"></label>
+          <label class="dot" for="v2" role="tab" aria-selected="false" aria-controls="vol2"></label>
+          <label class="dot" for="v3" role="tab" aria-selected="false" aria-controls="vol3"></label>
+          <label class="dot" for="v4" role="tab" aria-selected="false" aria-controls="vol4"></label>
+        </div>
+      </div>
+    </section>
+
+    <!-- dados -->
+    <section class="card" aria-labelledby="dados">
+      <h2 id="dados">Dados rápidos (verificados)</h2>
+
+      <div class="grid" role="list">
+        <div class="item" role="listitem">
+          <h3>E-commerce: grande participação</h3>
+          <p>Faturamento do e-commerce brasileiro passou de R$200 bi (2024) — moda é uma das categorias mais vendidas online.</p>
+          <div class="meta">Fonte: Edrone / Ecommerce Brasil</div>
+        </div>
+
+        <div class="item" role="listitem">
+          <h3>Micro e pequenos com presença digital</h3>
+          <p>Pequenos varejistas de moda têm elevado uso de redes sociais para curadoria e vendas diretas.</p>
+          <div class="meta">Fonte: ABVtex / Ecommerce Brasil</div>
+        </div>
+
+        <div class="item" role="listitem">
+          <h3>Omnichannel impulsiona conversão</h3>
+          <p>Integração entre online e loja física (retirada, prova e devolução) aumenta taxa de conversão e reduz desistências.</p>
+          <div class="meta">Fonte: Think With Google / Ecommerce Brasil</div>
+        </div>
+
+        <div class="item" role="listitem">
+          <h3>Impacto das redes e creators</h3>
+          <p>Conteúdo visual (reels, fotos com modelagem) e parcerias locais impulsionam descoberta e confiança.</p>
+          <div class="meta">Fonte: Ecommerce Brasil / ABVtex</div>
+        </div>
+
+        <div class="item" role="listitem">
+          <h3>Sazonalidade e lançamentos</h3>
+          <p>Sazonalidade (coleções, datas comemorativas) permanece crítica — promoção e reposicionamento de preço são táticos essenciais.</p>
+          <div class="meta">Fonte: ABVtex</div>
+        </div>
+
+        <div class="item" role="listitem">
+          <h3>Logística e política de trocas</h3>
+          <p>Política de trocas clara e prazos de entrega competitivos são diferenciais para pequenos lojistas.</p>
+          <div class="meta">Fonte: Ecommerce Brasil</div>
+        </div>
+      </div>
+
+      <div class="sources" aria-label="Fontes">
+        <strong>Fontes principais:</strong>
+        <ul style="margin-top:8px">
+          <li><a href="https://www.ecommercebrasil.com.br/artigos/categorias-mais-vendidas-no-ecommerce/" target="_blank" rel="noopener" style="color:var(--accent)">Ecommerce Brasil — Categorias mais vendidas (Moda)</a></li>
+          <li><a href="https://edrone.me/pt/blog/dados-ecommerce-brasil" target="_blank" rel="noopener" style="color:var(--accent)">Edrone — Dados e projeções de e-commerce</a></li>
+          <li><a href="https://www.abvtex.org.br/noticias" target="_blank" rel="noopener" style="color:var(--accent)">ABVtex — Setor de moda</a></li>
+          <li><a href="https://www.thinkwithgoogle.com/intl/pt-br/insights/" target="_blank" rel="noopener" style="color:var(--accent)">Think With Google — Insights digitais</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="acoes">
+      <h2 id="acoes">Recomendações práticas</h2>
+      <ul style="margin-top:8px;color:var(--muted)">
+        <li>Capacitar lojistas para fotos rápidas e produção de reels (baixo custo, alto impacto).</li>
+        <li>Implementar click & collect / agendamento de prova para aumentar taxa de conversão.</li>
+        <li>Padronizar políticas de troca e comunicação clara no checkout.</li>
+        <li>Testar microcampanhas por região com segmentação por interesse e lookalike local.</li>
+        <li>Monitorar itens de saída e reposição rápida para evitar ruptura de estoque em períodos de pico.</li>
+      </ul>
+    </section>
+
+    <footer class="site-footer">
+      © Canal de Inteligência de Mercado — Sebrae • Versão Beta
+    </footer>
+  </main>
+
+  <!-- optional autoplay script (comentado) -->
+  <script>
+    /* Autoplay opcional
+    (function(){
+      const radios = ['v1','v2','v3','v4'].map(id=>document.getElementById(id));
+      let idx=0;
+      setInterval(()=>{ idx=(idx+1)%radios.length; radios[idx].checked=true; },5000);
+    })();
+    */
+  </script>
+</body>
+</html>
