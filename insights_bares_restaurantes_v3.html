@@ -1,5 +1,3 @@
-Esse é o script veja se está correto: 
-
 <!doctype html>
 <html lang="pt-BR">
 <head>
@@ -10,313 +8,420 @@ Esse é o script veja se está correto:
   <!-- Fonte Unbounded -->
   <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
+  <style>
+    /* ===========================
+       VARS conforme solicitado
+       =========================== */
+    :root{
+      --bg: #0f3336;                       /* cor de fundo principal */
+      --text: #ffffff;                     /* texto primário (mantive branco para contraste) */
+      --muted: #bfcfce;                    /* texto secundário */
+      --accent: #3f7a57;                   /* acento principal (botões / pills) */
+      --accent-2: #2f5f46;                 /* acento secundário (gradiente) */
+      --card-bg: rgba(255,255,255,0.04);   /* fundo dos cards */
+      --max-inner:1200px;
+      --gutter:20px;
+      --glass: rgba(255,255,255,0.02);
+      --radius:14px;
+    }
+
+    /* ===========================
+       RESET / BASE
+       =========================== */
+    html, body {
+      width:100%;
+      height:100%;
+      min-height:100vh;
+      margin:0;
+      padding:0;
+      background:var(--bg) !important;
+      overflow-x:hidden;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      font-family:'Unbounded', system-ui, Arial, sans-serif;
+      color:var(--text);
+      line-height:1.5;
+    }
+    *, *::before, *::after { box-sizing:border-box; }
+    a { color:inherit; text-decoration:none; }
+    img { max-width:100%; height:auto; display:block; }
+
+    /* ===========================
+       LAYOUT: full-bleed + inner
+       =========================== */
+    .section-full { width:100%; background:var(--bg); }
+    .inner { max-width:var(--max-inner); margin:0 auto; padding:24px var(--gutter); }
+
+    /* ===========================
+       BOTÃO VOLTAR (fixo topo-esquerdo)
+       =========================== */
+.back-btn {
+  position: fixed;
+  z-index: 9999;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  backdrop-filter: blur(4px);
+}
+
+    .back-btn:hover { transform:translateY(-1px); }
+
+    /* ===========================
+       HEADER / NAV (simplificado)
+       =========================== */
+    header.site-header {
+      width:100%;
+      background:transparent;
+      border-bottom:1px solid rgba(255,255,255,0.03);
+      position:relative;
+      z-index:40;
+    }
+    .nav {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:12px 0;
+    }
+    .brand { display:flex; align-items:center; gap:12px; font-weight:800; font-size:18px; color:var(--text); }
+    .brand img{ height:30px; display:block; filter:brightness(0) invert(1) saturate(0.9) sepia(0.2); } /* deixa o logo visível sobre fundo escuro */
+    .menu { display:flex; gap:12px; align-items:center; }
+    .menu a { font-size:13px; padding:8px 10px; border-radius:8px; cursor:pointer; color: var(--accent); }
+    .menu a:hover { background: rgba(63,122,87,0.06); }
+
+    /* ===========================
+       HERO com imagem (overlay para legibilidade)
+       =========================== */
+    .hero-mini {
+      width:100%;
+      padding:0;
+      border-bottom:1px solid rgba(255,255,255,0.03);
+    }
+    .hero-inner {
+      position:relative;
+      min-height:260px;
+      display:flex;
+      align-items:flex-end;
+      padding:28px 0 28px;
+    }
+    /* hero imagem em background via elemento absoluto */
+    .hero-media {
+      position:absolute;
+      inset:0;
+      z-index:0;
+      overflow:hidden;
+      border-bottom-left-radius:0;
+      border-bottom-right-radius:0;
+    }
+    .hero-media img {
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      transform-origin:center;
+      /* leve desaturação para favorecer legibilidade */
+      filter: saturate(0.95) contrast(0.95);
+    }
+    /* overlay escuro para garantir legibilidade */
+    .hero-media::after {
+      content:"";
+      position:absolute;
+      inset:0;
+      background: linear-gradient(180deg, rgba(15,15,15,0.46), rgba(15,15,15,0.38));
+      mix-blend-mode: normal;
+      pointer-events:none;
+    }
+
+    .hero-content {
+      position:relative;
+      z-index:2;
+      width:100%;
+      max-width:var(--max-inner);
+      margin:0 auto;
+      padding:28px var(--gutter);
+      color:var(--text);
+    }
+    .hero-title { font-size:28px; margin:0; font-weight:700; color:var(--text); text-shadow: 0 6px 18px rgba(2,6,10,0.45); }
+    .hero-lead { font-size:14px; color:var(--muted); margin-top:6px; text-shadow: 0 4px 12px rgba(2,6,10,0.35); }
+
+    /* ===========================
+       CONTENT AREA
+       =========================== */
+    .wrap { max-width:var(--max-inner); margin:24px auto; padding:0 var(--gutter); }
+
+    .card {
+      background: var(--card-bg);
+      padding: 20px 18px;
+      border-radius: var(--radius);
+      margin-bottom: 12px;
+      box-shadow: 0 8px 22px rgba(0,0,0,0.24);
+      border: 1px solid rgba(255,255,255,0.03);
+      color:var(--text);
+    }
+
+    h1,h2,h3 { margin:0 0 8px 0; color:var(--text); }
+    h2 { font-size:20px; }
+    p, ul, li { margin:0 0 6px 0; color:var(--muted); font-size:14px; }
+
+    /* ===========================
+       CARROSSEL
+       =========================== */
+    .carousel-wrap {
+      display:block;
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+      padding:12px;
+      border-radius:12px;
+      margin-bottom:14px;
+      border:1px solid rgba(255,255,255,0.02);
+    }
+    .slides { position:relative; overflow:hidden; border-radius:10px; }
+    .slides input { display:none; }
+    .track { display:flex; width:400%; transition:transform .45s ease; }
+    .panel { min-width:100%; padding:18px; box-sizing:border-box; display:flex; gap:18px; align-items:center; }
+    .panel .left { flex:1; }
+    .panel h3 { margin:0 0 6px; font-size:18px; color:var(--text); }
+    .panel p { margin:0; color:var(--muted); font-size:14px; }
+
+    .dots { display:flex; gap:8px; justify-content:center; padding:12px 0; }
+    .dot { width:10px; height:10px; border-radius:50%; background:rgba(255,255,255,0.12); cursor:pointer; display:inline-block; border:1px solid rgba(255,255,255,0.04); }
+    /* radio -> track transform */
+    #s1:checked ~ .track { transform:translateX(0%); }
+    #s2:checked ~ .track { transform:translateX(-100%); }
+    #s3:checked ~ .track { transform:translateX(-200%); }
+    #s4:checked ~ .track { transform:translateX(-300%); }
+    /* active dot */
+    #s1:checked ~ .dots label[for="s1"], #s2:checked ~ .dots label[for="s2"], #s3:checked ~ .dots label[for="s3"], #s4:checked ~ .dots label[for="s4"] {
+      background:linear-gradient(180deg,var(--accent),var(--accent-2));
+      box-shadow: 0 6px 14px rgba(11,40,20,0.12);
+    }
+
+    /* ===========================
+       GRID CARDS
+       =========================== */
+    .grid { display:grid; grid-template-columns: repeat(3,1fr); gap:12px; margin-top:12px; }
+    .grid .item { background: rgba(255,255,255,0.02); padding:16px; border-radius:12px; min-height:120px; color:var(--text); }
+    .meta { font-size:13px; color:var(--muted); margin-top:10px; }
+
+    .sources { background: rgba(255,255,255,0.01); padding:12px; border-radius:10px; font-size:13px; color:var(--muted); margin-top:12px; border:1px solid rgba(255,255,255,0.02); }
+
+    footer.site-footer { padding:18px 0; text-align:center; color:var(--muted); font-size:13px; margin-top:18px; }
+
+    /* responsive */
+    @media (max-width:1000px) {
+      .grid { grid-template-columns: repeat(2,1fr); }
+      .panel { flex-direction:column; align-items:flex-start; }
+    }
+    @media (max-width:640px) {
+      .grid { grid-template-columns:1fr; }
+      .panel { padding:12px; }
+      .hero-title { font-size:20px; }
+      .back-btn { left:8px; top:8px; padding:7px 9px; font-size:12px; }
+      .hero-inner { min-height:200px; }
+    }
+
+    /* botão principal exemplo (usa accent) */
+    .btn {
+      display:inline-block;
+      padding:8px 12px;
+      border-radius:10px;
+      background:var(--accent);
+      color:#fff;
+      font-weight:700;
+      text-decoration:none;
+      border:1px solid rgba(0,0,0,0.06);
+    }
+    .pill {
+      display:inline-block;
+      padding:6px 10px;
+      border-radius:999px;
+      background:linear-gradient(180deg,var(--accent),var(--accent-2));
+      color:#fff;
+      font-size:12px;
+      font-weight:700;
+    }
+  </style>
+</head>
+<body>
+  <!-- botão voltar fixo topo-esquerdo (mantive, se quiser remover me avise) -->
+  <button class="back-btn" onclick="history.back()" aria-label="Voltar">
+    ← Voltar
+  </button>
+
+
+  <!-- Header (compact) -->
+ <header class="site-header section-full" role="banner">
+  <div class="inner">
+    <div class="nav">
+      
+      <!-- bloco da esquerda: logo -->
+      <div class="brand">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6e/Sebrae_logo.svg" 
+             alt="Sebrae" style="height:30px;">
+      </div>
+
+      <!-- bloco da direita: título -->
+      <div class="page-title-header">
+        Bares & Restaurantes
+      </div>
+
+    </div>
+  </div>
+</header>
+
+
+<!-- HERO — FAIXA DENTRO DE CARD (visual solicitado) -->
 <style>
-  /* ===========================
-     VARS conforme solicitado
-     =========================== */
+  /* Cores já do seu tema */
   :root{
-    --bg: #0f3336;
-    --text: #ffffff;
+    --page-bg: #0f3336;
+    --card-bg: rgba(255,255,255,0.04);
     --muted: #bfcfce;
+    --text: #ffffff;
     --accent: #3f7a57;
     --accent-2: #2f5f46;
-    --card-bg: rgba(255,255,255,0.04);
-    --max-inner:1200px;
-    --gutter:20px;
-    --glass: rgba(255,255,255,0.02);
-    --radius:14px;
   }
 
-  /* ===========================
-     RESET / BASE
-     =========================== */
-  html, body {
-    width:100%;
-    height:100%;
-    min-height:100vh;
-    margin:0;
-    padding:0;
-    background:var(--bg) !important;
-    overflow-x:hidden;
-    -webkit-font-smoothing:antialiased;
-    -moz-osx-font-smoothing:grayscale;
-    font-family:'Unbounded', system-ui, Arial, sans-serif;
-    color:var(--text);
-    line-height:1.5;
+  /* container externo controla o espaçamento lateral e o fundo do site */
+  .hero-wrap {
+    background: var(--page-bg);
+    padding: 28px 24px;            /* mantém margem lateral como no design */
+    box-sizing: border-box;
   }
-  *, *::before, *::after { box-sizing:border-box; }
-  a { color:inherit; text-decoration:none; }
-  img { max-width:100%; height:auto; display:block; }
 
-  /* ===========================
-     LAYOUT: full-bleed + inner
-     =========================== */
-  .section-full { width:100%; background:var(--bg); }
-  .inner { max-width:var(--max-inner); margin:0 auto; padding:24px var(--gutter); }
+  /* cartão com borda arredondada que contém a faixa de imagem */
+  .hero-card {
+    background: var(--card-bg);
+    border-radius: 14px;
+    padding: 0;                    /* a faixa ocupa o topo do card */
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(2,6,10,0.45);
+    border: 1px solid rgba(0,0,0,0.18);
+    max-width:1200px;
+    margin: 0 auto;                /* centraliza como no layout */
+  }
 
-  /* ===========================
-     BOTÃO VOLTAR (fixo, sem animações)
-     - posição inicial definida; será ajustada pelo script antes do </body>
-     =========================== */
-  .back-btn {
-    position: fixed;
-    z-index: 9999;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.06);
+  /* faixa da imagem (com altura controlada) */
+  .hero-banner {
+    position: relative;
+    width: 100%;
+    height: 350px;                 /* desktop: controle principal */
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  /* overlay dentro da faixa para escurecer a imagem */
+  .hero-banner::after{
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.48), rgba(0,0,0,0.38));
+    z-index: 1;
+  }
+
+  /* conteúdo da faixa (texto sobre a imagem, bottom-left) */
+  .hero-banner .hero-content {
+    position: absolute;
+    left: 28px;
+    right: 28px;
+    bottom: 18px;
+    z-index: 2;
     color: var(--text);
-    padding: 8px 12px;
-    border-radius: 10px;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-weight: 600;
-    backdrop-filter: blur(4px);
-    left: 12px;          /* valor de fallback; script irá sobrescrever */
-    top: 80px;           /* valor de fallback; script irá sobrescrever */
-    transition: none;    /* evita animações que causam "andar" */
-    pointer-events: auto;
+    max-width: calc(100% - 56px);
+  }
+  .hero-title {
+    margin: 0 0 8px 0;
+    font-weight: 800;
+    font-size: clamp(22px, 3.4vw, 44px); /* escala responsiva */
+    line-height: 1.02;
+    text-shadow: 0 6px 18px rgba(0,0,0,0.56);
   }
 
-  /* desativa deslocamento no hover que antes causava micro-movimento */
-  .back-btn:hover { transform: none; }
+  .hero-lead {
+    margin: 0;
+    color: var(--muted);
+    font-size: clamp(12px, 1.8vw, 16px);
+    max-width: 900px;
+    text-shadow: 0 4px 12px rgba(0,0,0,0.42);
+  }
 
-  /* ===========================
-     HEADER / NAV
-     =========================== */
-  header.site-header {
-    width:100%;
-    background:transparent;
-    border-bottom:1px solid rgba(255,255,255,0.03);
-    position:relative;
-    z-index:40;
+  /* fallback <img> escondido (mantido para SEO/acessibilidade) */
+  .hero-banner img.bg {
+    display:none; /* mantemos fallback, mas escondido porque usamos background-image */
+  }
+
+  /* conteúdo abaixo da faixa (cards, resumo etc) */
+  .hero-body {
+    padding: 20px 28px 28px;
+    color: var(--text);
+  }
+
+  /* Responsividade */
+  @media (max-width:1000px){
+    .hero-banner { height: 180px; }
+    .hero-banner .hero-content { left: 20px; right:20px; bottom:16px; }
+  }
+  @media (max-width:640px){
+    .hero-wrap { padding: 18px 12px; }
+    .hero-banner { height: 140px; }
+    .hero-banner .hero-content { left: 14px; right:14px; bottom:12px; }
+    .hero-title { font-size: clamp(18px, 6vw, 26px); }
+    .hero-lead { font-size: 13px; }
   }
 
   .nav {
-    display:flex;
-    align-items:center;
-    justify-content:space-between; /* garante extremos: brand (esq) e título (dir) */
-    gap:12px;
-    padding:12px 0;
-  }
+  display: flex;
+  align-items: center;
+  justify-content: space-between;  /* empurra logo e título para extremos */
+}
 
-  .brand { display:flex; align-items:center; gap:12px; font-weight:800; font-size:18px; color:var(--text); }
-  .brand img{ height:30px; display:block; filter:brightness(0) invert(1) saturate(0.9) sepia(0.2); }
+.page-title-header {
+  font-weight: 800;
+  font-size: 20px;
+  color: #ffffff;
+  margin-left: auto;               /* garante alinhamento à direita */
+  white-space: nowrap;             /* impede quebra estranha */
+}
 
-  /* TITULO DO TOPO: fica no canto superior direito do header */
-  .page-title-header {
-    font-weight:800;
-    font-size:20px;
-    color:var(--text);
-    white-space:nowrap;
-    margin-left:auto;
-    display:inline-block;
-  }
-
-  /* ===========================
-     HERO com imagem (overlay para legibilidade)
-     =========================== */
-  .hero-mini {
-    width:100%;
-    padding:0;
-    border-bottom:1px solid rgba(255,255,255,0.03);
-  }
-  .hero-inner {
-    position:relative;
-    min-height:260px;
-    display:flex;
-    align-items:flex-end;
-    padding:28px 0 28px;
-  }
-  .hero-media {
-    position:absolute;
-    inset:0;
-    z-index:0;
-    overflow:hidden;
-    border-bottom-left-radius:0;
-    border-bottom-right-radius:0;
-  }
-  .hero-media img {
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    display:block;
-    transform-origin:center;
-    filter: saturate(0.95) contrast(0.95);
-  }
-  .hero-media::after {
-    content:"";
-    position:absolute;
-    inset:0;
-    background: linear-gradient(180deg, rgba(15,15,15,0.46), rgba(15,15,15,0.38));
-    mix-blend-mode: normal;
-    pointer-events:none;
-  }
-
-  .hero-content {
-    position:relative;
-    z-index:2;
-    width:100%;
-    max-width:var(--max-inner);
-    margin:0 auto;
-    padding:28px var(--gutter);
-    color:var(--text);
-  }
-  .hero-title { font-size:28px; margin:0; font-weight:700; color:var(--text); text-shadow: 0 6px 18px rgba(2,6,10,0.45); }
-  .hero-lead { font-size:14px; color:var(--muted); margin-top:6px; text-shadow: 0 4px 12px rgba(2,6,10,0.35); }
-
-  /* ===========================
-     CONTENT AREA
-     =========================== */
-  .wrap { max-width:var(--max-inner); margin:24px auto; padding:0 var(--gutter); }
-
-  .card {
-    background: var(--card-bg);
-    padding: 20px 18px;
-    border-radius: var(--radius);
-    margin-bottom: 12px;
-    box-shadow: 0 8px 22px rgba(0,0,0,0.24);
-    border: 1px solid rgba(255,255,255,0.03);
-    color:var(--text);
-  }
-
-  h1,h2,h3 { margin:0 0 8px 0; color:var(--text); }
-  h2 { font-size:20px; }
-  p, ul, li { margin:0 0 6px 0; color:var(--muted); font-size:14px; }
-
-  /* ===========================
-     CARROSSEL
-     =========================== */
-  .carousel-wrap {
-    display:block;
-    background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
-    padding:12px;
-    border-radius:12px;
-    margin-bottom:14px;
-    border:1px solid rgba(255,255,255,0.02);
-  }
-  .slides { position:relative; overflow:hidden; border-radius:10px; }
-  .slides input { display:none; }
-  .track { display:flex; width:400%; transition:transform .45s ease; }
-  .panel { min-width:100%; padding:18px; box-sizing:border-box; display:flex; gap:18px; align-items:center; }
-  .panel .left { flex:1; }
-  .panel h3 { margin:0 0 6px; font-size:18px; color:var(--text); }
-  .panel p { margin:0; color:var(--muted); font-size:14px; }
-
-  .dots { display:flex; gap:8px; justify-content:center; padding:12px 0; }
-  .dot { width:10px; height:10px; border-radius:50%; background:rgba(255,255,255,0.12); cursor:pointer; display:inline-block; border:1px solid rgba(255,255,255,0.04); }
-  /* radio -> track transform */
-  #s1:checked ~ .track { transform:translateX(0%); }
-  #s2:checked ~ .track { transform:translateX(-100%); }
-  #s3:checked ~ .track { transform:translateX(-200%); }
-  #s4:checked ~ .track { transform:translateX(-300%); }
-  /* active dot */
-  #s1:checked ~ .dots label[for="s1"], #s2:checked ~ .dots label[for="s2"], #s3:checked ~ .dots label[for="s3"], #s4:checked ~ .dots label[for="s4"] {
-    background:linear-gradient(180deg,var(--accent),var(--accent-2));
-    box-shadow: 0 6px 14px rgba(11,40,20,0.12);
-  }
-
-  /* ===========================
-     GRID CARDS
-     =========================== */
-  .grid { display:grid; grid-template-columns: repeat(3,1fr); gap:12px; margin-top:12px; }
-  .grid .item { background: rgba(255,255,255,0.02); padding:16px; border-radius:12px; min-height:120px; color:var(--text); }
-  .meta { font-size:13px; color:var(--muted); margin-top:10px; }
-
-  .sources { background: rgba(255,255,255,0.01); padding:12px; border-radius:10px; font-size:13px; color:var(--muted); margin-top:12px; border:1px solid rgba(255,255,255,0.02); }
-
-  footer.site-footer { padding:18px 0; text-align:center; color:var(--muted); font-size:13px; margin-top:18px; }
-
-  /* responsive */
-  @media (max-width:1000px) {
-    .grid { grid-template-columns: repeat(2,1fr); }
-    .panel { flex-direction:column; align-items:flex-start; }
-    .hero-inner { min-height:200px; }
-  }
-  @media (max-width:640px) {
-    .grid { grid-template-columns:1fr; }
-    .panel { padding:12px; }
-    .hero-title { font-size:20px; }
-    .back-btn { left:8px; top:8px; padding:7px 9px; font-size:12px; }
-    .hero-inner { min-height:200px; }
-  }
-
-  /* botão principal exemplo (usa accent) */
-  .btn {
-    display:inline-block;
-    padding:8px 12px;
-    border-radius:10px;
-    background:var(--accent);
-    color:#fff;
-    font-weight:700;
-    text-decoration:none;
-    border:1px solid rgba(0,0,0,0.06);
-  }
-  .pill {
-    display:inline-block;
-    padding:6px 10px;
-    border-radius:999px;
-    background:linear-gradient(180deg,var(--accent),var(--accent-2));
-    color:#fff;
-    font-size:12px;
-    font-weight:700;
-  }
 </style>
 
-</head>
-<body>
+<section class="hero-wrap" aria-label="Hero — Bares e Restaurantes">
+  <div class="hero-card" role="region" aria-label="Banner principal">
 
-  <!-- BOTÃO VOLTAR -->
-  <button class="back-btn" aria-label="Voltar">← Voltar</button>
+    <!-- FAIXA: usamos background-image inline para cache/cover + <img> fallback -->
+    <div class="hero-banner"
+         role="img"
+         aria-label="Ambiente de bar e restaurante"
+         style="background-image: url('./assets/mulher_sentada_cafeteria.webp');">
 
-  <!-- HEADER -->
-  <header class="site-header section-full" role="banner">
-    <div class="inner">
-      <div class="nav">
-        
-        <!-- Logo -->
-        <div class="brand">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/6/6e/Sebrae_logo.svg"
-               alt="Sebrae" style="height:30px;">
-        </div>
+      <!-- fallback acessível (aparece se background falhar) -->
+      <img class="bg" src="./assets/mulher_sentada_cafeteria.webp"
+           alt="Pessoas em restaurante" onerror="this.style.display='none'">
 
-        <!-- Título superior direito -->
-        <div class="page-title-header">
-          Bares & Restaurantes
-        </div>
-
+      <!-- Texto sobre a faixa (bottom-left) -->
+      <div class="hero-content">
+        <h1 class="hero-title">Bares &amp; Restaurantes — Dez/2025</h1>
+        <p class="hero-lead">Confraternizações de fim de ano aquecem movimento; digitalização (delivery e redes sociais) é decisiva para captura de demanda.</p>
       </div>
     </div>
-  </header>
 
+    <!-- corpo do card: mantém o conteúdo abaixo da imagem (resumo, ações, etc.) -->
+   <!-- <div class="hero-body">
+       Exemplo: resumo rápido 
+      <h2 style="margin:0 0 8px 0; color:var(--text); font-size:18px;">Resumo rápido</h2>
+      <p style="margin:0;color:var(--muted);">O setor de alimentação fora do lar apresenta aquecimento no fim de 2025, com sazonalidade de confraternizações impulsionando movimento. A digitalização já é parte integral da jornada (pesquisa, pedido, pagamento).</p>
+    </div> -->
 
-  <!-- HERO EM CARD (com imagem no topo) -->
-  <section class="hero-wrap" aria-label="Hero — Bares e Restaurantes">
-    <div class="hero-card" role="region" aria-label="Banner principal">
+  </div>
+</section>
 
-      <div class="hero-banner"
-           role="img"
-           aria-label="Ambiente de bar e restaurante"
-           style="background-image: url('./assets/mulher_sentada_cafeteria.webp');">
-
-        <img class="bg"
-             src="./assets/mulher_sentada_cafeteria.webp"
-             alt="Pessoas em restaurante"
-             onerror="this.style.display='none'">
-
-        <div class="hero-content">
-          <h1 class="hero-title">Bares &amp; Restaurantes — Dez/2025</h1>
-          <p class="hero-lead">Confraternizações de fim de ano aquecem movimento; digitalização (delivery e redes sociais) é decisiva para captura de demanda.</p>
-        </div>
-
-      </div>
-
-    </div>
-  </section>
-
-
-  <!-- CONTEÚDO PRINCIPAL -->
   <main class="wrap" role="main">
-
     <!-- Card resumo -->
     <section class="card" aria-labelledby="resumo-title">
       <h2 id="resumo-title">Resumo rápido</h2>
@@ -324,8 +429,7 @@ Esse é o script veja se está correto:
       <div class="meta">Segmento prioritário • Perspectiva digital • Fontes oficiais</div>
     </section>
 
-
-    <!-- Carrossel -->
+    <!-- Carrossel integrado -->
     <section class="carousel-wrap card" aria-label="Destaques">
       <div class="slides" aria-live="polite">
         <input type="radio" name="s" id="s1" checked>
@@ -334,142 +438,197 @@ Esse é o script veja se está correto:
         <input type="radio" name="s" id="s4">
 
         <div class="track" role="list">
-
           <div class="panel" role="listitem" aria-labelledby="d1">
             <div class="left">
               <h3 id="d1">81% esperam aumento no faturamento</h3>
-              <p>Levantamento Abrasel (Dez/2025): a maioria dos empresários projeta crescimento no fim de ano.</p>
+              <p>Levantamento Abrasel (Dez/2025): a maioria dos empresários do setor projeta crescimento no fim de ano, puxado por confraternizações.</p>
             </div>
           </div>
 
           <div class="panel" role="listitem" aria-labelledby="d2">
             <div class="left">
               <h3 id="d2">26% projetam alta &gt;10%</h3>
-              <p>Mais de 1/4 dos estabelecimentos estima aumento superior a 10%.</p>
+              <p>Mais de 1/4 dos estabelecimentos estima um aumento superior a 10% em relação ao ano anterior.</p>
             </div>
           </div>
 
           <div class="panel" role="listitem" aria-labelledby="d3">
             <div class="left">
               <h3 id="d3">32% planejam contratar</h3>
-              <p>Contratações para atender o pico — sinal de demanda real.</p>
+              <p>Expectativa de contratação para atender ao pico — sinal de demanda real e necessidade de suporte em escala operacional.</p>
             </div>
           </div>
 
           <div class="panel" role="listitem" aria-labelledby="d4">
             <div class="left">
               <h3 id="d4">Digital é padrão</h3>
-              <p>Cardápios digitais, pedidos online e pagamentos por aproximação já são parte da jornada.</p>
+              <p>Cardápios digitais, pedidos online e pagamentos por aproximação já são parte da jornada — presença digital é crítica para captura de demanda.</p>
             </div>
           </div>
-
         </div>
 
-        <div class="dots" role="tablist">
-          <label class="dot" for="s1"></label>
-          <label class="dot" for="s2"></label>
-          <label class="dot" for="s3"></label>
-          <label class="dot" for="s4"></label>
+        <div class="dots" role="tablist" aria-label="Navegação do carrossel">
+          <label class="dot" for="s1" role="tab" aria-selected="true" aria-controls="d1"></label>
+          <label class="dot" for="s2" role="tab" aria-selected="false" aria-controls="d2"></label>
+          <label class="dot" for="s3" role="tab" aria-selected="false" aria-controls="d3"></label>
+          <label class="dot" for="s4" role="tab" aria-selected="false" aria-controls="d4"></label>
         </div>
-
       </div>
     </section>
 
-
-    <!-- GRID DE DADOS -->
+    <!-- Grid com dados validados -->
     <section class="card" aria-labelledby="dados-title">
       <h2 id="dados-title">Dados rápidos (verificados)</h2>
 
-      <div class="grid">
-
-        <div class="item">
+      <div class="grid" role="list">
+        <div class="item" role="listitem">
           <h3>Fim de ano aquece o setor</h3>
-          <p>81% dos empresários esperam aumento no faturamento.</p>
+          <p>81% dos empresários esperam aumento no faturamento no fim de 2025; 26% projetam alta &gt;10%.</p>
           <div class="meta">Fonte: Abrasel</div>
         </div>
 
-        <div class="item">
+        <div class="item" role="listitem">
           <h3>Antecipação da demanda</h3>
-          <p>Mais empresas operando com lucro no final do ano.</p>
+          <p>Outubro apresentou alta nas vendas e mais empresas operando com lucro em relação a meses anteriores.</p>
           <div class="meta">Fonte: Abrasel</div>
         </div>
 
-        <div class="item">
+        <div class="item" role="listitem">
           <h3>Contratações</h3>
-          <p>32% planejam contratar colaboradores extras.</p>
+          <p>32% dos estabelecimentos planejam contratar para suprir o aumento de movimento.</p>
           <div class="meta">Fonte: Abrasel</div>
         </div>
 
-        <div class="item">
+        <div class="item" role="listitem">
           <h3>Digitalização</h3>
-          <p>Pedidos online e avaliações influenciam decisões.</p>
-          <div class="meta">Fontes: Abrasel • Google</div>
+          <p>Uso crescente de cardápios digitais, pedidos online, avaliações e pagamento sem contato orienta a decisão do consumidor.</p>
+          <div class="meta">Fontes: Abrasel, Think With Google</div>
         </div>
 
-        <div class="item">
+        <div class="item" role="listitem">
           <h3>Abertura de negócios</h3>
-          <p>2,21 milhões de novos pequenos negócios (2025).</p>
-          <div class="meta">Fonte: Sebrae</div>
+          <p>Entre jan–mai/2025: 2,21 milhões de novos pequenos negócios no Brasil — 77,4% eram MEIs. Serviços lideram aberturas.</p>
+          <div class="meta">Fonte: Agência Sebrae</div>
         </div>
 
-        <div class="item">
-          <h3>Sazonalidade</h3>
-          <p>Confraternizações criam janela para campanhas.</p>
-          <div class="meta">Fonte: Abrasel</div>
+        <div class="item" role="listitem">
+          <h3>Sazonalidade & Oportunidades</h3>
+          <p>Confraternizações, 13º salário e calendário festivo criam janela de ação para reservas, cardápios temáticos e campanhas locais.</p>
+          <div class="meta">Fontes: Abrasel</div>
         </div>
-
       </div>
 
+      <div class="sources" aria-label="Fontes">
+        <strong>Fontes principais:</strong>
+        <ul style="margin-top:8px;">
+          <li><a href="https://abrasel.com.br/noticias/noticias/confraternizacoes-de-fim-de-ano-aquecem-movimento-em-bares-e-restaurantes/" target="_blank" rel="noopener" style="color:var(--accent)">Abrasel — Confraternizações de fim de ano (Dez/2025)</a></li>
+          <li><a href="https://agenciasebrae.com.br/economia-e-politica/com-a-lideranca-dos-mei-brasil-cria-22-milhoes-de-novos-pequenos-negocios-em-2025" target="_blank" rel="noopener" style="color:var(--accent)">Agência Sebrae — Novos pequenos negócios (2025)</a></li>
+          <li><a href="https://www.thinkwithgoogle.com/intl/pt-br/insights/" target="_blank" rel="noopener" style="color:var(--accent)">Think With Google — Insights digitais</a></li>
+        </ul>
+      </div>
     </section>
 
-
-    <!-- Recomendações -->
-    <section class="card">
-      <h2>Recomendações rápidas para aproveitar o pico</h2>
-      <ul>
-        <li>Atualizar Google Meu Negócio.</li>
-        <li>Preparar menu sazonal.</li>
-        <li>Planejar contratações.</li>
-        <li>Campanhas por geolocalização.</li>
-        <li>Opções digitais completas.</li>
+    <!-- CTA / recomendações rápidas -->
+    <section class="card" aria-labelledby="acoes-title">
+      <h2 id="acoes-title">Recomendações rápidas para aproveitar o pico</h2>
+      <ul style="margin-top:8px;color:var(--muted)">
+        <li>Atualizar perfil no Google Meu Negócio; deixar fotos e horários corretos.</li>
+        <li>Preparar menu sazonal e opções para grupos (reserva/rodízio/kit de confraternização).</li>
+        <li>Planejar escala e contratações temporárias com antecedência.</li>
+        <li>Lançar campanhas locais por geolocalização e promoções para horários menos procurados.</li>
+        <li>Disponibilizar opções digitais: cardápio online, pedido por WhatsApp/e-commerce e pagamento por aproximação.</li>
       </ul>
     </section>
 
     <footer class="site-footer">
       © Canal de Inteligência de Mercado — Sebrae • Versão Beta
     </footer>
-
   </main>
 
-
-  <!-- SCRIPT FINAL DO BOTÃO VOLTAR (ESTÁVEL) -->
+  <!-- scripts (apenas comportamento do carrossel via labels/radios) -->
   <script>
-  (function() {
-    const btn = document.querySelector('.back-btn');
-    const header = document.querySelector('.site-header');
-    const brand  = header ? header.querySelector('.brand') : null;
+    // carrossel funciona por radio inputs.
+    // Se quiser autoplay, comente abaixo e ajuste o tempo.
+    /*
+    (function(){
+      const radios = ['s1','s2','s3','s4'].map(id=>document.getElementById(id));
+      let idx = 0;
+      setInterval(()=>{
+        idx = (idx + 1) % radios.length;
+        radios[idx].checked = true;
+      }, 6000);
+    })();
+    */
+  </script>
+  <script>
+(function() {
+  const btn = document.querySelector('.back-btn');
+  const header = document.querySelector('.site-header');
+  const brand = header ? header.querySelector('.brand') : null;
 
-    if (!btn || !header) return;
+  if (!btn || !header) return;
 
-    function positionBackButton() {
-      const headerHeight = header.offsetHeight;
-      btn.style.top = (headerHeight + 12) + 'px';
+  // ajustes finos
+  const GAP_TOP = 10;       // espaço entre header e botão
+  const GAP_LEFT = 12;      // espaço ao lado do brand
+  const MIN_LEFT = 12;      // margem mínima à esquerda
 
-      let left = 12;
-      if (brand) {
-        left = brand.offsetWidth + 20;
+  function positionBackButton() {
+
+    const headerRect = header.getBoundingClientRect();
+    const brandRect = brand ? brand.getBoundingClientRect() : null;
+
+    // *** POSIÇÃO VERTICAL ***
+    // coloca o botão logo abaixo do header
+    const desiredTop = headerRect.bottom + GAP_TOP;
+    btn.style.top = Math.max(desiredTop, 10) + 'px';
+
+    // *** POSIÇÃO HORIZONTAL ***
+    let left = MIN_LEFT;
+
+    if (brandRect) {
+      // posição após o brand + gap
+      const afterBrand = Math.round(brandRect.right + GAP_LEFT);
+      // Se o button ficaria por cima do brand, empurrar para a direita
+      if (afterBrand > left) {
+        left = afterBrand;
       }
-
-      const maxLeft = window.innerWidth - btn.offsetWidth - 12;
-      btn.style.left = Math.min(left, maxLeft) + 'px';
     }
 
-    window.addEventListener('load', positionBackButton);
-    window.addEventListener('resize', positionBackButton);
+    // evitar que saia da tela em telas pequenas
+    const maxLeft = window.innerWidth - btn.offsetWidth - 12;
+    left = Math.min(left, maxLeft);
 
-    btn.addEventListener('click', () => history.back());
-  })();
-  </script>
+    btn.style.left = left + 'px';
+  }
+
+  // debounce no resize
+  let resizeTimer = null;
+  function onResize() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(positionBackButton, 80);
+  }
+
+  // observar mudanças no header
+  const obs = new MutationObserver(positionBackButton);
+  obs.observe(header, { childList: true, subtree: true, attributes: true });
+
+  // eventos
+  window.addEventListener('load', positionBackButton);
+  window.addEventListener('resize', onResize);
+
+  // clique no botão voltar
+  btn.addEventListener('click', function(e){
+    e.preventDefault();
+    if (window.history.length > 1) {
+      window.history.back();
+    } else {
+      window.location.href = '/';
+    }
+  });
+
+})();
+</script>
 
 </body>
 </html>
