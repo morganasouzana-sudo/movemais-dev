@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Inteligência de Mercado — Minimercados (Dez/2025)</title>
+
+  <!-- Fonte Unbounded -->
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* ===========================
+       VARS (paleta ajustada)
+       =========================== */
+    :root{
+      --bg: #0f3336;
+      --text: #ffffff;
+      --muted: #bfcfce;
+      --accent: #3f7a57;
+      --accent-2: #2f5f46;
+      --card-bg: rgba(255,255,255,0.04);
+      --max-inner:1200px;
+      --gutter:20px;
+      --radius:14px;
+    }
+
+    /* ===========================
+       BASE
+       =========================== */
+    html, body {
+      margin:0; padding:0;
+      width:100%; height:100%;
+      background:var(--bg);
+      color:var(--text);
+      font-family:'Unbounded', system-ui, Arial, sans-serif;
+      -webkit-font-smoothing:antialiased;
+    }
+    *, *::before, *::after { box-sizing:border-box; }
+    a { color:inherit; text-decoration:none; }
+    img { max-width:100%; display:block; }
+
+    .section-full { width:100%; }
+    .inner { max-width:var(--max-inner); margin:0 auto; padding:24px var(--gutter); }
+
+    /* ===========================
+       BOTÃO VOLTAR FIXO
+       =========================== */
+    .back-btn {
+      position: fixed;
+      top: 12px;
+      left: 12px;
+      z-index: 9999;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      padding: 8px 12px;
+      color: #fff;
+      border-radius: 10px;
+      font-weight: 600;
+      backdrop-filter: blur(4px);
+    }
+
+    /* ===========================
+       HEADER
+       =========================== */
+    header.site-header {
+      background: transparent;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      position: relative;
+      z-index: 50;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 16px;
+      padding-bottom: 16px;
+    }
+
+    /* LOGO CENTRALIZADA */
+    .brand {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .brand img {
+      height: 56px;
+      display: block;
+    }
+
+    /* TÍTULO À DIREITA */
+    .page-title-header {
+      margin-left: auto;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text);
+      white-space: nowrap;
+      transform: translateY(6px);
+    }
+
+    /* ===========================
+       HERO — CARD COM IMAGEM
+       =========================== */
+    .hero-wrap {
+      background: var(--bg);
+      padding: 28px 24px;
+    }
+
+    .hero-card {
+      background: var(--card-bg);
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+      max-width: 1200px;
+      margin: 0 auto;
+      box-shadow: 0 10px 30px rgba(2,6,10,0.45);
+    }
+
+    .hero-banner {
+      position: relative;
+      height: 350px;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .hero-banner::after {
+      content:"";
+      position:absolute;
+      inset:0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.48), rgba(0,0,0,0.38));
+      z-index:1;
+    }
+
+    .hero-content {
+      position:absolute;
+      left:28px;
+      right:28px;
+      bottom:18px;
+      z-index:2;
+      color:#fff;
+      text-shadow:0 6px 18px rgba(0,0,0,0.55);
+    }
+
+    .hero-title {
+      font-size: clamp(22px, 3.4vw, 44px);
+      margin-bottom: 8px;
+      font-weight: 800;
+    }
+    .hero-lead {
+      font-size: clamp(12px, 1.8vw, 16px);
+      color: var(--muted);
+      max-width: 900px;
+    }
+
+    /* ===========================
+       CARDS, GRID etc
+       =========================== */
+    .wrap { max-width:1200px; margin:24px auto; padding:0 var(--gutter); }
+
+    .card {
+      background: var(--card-bg);
+      padding:20px 18px;
+      border-radius: var(--radius);
+      margin-bottom:14px;
+      border:1px solid rgba(255,255,255,0.05);
+      box-shadow:0 8px 22px rgba(0,0,0,0.24);
+    }
+
+    h2 { font-size:20px; margin:0 0 8px 0; }
+    p, li { font-size:14px; color:var(--muted); }
+
+    /* CARROSSEL */
+    .carousel-wrap { 
+      padding:12px; 
+      border-radius:12px; 
+      border:1px solid rgba(255,255,255,0.03); 
+    }
+    .slides { overflow:hidden; position:relative; border-radius:12px; }
+    .slides input { display:none; }
+    .track { display:flex; width:400%; transition: transform .45s; }
+    .panel { min-width:100%; padding:18px; display:flex; align-items:center; }
+    .panel h3 { margin:0 0 6px; }
+
+    .dots { display:flex; justify-content:center; gap:8px; padding:12px; }
+    .dot { width:10px; height:10px; border-radius:50%; background:rgba(255,255,255,0.14); }
+
+    #m1:checked ~ .track { transform:translateX(0%); }
+    #m2:checked ~ .track { transform:translateX(-100%); }
+    #m3:checked ~ .track { transform:translateX(-200%); }
+    #m4:checked ~ .track { transform:translateX(-300%); }
+
+    #m1:checked ~ .dots label[for="m1"],
+    #m2:checked ~ .dots label[for="m2"],
+    #m3:checked ~ .dots label[for="m3"],
+    #m4:checked ~ .dots label[for="m4"] {
+      background: linear-gradient(180deg,var(--accent),var(--accent-2));
+    }
+
+    /* GRID */
+    .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+    .grid .item { background:rgba(255,255,255,0.03); border-radius:12px; padding:16px; }
+
+    /* FOOTER */
+    footer.site-footer {
+      padding:18px 0; text-align:center; font-size:13px; color:var(--muted);
+    }
+
+    /* MOBILE */
+    @media(max-width:640px){
+      .grid { grid-template-columns:1fr; }
+      .hero-banner { height:150px; }
+      .brand img { height:38px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- BOTÃO VOLTAR -->
+  <button class="back-btn" onclick="history.back()" aria-label="Voltar">← Voltar</button>
+
+  <!-- HEADER -->
+  <header class="site-header section-full">
+    <div class="inner">
+      <div class="nav">
+
+        <!-- Logo centralizada -->
+        <div class="brand">
+          <img src="./assets/sebrae_fundo_transparente.webp" alt="Sebrae">
+        </div>
+
+        <!-- Título direita -->
+        <div class="page-title-header">Minimercados</div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO CARD -->
+  <section class="hero-wrap">
+    <div class="hero-card">
+
+      <div class="hero-banner"
+           style="background-image:url('./assets/hero-minimercado.webp')">
+
+        <div class="hero-content">
+          <h1 class="hero-title">Minimercados — Dez/2025</h1>
+          <p class="hero-lead">
+            Foco: proximidade, conveniência e digitalização leve — apps locais, promoções geolocalizadas e reposição rápida.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTEÚDO -->
+  <main class="wrap">
+
+    <section class="card">
+      <h2>Resumo rápido</h2>
+      <p>
+        Minimercados crescem pela conveniência e proximidade. A digitalização leve — WhatsApp, apps locais, entrega rápida — amplia alcance e recorrência.
+      </p>
+      <div class="meta">Dados verificados • Perspectiva local</div>
+    </section>
+
+    <!-- CARROSSEL -->
+    <section class="carousel-wrap card">
+      <div class="slides">
+
+        <input type="radio" name="m" id="m1" checked>
+        <input type="radio" name="m" id="m2">
+        <input type="radio" name="m" id="m3">
+        <input type="radio" name="m" id="m4">
+
+        <div class="track">
+          <div class="panel"><div><h3>Proximidade é vantagem</h3><p>Clientes compram perto de casa — alta recorrência.</p></div></div>
+          <div class="panel"><div><h3>Digitalização leve</h3><p>WhatsApp e apps locais impulsionam vendas digitais.</p></div></div>
+          <div class="panel"><div><h3>Promoções geolocalizadas</h3><p>Aumentam fluxo e fidelização.</p></div></div>
+          <div class="panel"><div><h3>Giro & Reposição</h3><p>Mix enxuto e reposição rápida evitam rupturas.</p></div></div>
+        </div>
+
+        <div class="dots">
+          <label class="dot" for="m1"></label>
+          <label class="dot" for="m2"></label>
+          <label class="dot" for="m3"></label>
+          <label class="dot" for="m4"></label>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- GRID -->
+    <section class="card">
+      <h2>Dados rápidos (verificados)</h2>
+
+      <div class="grid">
+        <div class="item"><h3>Proximidade</h3><p>Alta frequência de compra.</p></div>
+        <div class="item"><h3>Digitalização</h3><p>Pedidos por WhatsApp e apps.</p></div>
+        <div class="item"><h3>Fidelização</h3><p>Cupom digital aumenta recorrência.</p></div>
+        <div class="item"><h3>Giro rápido</h3><p>Mix otimizado melhora margem.</p></div>
+        <div class="item"><h3>Delivery</h3><p>Parcerias ampliam alcance.</p></div>
+        <div class="item"><h3>MEIs</h3><p>Alta entrada de novos negócios.</p></div>
+      </div>
+
+    </section>
+
+    <!-- RECOMENDAÇÕES -->
+    <section class="card">
+      <h2>Recomendações rápidas</h2>
+      <ul>
+        <li>Pedidos simples via WhatsApp.</li>
+        <li>Promoções geolocalizadas.</li>
+        <li>Integração com apps locais.</li>
+        <li>Mix baseado em giro.</li>
+        <li>Capacitação básica de gestão.</li>
+      </ul>
+    </section>
+
+    <footer class="site-footer">
+      © Canal de Inteligência de Mercado — Sebrae • Versão Beta
+    </footer>
+
+  </main>
+
+</body>
+</html>
