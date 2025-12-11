@@ -10,7 +10,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
   <style>
-    /* --- CSS SYSTEM --- */
+    /* ===== GLOBAL RESET / IFRAME-FRIENDLY =====
+       Força zero margens/paddings e 100vw/100vh para html/body/#app.
+       Mantive suas variáveis e CSS original; adicionei apenas regras de 'hard reset' seguras.
+    */
     :root{
       --bg:#0f3336;
       --card-bg: rgba(255,255,255,0.04);
@@ -25,26 +28,40 @@
       --radius: 14px;
     }
 
+    /* HARD RESET - essencial para embed sem bordas brancas */
+    html, body, #app {
+      width: 100vw !important;
+      height: 100vh !important;
+      min-height: 100vh !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      overflow-x: hidden !important;
+      background-color: var(--bg) !important; /* garante que não apareça branco */
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* segurança adicional: forçar box-sizing e remover bordas/outlines inesperadas */
+    *, *::before, *::after { box-sizing: border-box; border: 0 none !important; outline: 0 !important; }
+
+    /* imagens em bloco - evita espaços brancos residuais */
+    img { display: block; max-width: 100%; height: auto; }
+
+    /* mantém seu CSS original abaixo (copiado/adaptado) */
     *{box-sizing:border-box}
 
-    /* AJUSTE GOOGLE SITES: Força o fundo verde em toda a área do iframe */
+    /* AJUSTE GOOGLE SITES: Força o fundo verde em toda a área do iframe (duplicado intencionalmente para segurança) */
     html {
-      width: 100%;
-      height: 100%;
-      background-color: #0f3336; /* Define a cor no elemento raiz */
-      overflow-x: hidden;
+      background-color: var(--bg);
     }
 
     body {
-      margin: 0;
-      padding: 0;
-      background-color: #0f3336;
+      background-color: var(--bg);
       color: var(--text);
       font-family: 'Inter', sans-serif;
       line-height: 1.6;
       width: 100%;
       min-height: 100%;
-      overflow-x: hidden;
     }
     
     /* Unbounded para títulos */
@@ -144,7 +161,8 @@
   </style>
 </head>
 <body>
-
+  <!-- WRAPPER PRINCIPAL para garantir full-viewport em iframes -->
+  <div id="app">
   <!-- HEADER -->
   <header>
     <div class="inner">
@@ -190,25 +208,25 @@
       </div>
 
       <!-- Animação Imagens Hero -->
-      <div class="image-columns">
+      <div class="image-columns" aria-hidden="true">
         <div class="col">
           <div class="stack animated">
-            <div class="tile"><img src="./assets/hero-minimercado.webp"><div class="pill">Minimercados</div></div>
-            <div class="tile"><img src="./assets/feira_livre.webp"><div class="pill">Feiras</div></div>
-            <div class="tile"><img src="./assets/frutas_feira.webp"><div class="pill">Hortifruti</div></div>
+            <div class="tile"><img src="./assets/hero-minimercado.webp" alt=""><div class="pill">Minimercados</div></div>
+            <div class="tile"><img src="./assets/feira_livre.webp" alt=""><div class="pill">Feiras</div></div>
+            <div class="tile"><img src="./assets/frutas_feira.webp" alt=""><div class="pill">Hortifruti</div></div>
             <!-- Duplicatas para loop -->
-            <div class="tile"><img src="./assets/hero-minimercado.webp"><div class="pill">Minimercados</div></div>
-            <div class="tile"><img src="./assets/feira_livre.webp"><div class="pill">Feiras</div></div>
+            <div class="tile"><img src="./assets/hero-minimercado.webp" alt=""><div class="pill">Minimercados</div></div>
+            <div class="tile"><img src="./assets/feira_livre.webp" alt=""><div class="pill">Feiras</div></div>
           </div>
         </div>
         <div class="col col-2">
           <div class="stack animated">
-            <div class="tile"><img src="./assets/loja_roupas_feira.webp"><div class="pill">Moda</div></div>
-            <div class="tile"><img src="./assets/mulher_sentada_cafeteria.webp"><div class="pill">Food Service</div></div>
-            <div class="tile"><img src="./assets/cabide_roupas_masculinas.webp"><div class="pill">Varejo</div></div>
+            <div class="tile"><img src="./assets/loja_roupas_feira.webp" alt=""><div class="pill">Moda</div></div>
+            <div class="tile"><img src="./assets/mulher_sentada_cafeteria.webp" alt=""><div class="pill">Food Service</div></div>
+            <div class="tile"><img src="./assets/cabide_roupas_masculinas.webp" alt=""><div class="pill">Varejo</div></div>
             <!-- Duplicatas para loop -->
-            <div class="tile"><img src="./assets/loja_roupas_feira.webp"><div class="pill">Moda</div></div>
-            <div class="tile"><img src="./assets/mulher_sentada_cafeteria.webp"><div class="pill">Food Service</div></div>
+            <div class="tile"><img src="./assets/loja_roupas_feira.webp" alt=""><div class="pill">Moda</div></div>
+            <div class="tile"><img src="./assets/mulher_sentada_cafeteria.webp" alt=""><div class="pill">Food Service</div></div>
           </div>
         </div>
       </div>
@@ -320,6 +338,8 @@
     </div>
   </footer>
 
+  </div> <!-- #app -->
+
   <!-- Scripts: Filtro, Fallback Imagem e Preview Iframe -->
   <script>
     /* 1. Fallback de Imagem */
@@ -374,6 +394,8 @@
           iframe.style.width = "100%";
           iframe.style.height = "100%";
           iframe.style.border = "none";
+          iframe.setAttribute('loading','lazy');
+          iframe.setAttribute('referrerpolicy','no-referrer');
           
           iframe.onload = () => {
             status.innerText = "Preview interativo ativo.";
