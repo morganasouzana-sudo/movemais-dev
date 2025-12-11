@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Termos de Uso</title>
+  <style>
+    body{ background:#0f3336; color:#fff; font-family:sans-serif; padding:40px; line-height:1.6; max-width:800px; margin:0 auto; }
+    h1{ color:#3f7a57; }
+    a{ color:#bfcfce; }
+  </style>
+</head>
+<body>
+  <a href="index.html">← Voltar para Home</a>
+  <h1>Termos de Uso</h1>
+  <p>Bem-vindo ao Canal de Inteligência de Mercado.</p>
+  <p>Ao acessar este site, você concorda em utilizar as informações aqui contidas para fins de consulta e apoio à gestão empresarial.</p>
+  <p>Todo o conteúdo é baseado em fontes públicas e estudos do Sebrae. A reprodução é permitida desde que citada a fonte.</p>
+  <br>
+  <small>© 2025 Sebrae</small>
+</body>
+</html>
