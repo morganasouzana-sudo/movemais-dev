@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Contato — Canal de Inteligência de Mercado</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* Design System Compartilhado */
+    :root{ --bg:#0f3336; --card-bg:rgba(255,255,255,0.04); --text:#ffffff; --muted:#bfcfce; --accent:#3f7a57; --border:rgba(255,255,255,0.06); --radius:14px; }
+    html,body{ margin:0; padding:0; background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; line-height:1.6; min-height:100vh; display:flex; flex-direction:column; }
+    h1,h2,.brand{ font-family:'Unbounded',sans-serif; }
+    .inner{ max-width:1200px; margin:0 auto; padding:0 20px; width:100%; }
+    
+    /* Header */
+    header{ background:rgba(15,51,54,0.95); backdrop-filter:blur(10px); border-bottom:1px solid var(--border); position:sticky; top:0; z-index:40; }
+    .nav{ display:flex; align-items:center; justify-content:space-between; height:70px; }
+    .brand img{ height:40px; transition:transform 0.3s; }
+    .brand:hover img{ transform:scale(1.05); }
+    .menu{ display:flex; gap:20px; font-size:13px; font-weight:600; }
+    .menu a{ color:var(--muted); text-decoration:none; transition:0.2s; }
+    .menu a:hover{ color:#fff; }
+
+    /* Layout Contato */
+    .contact-wrap{ display:grid; grid-template-columns:1fr 1fr; gap:60px; padding:60px 0; align-items:start; }
+    .contact-info h1{ font-size:42px; margin:0 0 24px; color:#fff; }
+    .info-item{ display:flex; gap:16px; margin-bottom:24px; }
+    .info-icon{ width:40px; height:40px; background:var(--card-bg); border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0; border:1px solid var(--border); }
+    
+    /* Form */
+    .contact-form{ background:var(--card-bg); padding:40px; border-radius:var(--radius); border:1px solid var(--border); }
+    .form-group{ margin-bottom:20px; }
+    .form-group label{ display:block; font-size:13px; color:var(--muted); margin-bottom:8px; font-weight:600; }
+    .form-group input, .form-group textarea{ width:100%; background:rgba(0,0,0,0.2); border:1px solid var(--border); color:#fff; padding:12px; border-radius:8px; font-family:'Inter'; }
+    .form-group input:focus, .form-group textarea:focus{ outline:none; border-color:var(--accent); }
+    .btn{ background:var(--accent); color:#fff; padding:12px 24px; border:none; border-radius:8px; font-weight:700; cursor:pointer; width:100%; font-family:'Unbounded'; transition:0.2s; }
+    .btn:hover{ filter:brightness(1.1); transform:translateY(-2px); }
+
+    /* Footer */
+    footer{ border-top:1px solid var(--border); padding:40px 0; margin-top:auto; font-size:13px; color:var(--muted); }
+    .footer-links{ display:flex; gap:24px; }
+    .footer-links a{ color:var(--muted); text-decoration:none; } 
+    .footer-links a:hover{ text-decoration:underline; }
+
+    @media(max-width:800px){ .contact-wrap{ grid-template-columns:1fr; gap:40px; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="inner">
+      <div class="nav">
+        <a href="index.html" class="brand">
+          <!-- Certifique-se de que o logo está na pasta assets -->
+          <img src="./assets/logo-movemais.svg" alt="Sebrae">
+        </a>
+        <nav class="menu">
+          <a href="index.html">Home</a>
+          <a href="sobre.html">Sobre</a>
+          <a href="index.html#todos-insights">Insights</a>
+          <a href="contato.html" style="color:#fff">Contato</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="inner">
+    <div class="contact-wrap">
+      
+      <div class="contact-info">
+        <h1>Fale com nossa equipe de inteligência.</h1>
+        <p style="color:var(--muted); font-size:18px; margin-bottom:40px;">Tem dúvidas sobre os dados ou sugestões de novos setores para análise? Envie sua mensagem.</p>
+        
+        <div class="info-item">
+          <div class="info-icon">📧</div>
+          <div>
+            <strong style="display:block; color:#fff">E-mail</strong>
+            <span style="color:var(--muted)">inteligencia@sebrae.com.br</span>
+          </div>
+        </div>
+        
+        <div class="info-item">
+          <div class="info-icon">📍</div>
+          <div>
+            <strong style="display:block; color:#fff">Sede</strong>
+            <span style="color:var(--muted)">Brasília - DF</span>
+          </div>
+        </div>
+
+        <div style="margin-top:40px; padding:20px; background:rgba(63,122,87,0.1); border-radius:12px; border:1px solid var(--accent);">
+          <strong style="color:#4fd17c; display:block; margin-bottom:8px;">Dica Rápida</strong>
+          <span style="font-size:14px; color:#fff;">Para dados específicos do seu bairro, utilize o painel <u>O Ponto Certo</u> disponível na home.</span>
+        </div>
+      </div>
+
+      <form class="contact-form">
+        <div class="form-group">
+          <label>Nome Completo</label>
+          <input type="text" placeholder="Seu nome">
+        </div>
+        <div class="form-group">
+          <label>E-mail Corporativo</label>
+          <input type="email" placeholder="nome@empresa.com.br">
+        </div>
+        <div class="form-group">
+          <label>Assunto</label>
+          <select style="width:100%; background:rgba(0,0,0,0.2); border:1px solid var(--border); color:#fff; padding:12px; border-radius:8px;">
+            <option>Dúvida sobre relatório</option>
+            <option>Sugestão de pauta</option>
+            <option>Reportar erro</option>
+            <option>Outros</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Mensagem</label>
+          <textarea rows="5" placeholder="Como podemos ajudar?"></textarea>
+        </div>
+        <button type="button" class="btn" onclick="alert('Mensagem enviada! Em breve entraremos em contato.')">Enviar Mensagem</button>
+      </form>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="inner" style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:20px;">
+      <div>© 2025 Sebrae • Versão Beta</div>
+      <div class="footer-links">
+        <a href="politica_privacidade.html">Política de Privacidade</a>
+        <a href="termos_uso.html">Termos de Uso</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
