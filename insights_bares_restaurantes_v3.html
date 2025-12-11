@@ -87,7 +87,7 @@
       gap:12px;
       padding:12px 0;
     }
-    .brand { display:flex; align-items:center; gap:12px; font-weight:800; font-size:18px; color:var(--text); }
+    .brand { display:flex; align-items:center; gap:12px; font-weight:800; font-size:18px; color:var(--text); position: absolute; left: 50%; transform: translateX(-50%);}
     .brand img{ height:30px; display:block; filter:brightness(0) invert(1) saturate(0.9) sepia(0.2); } /* deixa o logo visível sobre fundo escuro */
     .menu { display:flex; gap:12px; align-items:center; }
     .menu a { font-size:13px; padding:8px 10px; border-radius:8px; cursor:pointer; color: var(--accent); }
@@ -376,7 +376,10 @@
   .nav {
   display: flex;
   align-items: center;
-  justify-content: space-between;  /* empurra logo e título para extremos */
+  justify-content: space-between; 
+  position: relative; /* necessário p/ centralização funcionar */
+}
+/* empurra logo e título para extremos */
 }
 
 .page-title-header {
