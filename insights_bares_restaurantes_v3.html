@@ -257,13 +257,14 @@
     ← Voltar
   </button>
 
+
   <!-- Header (compact) -->
   <header class="site-header section-full" role="banner">
     <div class="inner">
       <div class="nav" role="navigation" aria-label="Menu principal">
         <div class="brand">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/6/6e/Sebrae_logo.svg" alt="Sebrae" style="height:30px;">
-          <span>Canal IM — Bares & Restaurantes</span>
+           <img src="./assets/_fundo_transparente.webp" alt="Sebrae" style="height:30px;">
+          <span>Bares & Restaurantes</span>
         </div>
         <!-- menu intentionally left empty (link "Voltar ao site" removido) -->
         <nav class="menu" aria-label="Navegação"></nav>
@@ -271,29 +272,137 @@
     </div>
   </header>
 
-<section class="hero" role="img" aria-label="Ambiente de bar e restaurante"
-         style="background-image:url('./assets/mulher_sentada_cafeteria.webp')">
+<!-- HERO — FAIXA DENTRO DE CARD (visual solicitado) -->
+<style>
+  /* Cores já do seu tema */
+  :root{
+    --page-bg: #0f3336;
+    --card-bg: rgba(255,255,255,0.04);
+    --muted: #bfcfce;
+    --text: #ffffff;
+    --accent: #3f7a57;
+    --accent-2: #2f5f46;
+  }
 
-  <!-- fallback acessível (aparece só se o background falhar) -->
-  <img class="bg" src="./assets/mulher_sentada_cafeteria.webp"
-       alt="Pessoas em restaurante"
-       onerror="this.style.display='none'">
+  /* container externo controla o espaçamento lateral e o fundo do site */
+  .hero-wrap {
+    background: var(--page-bg);
+    padding: 28px 24px;            /* mantém margem lateral como no design */
+    box-sizing: border-box;
+  }
 
-  <!-- overlay para contraste -->
-  <div class="overlay" aria-hidden="true"></div>
+  /* cartão com borda arredondada que contém a faixa de imagem */
+  .hero-card {
+    background: var(--card-bg);
+    border-radius: 14px;
+    padding: 0;                    /* a faixa ocupa o topo do card */
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(2,6,10,0.45);
+    border: 1px solid rgba(0,0,0,0.18);
+    max-width:1200px;
+    margin: 0 auto;                /* centraliza como no layout */
+  }
 
-  <!-- conteúdo -->
-  <div class="hero-content">
-    <h1 class="hero-title">Bares &amp; Restaurantes — Dez/2025</h1>
+  /* faixa da imagem (com altura controlada) */
+  .hero-banner {
+    position: relative;
+    width: 100%;
+    height: 220px;                 /* desktop: controle principal */
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
 
-    <p class="hero-lead">
-      Confraternizações de fim de ano aquecem movimento; digitalização (delivery e redes sociais)
-      é decisiva para captura de demanda.
-    </p>
+  /* overlay dentro da faixa para escurecer a imagem */
+  .hero-banner::after{
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.48), rgba(0,0,0,0.38));
+    z-index: 1;
+  }
+
+  /* conteúdo da faixa (texto sobre a imagem, bottom-left) */
+  .hero-banner .hero-content {
+    position: absolute;
+    left: 28px;
+    right: 28px;
+    bottom: 18px;
+    z-index: 2;
+    color: var(--text);
+    max-width: calc(100% - 56px);
+  }
+
+  .hero-title {
+    margin: 0 0 8px 0;
+    font-weight: 800;
+    font-size: clamp(22px, 3.4vw, 44px); /* escala responsiva */
+    line-height: 1.02;
+    text-shadow: 0 6px 18px rgba(0,0,0,0.56);
+  }
+
+  .hero-lead {
+    margin: 0;
+    color: var(--muted);
+    font-size: clamp(12px, 1.8vw, 16px);
+    max-width: 900px;
+    text-shadow: 0 4px 12px rgba(0,0,0,0.42);
+  }
+
+  /* fallback <img> escondido (mantido para SEO/acessibilidade) */
+  .hero-banner img.bg {
+    display:none; /* mantemos fallback, mas escondido porque usamos background-image */
+  }
+
+  /* conteúdo abaixo da faixa (cards, resumo etc) */
+  .hero-body {
+    padding: 20px 28px 28px;
+    color: var(--text);
+  }
+
+  /* Responsividade */
+  @media (max-width:1000px){
+    .hero-banner { height: 180px; }
+    .hero-banner .hero-content { left: 20px; right:20px; bottom:16px; }
+  }
+  @media (max-width:640px){
+    .hero-wrap { padding: 18px 12px; }
+    .hero-banner { height: 140px; }
+    .hero-banner .hero-content { left: 14px; right:14px; bottom:12px; }
+    .hero-title { font-size: clamp(18px, 6vw, 26px); }
+    .hero-lead { font-size: 13px; }
+  }
+</style>
+
+<section class="hero-wrap" aria-label="Hero — Bares e Restaurantes">
+  <div class="hero-card" role="region" aria-label="Banner principal">
+
+    <!-- FAIXA: usamos background-image inline para cache/cover + <img> fallback -->
+    <div class="hero-banner"
+         role="img"
+         aria-label="Ambiente de bar e restaurante"
+         style="background-image: url('./assets/mulher_sentada_cafeteria.webp');">
+
+      <!-- fallback acessível (aparece se background falhar) -->
+      <img class="bg" src="./assets/mulher_sentada_cafeteria.webp"
+           alt="Pessoas em restaurante" onerror="this.style.display='none'">
+
+      <!-- Texto sobre a faixa (bottom-left) -->
+      <div class="hero-content">
+        <h1 class="hero-title">Bares &amp; Restaurantes — Dez/2025</h1>
+        <p class="hero-lead">Confraternizações de fim de ano aquecem movimento; digitalização (delivery e redes sociais) é decisiva para captura de demanda.</p>
+      </div>
+    </div>
+
+    <!-- corpo do card: mantém o conteúdo abaixo da imagem (resumo, ações, etc.) -->
+    <div class="hero-body">
+      <!-- Exemplo: resumo rápido -->
+      <h2 style="margin:0 0 8px 0; color:var(--text); font-size:18px;">Resumo rápido</h2>
+      <p style="margin:0;color:var(--muted);">O setor de alimentação fora do lar apresenta aquecimento no fim de 2025, com sazonalidade de confraternizações impulsionando movimento. A digitalização já é parte integral da jornada (pesquisa, pedido, pagamento).</p>
+    </div>
+
   </div>
 </section>
-
-
 
   <main class="wrap" role="main">
     <!-- Card resumo -->
