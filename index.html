@@ -6,12 +6,11 @@
   <title>Canal de Inteligência de Mercado — Sebrae (Beta)</title>
   <meta name="description" content="Canal digital que reúne insights, análises e recomendações para apoiar a Rede Sebrae e os Pequenos Negócios.">
   
-  <!-- Fontes (Mesmas das páginas internas) -->
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
   <style>
-    /* --- CSS SYSTEM (Mesmo das páginas internas) --- */
+    /* --- CSS SYSTEM --- */
     :root{
       --bg:#0f3336;
       --card-bg: rgba(255,255,255,0.04);
@@ -27,7 +26,19 @@
     }
 
     *{box-sizing:border-box}
-    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:'Inter', sans-serif;line-height:1.6}
+
+    /* AJUSTE GOOGLE SITES: Garante que o fundo cubra tudo */
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      width: 100%;
+      min-height: 100vh;
+      overflow-x: hidden; /* Evita rolagem horizontal indesejada no iframe */
+    }
     
     /* Unbounded para títulos */
     h1, h2, h3, .page-title-header, .btn, .chip, .brand { font-family: 'Unbounded', sans-serif; }
@@ -37,7 +48,7 @@
     
     .inner{max-width:var(--max-inner);margin:0 auto;padding:0 var(--gutter)}
 
-    /* HEADER (Estilo Home - Logo Central) */
+    /* HEADER */
     header{background:rgba(15, 51, 54, 0.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:40}
     .nav{display:flex;align-items:center;justify-content:space-between;padding:12px 0;height:70px;position:relative}
     
@@ -117,7 +128,7 @@
       .hero-grid { grid-template-columns: 1fr; gap: 40px; text-align: center; }
       .hero-ctas { justify-content: center; }
       .hero-lead { margin-left: auto; margin-right: auto; }
-      .image-columns { display: none; } /* Hide hero animation on mobile for performance */
+      .image-columns { display: none; } /* Ocultar animação no mobile para melhor performance e ajuste */
       .opontocerto-card { grid-template-columns: 1fr; }
       .nav { padding: 0 20px; }
       .brand { position: static; transform: none; margin-right: auto; }
