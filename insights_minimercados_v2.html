@@ -127,38 +127,48 @@
       background-repeat: no-repeat;
     }
 
-    .hero-banner::after {
-      content:"";
-      position:absolute;
-      inset:0;
-      background: linear-gradient(180deg, rgba(0,0,0,0.48), rgba(0,0,0,0.38));
-      z-index:1;
-    }
+    /* overlay mais escuro e com gradiente no rodapé */
+.hero-banner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  /* gradiente mais forte => escurece a imagem colorida */
+  background: linear-gradient(180deg,
+              rgba(0,0,0,0.62) 0%,
+              rgba(0,0,0,0.52) 40%,
+              rgba(0,0,0,0.72) 100%);
+  z-index: 1;
+}
 
-    .hero-content {
-      position:absolute;
-      left:28px;
-      right:28px;
-      bottom:18px;
-      z-index:2;
-      color:#fff;
-      text-shadow:0 6px 18px rgba(0,0,0,0.55);
-    }
+/* cria um pequeno "painel" levemente blur para o texto (opcional mas melhora ainda mais) */
+.hero-content {
+  position: absolute;
+  left: 28px;
+  right: 28px;
+  bottom: 18px;
+  z-index: 2;
+  color: #ffffff;
+  padding: 8px 12px;
+  border-radius: 8px;
+  /* leve blur/transparência para separar do fundo */
+  background: rgba(0,0,0,0.06);
+  backdrop-filter: blur(3px);
+}
 
+/* texto mais claro, maior peso e sombra forte */
+.hero-lead {
+  margin: 0;
+  color: #ffffff;                    /* branco puro para máximo contraste */
+  font-size: clamp(12px, 1.8vw, 16px);
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  text-shadow: 0 6px 18px rgba(0,0,0,0.7);
+}
     .hero-title {
       font-size: clamp(22px, 3.4vw, 44px);
       margin-bottom: 8px;
       font-weight: 800;
     }
-    .hero-lead {
-  margin: 0;
-  color: var(--accent);              /* muda de muted para o verde acento */
-  font-size: clamp(12px, 1.8vw, 16px);
-  font-weight: 700;                  /* deixa o texto mais “forte” */
-  letter-spacing: 0.2px;
-  text-shadow: 0 3px 12px rgba(0,0,0,0.45);
-}
-
 
     /* ===========================
        CARDS, GRID etc
