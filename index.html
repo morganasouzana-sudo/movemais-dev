@@ -232,10 +232,10 @@
         background: radial-gradient(circle at center, rgba(63, 122, 87, 0.15) 0%, transparent 70%); /* Highlight sutil */
     }
 
-    /* Tabs de Navegação */
+    /* Tabs de Navegação - ALINHADO À ESQUERDA */
     .trends-tabs {
         display: flex;
-        justify-content: center;
+        justify-content: flex-start; /* Alinha à esquerda */
         gap: 10px;
         margin-bottom: 30px;
         flex-wrap: wrap;
@@ -283,6 +283,7 @@
         width: 100%;
         padding-top: 30px;
         padding-bottom: 60px;
+        margin-left: 0; /* Garante que comece da esquerda */
     }
 
     .swiper-slide {
@@ -397,7 +398,7 @@
       .swiper-slide { width: 270px; height: 360px; }
       .card-title { font-size: 1rem; }
       
-      .trends-tabs { gap: 8px; }
+      .trends-tabs { gap: 8px; justify-content: center; /* No mobile pode centralizar se preferir, ou manter start */ }
       .trend-tab-btn { padding: 8px 16px; font-size: 11px; }
     }
   </style>
@@ -528,9 +529,9 @@
   <!-- ===== NOVA SEÇÃO: CARROSSEL DE TENDÊNCIAS COM ABAS ===== -->
   <section class="trends-section">
       <div class="inner">
-          <h2 class="section-title" style="justify-content: center; margin-bottom: 20px;">Tendências 2026</h2>
+          <h2 class="section-title" style="justify-content: flex-start; margin-bottom: 20px;">Tendências 2026</h2>
           
-          <!-- Abas de Navegação -->
+          <!-- Abas de Navegação - ALINHADAS À ESQUERDA -->
           <div class="trends-tabs">
             <button class="trend-tab-btn active" onclick="switchTrendTab('bares')">Bares e Restaurantes</button>
             <button class="trend-tab-btn" onclick="switchTrendTab('moda')">Varejo de Moda</button>
@@ -730,14 +731,15 @@
     const swiperOptions = {
         effect: "coverflow",
         grabCursor: true,
-        centeredSlides: true,
+        centeredSlides: false, /* AGORA ALINHADO À ESQUERDA */
         slidesPerView: "auto",
+        spaceBetween: 20, /* Espaço entre cards */
         coverflowEffect: {
             rotate: 0, 
             stretch: 0,
-            depth: 100, 
-            modifier: 2.5,
-            slideShadows: true,
+            depth: 0, /* Efeito 3D removido para alinhamento left mais clean */
+            modifier: 1,
+            slideShadows: false,
         },
         pagination: {
             clickable: true,
