@@ -192,8 +192,24 @@
                 page-break-after: always;
                 border: none;
                 padding: 15mm;
+                overflow: visible; /* Garante que não corte conteúdo */
+                height: auto;
             }
             .no-print, .print-btn { display: none !important; }
+
+            /* CORREÇÃO PARA IMAGENS LONGAS */
+            .screenshot-container {
+                page-break-inside: auto; /* Permite quebrar se necessário, mas... */
+                border: none;
+            }
+
+            .screenshot-container img {
+                max-height: 240mm; /* ...força a imagem a caber em uma página A4 */
+                width: auto;      /* Largura se ajusta para manter a proporção */
+                max-width: 100%;  /* Não deixa ultrapassar a largura da página */
+                margin: 0 auto;   /* Centraliza se ficar mais estreita */
+                object-fit: contain;
+            }
         }
     </style>
 </head>
