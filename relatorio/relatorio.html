@@ -182,40 +182,51 @@
         /* Mostra o erro se a imagem falhar */
         img[src=""], img:not([src]) { display: none; }
 
-        /* --- MODO DE IMPRESSÃO --- */
+        /* --- MODO DE IMPRESSÃO (AJUSTADO PARA ESCALA MENOR) --- */
         @media print {
-            body { background-color: white; }
+            @page {
+                size: A4;
+                margin: 10mm; /* Define margem física na impressora */
+            }
+
+            body { 
+                background-color: white;
+                zoom: 0.8; /* REDUZ O TAMANHO GERAL EM 20% */
+                -webkit-print-color-adjust: exact;
+            }
+
             .page {
                 box-shadow: none;
                 margin: 0;
                 width: 100%;
-                page-break-after: always; /* Garante quebra de página ao fim de cada div .page */
+                page-break-after: always;
                 border: none;
-                padding: 15mm;
+                padding: 0; /* Remove padding interno extra pois já temos a margem do @page */
                 overflow: visible; 
                 height: auto;
-                min-height: auto; /* Remove altura mínima fixa para evitar espaços enormes */
             }
+            
             .no-print, .print-btn { display: none !important; }
 
-            /* CORREÇÃO AGRESSIVA PARA IMAGENS LONGAS */
             .screenshot-container {
-                page-break-inside: avoid; /* Tenta não quebrar o container ao meio */
+                page-break-inside: avoid;
                 border: none;
-                margin-bottom: 10mm;
+                margin-bottom: 20px;
                 box-shadow: none;
             }
 
             .screenshot-container img {
-                max-height: 190mm !important; /* Limite mais estrito (aprox 70% da página) */
-                width: auto !important;       /* Respeita a proporção */
-                max-width: 100% !important;   /* Não estoura a largura */
+                /* Com o zoom de 0.8, podemos ser menos agressivos aqui, mas mantemos por segurança */
+                max-height: 220mm !important; 
+                width: auto !important;
+                max-width: 100% !important;
                 margin: 0 auto;
                 display: block;
             }
             
             h1, h2 {
                 page-break-after: avoid;
+                page-break-before: auto;
             }
         }
     </style>
@@ -290,7 +301,6 @@
 
         <h2>3.1. Página Inicial (Home)</h2>
         <div class="screenshot-container">
-            <!-- NOTA: Pelo print, este arquivo não tem espaço antes do hífen -->
             <img src="1- home.png" alt="Home Page" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
             <div class="img-not-found">
                 <p>❌ Imagem não encontrada</p>
