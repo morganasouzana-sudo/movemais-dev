@@ -189,26 +189,33 @@
                 box-shadow: none;
                 margin: 0;
                 width: 100%;
-                page-break-after: always;
+                page-break-after: always; /* Garante quebra de página ao fim de cada div .page */
                 border: none;
                 padding: 15mm;
-                overflow: visible; /* Garante que não corte conteúdo */
+                overflow: visible; 
                 height: auto;
+                min-height: auto; /* Remove altura mínima fixa para evitar espaços enormes */
             }
             .no-print, .print-btn { display: none !important; }
 
-            /* CORREÇÃO PARA IMAGENS LONGAS */
+            /* CORREÇÃO AGRESSIVA PARA IMAGENS LONGAS */
             .screenshot-container {
-                page-break-inside: auto; /* Permite quebrar se necessário, mas... */
+                page-break-inside: avoid; /* Tenta não quebrar o container ao meio */
                 border: none;
+                margin-bottom: 10mm;
+                box-shadow: none;
             }
 
             .screenshot-container img {
-                max-height: 240mm; /* ...força a imagem a caber em uma página A4 */
-                width: auto;      /* Largura se ajusta para manter a proporção */
-                max-width: 100%;  /* Não deixa ultrapassar a largura da página */
-                margin: 0 auto;   /* Centraliza se ficar mais estreita */
-                object-fit: contain;
+                max-height: 190mm !important; /* Limite mais estrito (aprox 70% da página) */
+                width: auto !important;       /* Respeita a proporção */
+                max-width: 100% !important;   /* Não estoura a largura */
+                margin: 0 auto;
+                display: block;
+            }
+            
+            h1, h2 {
+                page-break-after: avoid;
             }
         }
     </style>
