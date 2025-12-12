@@ -6,7 +6,7 @@
   <title>Bares & Restaurantes: Tendências Dez/2025 — Canal IM Sebrae</title>
   <meta name="description" content="Análise do setor de alimentação fora do lar para o final de 2025. Sazonalidade, digitalização e novas demandas do consumidor.">
   
-  <!-- Fontes (Mesmas do Index) -->
+  <!-- Fontes -->
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
@@ -29,7 +29,7 @@
     *{box-sizing:border-box}
     html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:'Inter', sans-serif;line-height:1.6}
     
-    /* Unbounded apenas para Títulos para dar personalidade */
+    /* Unbounded apenas para Títulos */
     h1, h2, h3, .brand, .page-title-header, .btn { font-family: 'Unbounded', sans-serif; }
 
     a{color:inherit;text-decoration:none;transition:0.2s}
@@ -44,8 +44,8 @@
     /* Header (Compacto) */
     header{background:rgba(15, 51, 54, 0.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:40}
     .nav{display:flex;align-items:center;justify-content:space-between;padding:12px 0;height:70px}
-    .brand img {height: 53px; background: transparent !important; padding: 0 !important; border-radius: 0; transition: transform 0.3s ease;}
-
+    .brand img {height: 40px; transition: transform 0.3s ease;} /* Ajuste de altura */
+    .brand:hover img { transform: scale(1.05); }
     .menu {display:flex; gap:20px; font-size:14px; font-weight:500}
     
     /* Layout do Artigo */
@@ -64,94 +64,21 @@
     .article-header { margin-bottom: 30px; }
     h1.article-title { font-size: 42px; line-height: 1.1; margin: 0 0 16px 0; background: linear-gradient(to right, #fff, #bfcfce); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     
-    <!-- No Cabeçalho do Artigo -->
-<div class="meta-info">
-  <!-- Categoria Principal -->
-  <span class="tax-tag tendencia">Tendência de Mercado</span>
-  <!-- Tags Temáticas -->
-  <span class="tax-tag tema">Sazonalidade</span>
-  <span class="tax-tag tema">Atendimento</span>
-  <span>📅 Dez/2025</span>
-</div>
-
-<!-- Nos Cards do Grid de Dados (Exemplos) -->
-<div class="data-item">
-  <!-- Tag de Categoria -->
-  <span class="tax-tag oportunidade">Oportunidade</span>
-  <h3>Retorno das Confraternizações</h3>
-  <p>81% dos empresários esperam aumento no faturamento.</p>
-</div>
-
-<div class="data-item">
-  <!-- Tag de Categoria -->
-  <span class="tax-tag tecnologia">Tecnologia</span>
-  <h3>Digitalização como Diferencial</h3>
-  <p>Cardápios digitais e PIX reduzem tempo de mesa em 20%.</p>
-</div>
-
-<div class="data-item">
-  <!-- Tag de Categoria -->
-  <span class="tax-tag risco">Risco / Atenção</span>
-  <h3>Gestão de Equipe Extra</h3>
-  <p>Falta de treinamento de freelancers pode comprometer a reputação.</p>
-</div>
-
-#### B. Para `insights_minimercados.html`
-
-```html
-<!-- No Cabeçalho -->
-<div class="meta-info">
-  <span class="tax-tag comportamento">Comportamento do Consumidor</span>
-  <span class="tax-tag tema">Proximidade</span>
-  <span class="tax-tag tema">Logística</span>
-</div>
-
-<!-- No Grid de Dados -->
-<div class="data-item">
-  <span class="tax-tag oportunidade">Oportunidade</span>
-  <h3>Compras de Reposição</h3>
-  <p>Frequência de compra aumenta em lojas de bairro.</p>
-</div>
-
-<div class="data-item">
-  <span class="tax-tag alerta">Alerta Curto Prazo</span>
-  <h3>Ruptura de Estoque</h3>
-  <p>Itens essenciais de alto giro exigem reposição diária em Dezembro.</p>
-</div>
-
-#### C. Para `insights_varejo_moda.html`
-
-```html
-<!-- No Cabeçalho -->
-<div class="meta-info">
-  <span class="tax-tag tendencia">Tendência</span>
-  <span class="tax-tag tema">Omnichannel</span>
-  <span class="tax-tag tema">Redes Sociais</span>
-</div>
-
-<!-- No Grid de Dados -->
-<div class="data-item">
-  <span class="tax-tag comportamento">Comportamento</span>
-  <h3>Influência Digital</h3>
-  <p>Reels e TikTok são os maiores vetores de descoberta de marca.</p>
-</div>
-
-<div class="data-item">
-  <span class="tax-tag risco">Risco</span>
-  <h3>Logística Reversa</h3>
-  <p>Política de trocas complexa aumenta taxa de abandono.</p>
-</div>
-
-### Resumo das Categorias (Para seu uso interno)
-Baseado no documento, use estas regras para escolher a tag:
-
-* **Oportunidade:** Algo que gera dinheiro novo (nichos, demanda reprimida).
-* **Risco:** Algo que ameaça o lucro (concorrência, custos, ruptura).
-* **Tendência:** Mudança de longo prazo (digitalização, sustentabilidade).
-* **Comportamento:** O que o cliente quer/sente (preferências, hábitos).
-* **Alerta:** Algo urgente para AGORA (mudança de lei, evento climático, data festiva próxima).
-* **Tecnologia:** Ferramentas, apps, inovação.
-    .tag { background: var(--accent); color: white; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+    /* --- TAXONOMIA DE INSIGHTS (NOVO CSS) --- */
+    .meta-info { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; font-size: 14px; color: var(--muted); border-bottom: 1px solid var(--border); padding-bottom: 24px; }
+    
+    .tax-tag {
+      display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 6px;
+      font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
+      color: #fff; border: 1px solid rgba(255,255,255,0.1);
+    }
+    .tax-tag.oportunidade { background: rgba(63, 122, 87, 0.2); border-color: #4fd17c; color: #4fd17c; }
+    .tax-tag.risco { background: rgba(220, 38, 38, 0.2); border-color: #f87171; color: #f87171; }
+    .tax-tag.tendencia { background: rgba(124, 58, 237, 0.2); border-color: #a78bfa; color: #a78bfa; }
+    .tax-tag.comportamento { background: rgba(37, 99, 235, 0.2); border-color: #60a5fa; color: #60a5fa; }
+    .tax-tag.alerta { background: rgba(245, 158, 11, 0.2); border-color: #fbbf24; color: #fbbf24; }
+    .tax-tag.tecnologia { background: rgba(6, 182, 212, 0.2); border-color: #22d3ee; color: #22d3ee; }
+    .tax-tag.tema { background: rgba(255, 255, 255, 0.05); border-color: rgba(255, 255, 255, 0.2); color: var(--muted); font-weight: 500; }
 
     .hero-img-container { width: 100%; height: 400px; border-radius: 16px; overflow: hidden; margin-bottom: 40px; border: 1px solid var(--border); }
     .hero-img-container img { width: 100%; height: 100%; object-fit: cover; }
@@ -173,7 +100,7 @@ Baseado no documento, use estas regras para escolher a tag:
       margin: 32px 0; 
     }
 
-    /* --- CARROSSEL (Adaptado do seu HTML) --- */
+    /* --- CARROSSEL --- */
     .carousel-wrap {
       display:block;
       background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
@@ -187,7 +114,7 @@ Baseado no documento, use estas regras para escolher a tag:
     .track { display:flex; width:400%; transition:transform .45s ease; }
     .panel { min-width:100%; padding:18px; box-sizing:border-box; display:flex; gap:18px; align-items:center; }
     .panel .left { flex:1; }
-    .panel h3 { margin:0 0 6px; font-size:18px; color:#4fd17c; } /* Título em verde destaque */
+    .panel h3 { margin:0 0 6px; font-size:18px; color:#4fd17c; } 
     .panel p { margin:0; color:var(--muted); font-size:15px; }
 
     .dots { display:flex; gap:8px; justify-content:center; padding:12px 0; }
@@ -203,12 +130,12 @@ Baseado no documento, use estas regras para escolher a tag:
       box-shadow: 0 6px 14px rgba(11,40,20,0.12);
     }
 
-    /* --- GRID DE DADOS (Adaptado) --- */
+    /* --- GRID DE DADOS --- */
     .data-grid { display:grid; grid-template-columns: repeat(2,1fr); gap:16px; margin-top:24px; margin-bottom: 40px; }
-    .data-item { background: rgba(255,255,255,0.03); padding:20px; border-radius:12px; border:1px solid var(--border); }
-    .data-item h3 { font-size: 16px; color: #fff; margin-bottom: 8px; }
+    .data-item { background: rgba(255,255,255,0.03); padding:20px; border-radius:12px; border:1px solid var(--border); display: flex; flex-direction: column; align-items: flex-start; }
+    .data-item h3 { font-size: 16px; color: #fff; margin-bottom: 8px; margin-top: 10px; }
     .data-item p { font-size: 14px; color: var(--muted); margin: 0; line-height: 1.5; }
-    .data-item .meta { font-size: 11px; text-transform: uppercase; color: var(--accent); margin-top: 12px; font-weight: 700; letter-spacing: 0.5px; }
+    .data-item .meta { font-size: 11px; text-transform: uppercase; color: var(--accent); margin-top: auto; padding-top: 12px; font-weight: 700; letter-spacing: 0.5px; }
 
     /* Sidebar */
     .sidebar { position: sticky; top: 100px; height: fit-content; }
@@ -246,13 +173,13 @@ Baseado no documento, use estas regras para escolher a tag:
   <header>
     <div class="inner">
       <div class="nav">
-       <a href="index.html" class="brand">
-        <img src="./assets/logo-movemais.svg" alt="Move Mais Sebrae"
-       style="background: transparent !important; background-color: transparent !important;">
-       </a>
+        <a href="index.html" class="brand">
+          <img src="./assets/logo-movemais.svg" alt="Sebrae">
+        </a>
         <nav class="menu">
           <a href="index.html">Home</a>
-          <a href="todos_insights.html" style="color:#fff">Insights</a> <!-- Ativo -->
+          <a href="sobre.html">Sobre</a>
+          <a href="index.html#todos-insights">Insights</a>
           <a href="contato.html">Contato</a>
         </nav>
       </div>
@@ -274,10 +201,12 @@ Baseado no documento, use estas regras para escolher a tag:
         <header class="article-header">
           <h1 class="article-title">Bares & Restaurantes: Tendências para Dezembro de 2025</h1>
           
+          <!-- TAXONOMIA APLICADA: CATEGORIA + TEMAS -->
           <div class="meta-info">
-            <span class="tag">Alimentação</span>
-            <span>📅 11 Dez, 2025</span>
-            <span>⏱️ 5 min de leitura</span>
+            <span class="tax-tag tendencia">Tendência de Mercado</span>
+            <span class="tax-tag tema">Sazonalidade</span>
+            <span class="tax-tag tema">Atendimento</span>
+            <span style="margin-left:auto">📅 Dez/2025 • ⏱️ 5 min</span>
           </div>
         </header>
 
@@ -344,24 +273,28 @@ Baseado no documento, use estas regras para escolher a tag:
           <h2>2. Digitalização como Diferencial</h2>
           <p>Estabelecimentos que investiram em sistemas de <em>autoatendimento</em> e <em>pagamento via PIX integrado</em> estão registrando um giro de mesa 20% mais rápido.</p>
 
-          <!-- GRID DE DADOS VERIFICADOS -->
+          <!-- GRID DE DADOS VERIFICADOS COM TAXONOMIA -->
           <div class="data-grid">
             <div class="data-item">
+              <span class="tax-tag oportunidade">Oportunidade</span>
               <h3>Fim de ano aquece o setor</h3>
               <p>81% dos empresários esperam aumento no faturamento no fim de 2025.</p>
               <div class="meta">Fonte: Abrasel</div>
             </div>
             <div class="data-item">
+              <span class="tax-tag comportamento">Comportamento</span>
               <h3>Antecipação da demanda</h3>
               <p>Outubro apresentou alta nas vendas e mais empresas operando com lucro.</p>
               <div class="meta">Fonte: Abrasel</div>
             </div>
             <div class="data-item">
+              <span class="tax-tag tendencia">Tendência</span>
               <h3>Abertura de negócios</h3>
-              <p>2,21 milhões de novos pequenos negócios no Brasil (jan-mai/2025). Serviços lideram.</p>
+              <p>2,21 milhões de novos pequenos negócios no Brasil (jan-mai/2025).</p>
               <div class="meta">Fonte: Agência Sebrae</div>
             </div>
             <div class="data-item">
+              <span class="tax-tag tecnologia">Tecnologia</span>
               <h3>Digitalização</h3>
               <p>Uso crescente de cardápios digitais e pedidos online orienta a decisão do consumidor.</p>
               <div class="meta">Fonte: Think With Google</div>
@@ -397,7 +330,7 @@ Baseado no documento, use estas regras para escolher a tag:
           <span class="sidebar-title">Fonte da Análise</span>
           <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px">
             <div style="width:40px; height:40px; background:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center">
-              <img src="./assets/sebrae_fundo_transparente.webp" style="height:20px">
+              <img src="./assets/logo-movemais.svg" style="height:20px">
             </div>
             <div>
               <div style="font-weight:700; font-size:14px">Inteligência Sebrae</div>
@@ -463,5 +396,3 @@ Baseado no documento, use estas regras para escolher a tag:
 
 </body>
 </html>
-
-
