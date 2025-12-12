@@ -126,10 +126,77 @@
     .section-title { font-size: 24px; margin-bottom: 24px; display: flex; align-items: center; gap: 12px; }
     .section-title::before { content: ''; width: 6px; height: 24px; background: var(--accent); border-radius: 2px; display: block; }
 
-    .opontocerto-card { background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%); border: 1px solid var(--border); border-radius: 16px; padding: 32px; display: grid; grid-template-columns: 1fr 350px; gap: 32px; align-items: center; margin-top: 40px; }
+    /* === DESTAQUE O PONTO CERTO (MODIFICADO) === */
+    .opontocerto-card { 
+        position: relative;
+        background: linear-gradient(135deg, rgba(63, 122, 87, 0.15) 0%, rgba(15, 51, 54, 0.4) 100%); 
+        border: 1px solid var(--accent); 
+        border-radius: 16px; 
+        padding: 32px; 
+        display: grid; 
+        grid-template-columns: 1fr 350px; 
+        gap: 32px; 
+        align-items: center; 
+        margin-top: 40px; 
+        box-shadow: 0 0 40px rgba(63, 122, 87, 0.15); /* Sombra de destaque */
+        overflow: hidden; /* Para o ícone de fundo não vazar */
+    }
+
+    /* Ícone decorativo de fundo */
+    .opc-bg-icon {
+        position: absolute;
+        top: -10px;
+        left: -10px;
+        font-size: 200px;
+        color: var(--accent);
+        opacity: 0.05;
+        z-index: 0;
+        pointer-events: none;
+        transform: rotate(-15deg);
+    }
+
+    .opc-info {
+        position: relative;
+        z-index: 1;
+    }
+
+    /* TAG DE DESTAQUE */
+    .highlight-header {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 16px;
+    }
+
+    .highlight-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: linear-gradient(90deg, #f59e0b, #d97706); /* Gradiente Âmbar/Dourado */
+        color: #fff;
+        font-family: 'Unbounded', sans-serif;
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        padding: 6px 12px;
+        border-radius: 100px;
+        width: fit-content;
+        box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+    }
+
+    .highlight-title {
+        font-family: 'Unbounded', sans-serif;
+        font-size: 40px; /* Título bem grande */
+        font-weight: 700;
+        color: #fff;
+        line-height: 1.1;
+        margin: 0;
+        letter-spacing: -1px;
+    }
     
-    /* Box do Vídeo - Mantendo o tamanho fixo mas pronto para video */
-    .preview-box { height: 240px; background: #000; border-radius: 12px; border: 1px solid var(--border); overflow: hidden; display: flex; align-items: center; justify-content: center; position: relative; }
+    /* Box do Vídeo */
+    .preview-box { height: 240px; background: #000; border-radius: 12px; border: 1px solid var(--border); overflow: hidden; display: flex; align-items: center; justify-content: center; position: relative; z-index: 1; }
     
     .insight-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 24px; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s; }
     .insight-card:hover { transform: translateY(-4px); box-shadow: 0 10px 30px rgba(0,0,0,0.3); border-color: rgba(255,255,255,0.1); }
@@ -396,11 +463,15 @@
   <!-- DESTAQUE O PONTO CERTO -->
   <section class="inner">
     <div class="opontocerto-card">
+      <i class="fa-solid fa-location-dot opc-bg-icon"></i> <!-- Ícone de fundo -->
       <div class="opc-info">
-        <h3 class="section-title" style="margin-bottom:12px">Destaque: O Ponto Certo</h3>
-        <p style="color:var(--muted); margin-bottom:24px;">Ferramenta de geomarketing para encontrar a localização ideal. Visualize dados demográficos, concorrência e potencial de consumo no mapa.</p>
+        <div class="highlight-header">
+            <span class="highlight-badge"><i class="fa-solid fa-star"></i> Destaque</span>
+            <h3 class="highlight-title">O Ponto Certo</h3>
+        </div>
+        <p style="color:var(--muted); margin-bottom:24px; font-size: 16px;">Ferramenta de geomarketing para encontrar a localização ideal. Visualize dados demográficos, concorrência e potencial de consumo no mapa.</p>
         <div style="display:flex; gap:12px;">
-          <a href="https://opontocerto.sebrae.com.br/painel" target="_blank" class="btn btn-primary">Abrir Painel Completo ↗</a>
+          <a href="https://opontocerto.sebrae.com.br/painel" target="_blank" class="btn btn-primary" style="padding: 14px 28px; font-size: 15px; box-shadow: 0 4px 15px rgba(63, 122, 87, 0.4);">Abrir Painel Completo ↗</a>
         </div>
       </div>
       <div class="opc-preview">
