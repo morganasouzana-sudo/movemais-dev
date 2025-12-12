@@ -9,11 +9,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
+  <!-- DEPENDÊNCIAS DO CARROSSEL (Swiper + FontAwesome) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
   <style>
-    /* ===== GLOBAL RESET / IFRAME-FRIENDLY =====
-       Força zero margens/paddings e 100vw/100vh para html/body/#app.
-       Mantive suas variáveis e CSS original; adicionei apenas regras de 'hard reset' seguras.
-    */
+    /* ===== GLOBAL RESET / IFRAME-FRIENDLY ===== */
     :root{
       --bg:#0f3336;
       --card-bg: rgba(255,255,255,0.04);
@@ -31,40 +32,27 @@
     /* HARD RESET - essencial para embed sem bordas brancas */
     html, body, #app {
       width: 100vw !important;
-      height: 100vh !important;
       min-height: 100vh !important;
       margin: 0 !important;
       padding: 0 !important;
       overflow-x: hidden !important;
-      background-color: var(--bg) !important; /* garante que não apareça branco */
+      background-color: var(--bg) !important;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
 
-    /* segurança adicional: forçar box-sizing e remover bordas/outlines inesperadas */
     *, *::before, *::after { box-sizing: border-box; border: 0 none !important; outline: 0 !important; }
-
-    /* imagens em bloco - evita espaços brancos residuais */
     img { display: block; max-width: 100%; height: auto; }
 
-    /* mantém seu CSS original abaixo (copiado/adaptado) */
-    *{box-sizing:border-box}
-
-    /* AJUSTE GOOGLE SITES: Força o fundo verde em toda a área do iframe (duplicado intencionalmente para segurança) */
-    html {
-      background-color: var(--bg);
-    }
-
+    /* AJUSTE GOOGLE SITES */
+    html { background-color: var(--bg); }
     body {
       background-color: var(--bg);
       color: var(--text);
       font-family: 'Inter', sans-serif;
       line-height: 1.6;
-      width: 100%;
-      min-height: 100%;
     }
     
-    /* Unbounded para títulos */
     h1, h2, h3, .page-title-header, .btn, .chip, .brand { font-family: 'Unbounded', sans-serif; }
 
     a{color:inherit;text-decoration:none;transition:0.2s}
@@ -131,9 +119,10 @@
     .section-title::before { content: ''; width: 6px; height: 24px; background: var(--accent); border-radius: 2px; display: block; }
 
     .opontocerto-card { background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%); border: 1px solid var(--border); border-radius: 16px; padding: 32px; display: grid; grid-template-columns: 1fr 350px; gap: 32px; align-items: center; margin-top: 40px; }
-    .preview-box { height: 200px; background: #000; border-radius: 8px; border: 1px solid var(--border); overflow: hidden; display: flex; align-items: center; justify-content: center; position: relative; }
     
-    .insights-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 40px; }
+    /* Box do Vídeo - Mantendo o tamanho fixo mas pronto para video */
+    .preview-box { height: 240px; background: #000; border-radius: 12px; border: 1px solid var(--border); overflow: hidden; display: flex; align-items: center; justify-content: center; position: relative; }
+    
     .insight-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 24px; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s; }
     .insight-card:hover { transform: translateY(-4px); box-shadow: 0 10px 30px rgba(0,0,0,0.3); border-color: rgba(255,255,255,0.1); }
     .insight-card h3 { font-size: 18px; margin: 0 0 12px; line-height: 1.4; color: #fff; }
@@ -142,21 +131,164 @@
     .card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 20px; border-top: 1px solid var(--border); }
     .source-link { font-size: 12px; color: var(--muted); text-decoration: underline; }
 
-    /* FOOTER */
+    /* ===== ESTILOS DO CARROSSEL DE TENDÊNCIAS ===== */
+    .trends-section {
+        margin-top: 60px;
+        position: relative;
+        padding: 40px 0;
+        background: radial-gradient(circle at center, rgba(63, 122, 87, 0.15) 0%, transparent 70%); /* Highlight sutil */
+    }
+
+    /* Tabs de Navegação */
+    .trends-tabs {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 30px;
+        flex-wrap: wrap;
+    }
+
+    .trend-tab-btn {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--border);
+        color: var(--muted);
+        padding: 10px 24px;
+        border-radius: 100px;
+        font-family: 'Unbounded', sans-serif;
+        font-size: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .trend-tab-btn:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+    }
+
+    .trend-tab-btn.active {
+        background: var(--accent);
+        color: #fff;
+        border-color: var(--accent);
+        box-shadow: 0 4px 12px rgba(63, 122, 87, 0.3);
+    }
+
+    /* Swiper Container Styles */
+    .swiper-container-wrapper {
+        width: 100%;
+        /* Importante para transição suave entre abas */
+        animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .swiper {
+        width: 100%;
+        padding-top: 30px;
+        padding-bottom: 60px;
+    }
+
+    .swiper-slide {
+        width: 300px;
+        height: 400px;
+        /* Gradiente Slate (Azul Acinzentado) para contrastar com o fundo Verde */
+        background: linear-gradient(135deg, #1e293b, #0f172a); 
+        
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5); /* Sombra mais marcada */
+        
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 24px;
+        transition: all 0.3s ease;
+        user-select: none;
+    }
+
+    .swiper-slide-active {
+        /* Card ativo fica um pouco mais claro e com borda de destaque */
+        background: linear-gradient(135deg, #334155, #1e293b);
+        border: 1px solid var(--accent); /* Borda Verde do tema */
+        box-shadow: 0 20px 60px -10px rgba(0, 0, 0, 0.6);
+        z-index: 2;
+    }
+
+    .card-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1.5rem;
+        /* Gradiente combinando com o tema do Sebrae */
+        background: linear-gradient(135deg, #fff, var(--accent));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .card-tag {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #94a3b8; /* Cinza claro azulado para combinar com o fundo slate */
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        font-family: 'Unbounded', sans-serif;
+    }
+
+    .card-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        line-height: 1.4;
+        font-family: 'Unbounded', sans-serif;
+        color: #fff;
+    }
+
+    .card-desc {
+        font-size: 0.9rem;
+        line-height: 1.6;
+        color: #cbd5e1; /* Texto mais claro para o fundo escuro */
+        font-weight: 400;
+    }
+
+    .card-source {
+        margin-top: auto;
+        font-size: 0.7rem;
+        color: var(--accent);
+        font-style: italic;
+        padding-top: 1rem;
+        font-weight: 600;
+    }
+
+    .swiper-pagination-bullet { background: #fff; opacity: 0.3; }
+    .swiper-pagination-bullet-active { background: var(--accent); opacity: 1; }
+
+    /* ===== FOOTER ===== */
     footer { border-top: 1px solid var(--border); padding: 40px 0; margin-top: 80px; color: var(--muted); font-size: 14px; }
     .footer-content { display: flex; justify-content: space-between; align-items: center; }
     .footer-links { display: flex; gap: 24px; }
+    
+    .insights-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 40px; }
 
     /* RESPONSIVE */
     @media (max-width: 900px) {
       .hero-grid { grid-template-columns: 1fr; gap: 40px; text-align: center; }
       .hero-ctas { justify-content: center; }
       .hero-lead { margin-left: auto; margin-right: auto; }
-      .image-columns { display: none; } /* Ocultar animação no mobile para melhor performance e ajuste */
+      .image-columns { display: none; }
       .opontocerto-card { grid-template-columns: 1fr; }
       .nav { padding: 0 20px; }
       .brand { position: static; transform: none; margin-right: auto; }
       .page-title-header { display: none; }
+      
+      /* Ajuste Mobile Carousel */
+      .swiper-slide { width: 270px; height: 360px; }
+      .card-title { font-size: 1rem; }
+      
+      .trends-tabs { gap: 8px; }
+      .trend-tab-btn { padding: 8px 16px; font-size: 11px; }
     }
   </style>
 </head>
@@ -257,23 +389,145 @@
         <h3 class="section-title" style="margin-bottom:12px">Destaque: O Ponto Certo</h3>
         <p style="color:var(--muted); margin-bottom:24px;">Ferramenta de geomarketing para encontrar a localização ideal. Visualize dados demográficos, concorrência e potencial de consumo no mapa.</p>
         <div style="display:flex; gap:12px;">
-          <button id="opc-toggle" class="btn btn-primary" aria-pressed="false">Abrir Preview</button>
-          <a href="https://opontocerto.sebrae.com.br/painel" target="_blank" class="btn btn-outline">Abrir Painel</a>
+          <a href="https://opontocerto.sebrae.com.br/painel" target="_blank" class="btn btn-primary">Abrir Painel Completo ↗</a>
         </div>
       </div>
       <div class="opc-preview">
+        <!-- VÍDEO MP4 -->
         <div class="preview-box" id="opcPreviewBox">
-          <img id="opcFallbackImg" src="./assets/opontocerto_preview.webp" alt="Preview Dashboard" style="width:100%; height:100%; object-fit:cover;">
-        </div>
-        <div style="text-align:center; font-size:12px; color:var(--muted); margin-top:8px;" id="opcStatus">
-          Preview estático (clique para interagir)
+          <video autoplay loop muted playsinline style="width: 100%; height: 100%; object-fit: cover; opacity: 0.9;">
+            <!-- VIDEO ATUALIZADO DO SEBRAE -->
+            <source src="./assets/opontocertoSebrae.mp4" type="video/mp4">
+            <!-- Texto de fallback caso o vídeo falhe -->
+            <div style="padding:20px; text-align:center; color:#fff;">
+                <i class="fa-solid fa-play-circle" style="font-size:32px; margin-bottom:10px; opacity:0.5;"></i><br>
+                Visualização do Vídeo
+            </div>
+          </video>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- ===== NOVA SEÇÃO: CARROSSEL DE TENDÊNCIAS COM ABAS ===== -->
+  <section class="trends-section">
+      <div class="inner">
+          <h2 class="section-title" style="justify-content: center; margin-bottom: 20px;">Tendências 2026</h2>
+          
+          <!-- Abas de Navegação -->
+          <div class="trends-tabs">
+            <button class="trend-tab-btn active" onclick="switchTrendTab('bares')">Bares e Restaurantes</button>
+            <button class="trend-tab-btn" onclick="switchTrendTab('moda')">Varejo de Moda</button>
+            <button class="trend-tab-btn" onclick="switchTrendTab('mini')">Minimercados</button>
+          </div>
+          
+          <!-- WRAPPER 1: BARES E RESTAURANTES -->
+          <div id="wrapper-bares" class="swiper-container-wrapper">
+            <div class="swiper mySwiper-bares">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="card-icon"><i class="fa-solid fa-chart-line"></i></div>
+                        <div class="card-tag">Panorama</div>
+                        <h3 class="card-title">Eficiência Operacional</h3>
+                        <p class="card-desc">2026 será sobre otimizar cada processo. Não crescer a qualquer custo, mas crescer com margem.</p>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="card-icon"><i class="fa-solid fa-money-bill-trend-up"></i></div>
+                        <div class="card-tag">Dados 2025</div>
+                        <h3 class="card-title">Lucratividade em Alta</h3>
+                        <p class="card-desc">Apenas 16% das empresas no vermelho em Ago/25. Lucro voltou para 43% do setor.</p>
+                        <span class="card-source">Fonte: Abrasel</span>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="card-icon"><i class="fa-solid fa-utensils"></i></div>
+                        <div class="card-tag">Tendência</div>
+                        <h3 class="card-title">Conceito 'High & Low'</h3>
+                        <p class="card-desc">Misturar ingredientes populares com toques sofisticados gera valor percebido (Ex: Ovo frito + Trufas).</p>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="card-icon"><i class="fa-solid fa-robot"></i></div>
+                        <div class="card-tag">Tecnologia</div>
+                        <h3 class="card-title">'Tech & Touch'</h3>
+                        <p class="card-desc">Use IA no estoque e gestão para liberar o garçom focando exclusivamente na hospitalidade humana.</p>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+          </div>
+
+          <!-- WRAPPER 2: VAREJO DE MODA (Inicialmente Oculto) -->
+          <div id="wrapper-moda" class="swiper-container-wrapper" style="display: none;">
+            <div class="swiper mySwiper-moda">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="card-icon"><i class="fa-solid fa-shirt"></i></div>
+                        <div class="card-tag">Panorama</div>
+                        <h3 class="card-title">O Fim das Estações?</h3>
+                        <p class="card-desc">O modelo tradicional Primavera/Verão perde força. Coleções 'cápsula' mensais aumentam a recorrência de compra.</p>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="card-icon"><i class="fa-brands fa-instagram"></i></div>
+                        <div class="card-tag">Dados 2025</div>
+                        <h3 class="card-title">Social Commerce</h3>
+                        <p class="card-desc">Vendas diretas via redes sociais cresceram 35%. O vendedor agora é um criador de conteúdo.</p>
+                        <span class="card-source">Fonte: E-commerce Brasil</span>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="card-icon"><i class="fa-solid fa-recycle"></i></div>
+                        <div class="card-tag">Tendência 2026</div>
+                        <h3 class="card-title">Resale & Repair</h3>
+                        <p class="card-desc">Marcas premium lançando serviços de reparo e revenda de usados para atrair a Geração Z.</p>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="card-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                        <div class="card-tag">Tecnologia</div>
+                        <h3 class="card-title">Provador Virtual</h3>
+                        <p class="card-desc">IA que simula o caimento da roupa reduz em até 40% a taxa de devolução no e-commerce.</p>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+          </div>
+
+          <!-- WRAPPER 3: MINIMERCADOS (Inicialmente Oculto) -->
+          <div id="wrapper-mini" class="swiper-container-wrapper" style="display: none;">
+            <div class="swiper mySwiper-mini">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="card-icon"><i class="fa-solid fa-shop"></i></div>
+                        <div class="card-tag">Panorama</div>
+                        <h3 class="card-title">Vizinhança é Poder</h3>
+                        <p class="card-desc">O consumidor troca o hipermercado pela conveniência. O tempo é a moeda mais valiosa de 2026.</p>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="card-icon"><i class="fa-solid fa-basket-shopping"></i></div>
+                        <div class="card-tag">Dados 2025</div>
+                        <h3 class="card-title">Ticket Médio +18%</h3>
+                        <p class="card-desc">Lojas de bairro aumentaram a receita focando em perecíveis e padaria de alta qualidade.</p>
+                        <span class="card-source">Fonte: ABRAS</span>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="card-icon"><i class="fa-solid fa-carrot"></i></div>
+                        <div class="card-tag">Tendência</div>
+                        <h3 class="card-title">'Fresh & Go'</h3>
+                        <p class="card-desc">Explosão de refeições prontas saudáveis e frutas cortadas para consumo imediato.</p>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="card-icon"><i class="fa-solid fa-box-open"></i></div>
+                        <div class="card-tag">Futuro</div>
+                        <h3 class="card-title">Hub Logístico</h3>
+                        <p class="card-desc">O mercadinho vira ponto de retirada de encomendas (pick-up point) gerando fluxo extra de clientes.</p>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+          </div>
+
+      </div>
+  </section>
+
   <!-- INSIGHTS GRID -->
-  <section id="todos-insights" class="inner" style="padding-top:60px; padding-bottom:60px;">
+  <section id="todos-insights" class="inner" style="padding-top:40px; padding-bottom:60px;">
     <h2 class="section-title">Últimos Insights</h2>
     
     <div class="insights-grid" id="insightsGrid">
@@ -341,14 +595,78 @@
 
   </div> <!-- #app -->
 
-  <!-- Scripts: Filtro, Fallback Imagem e Preview Iframe -->
+  <!-- SCRIPTS -->
+  
+  <!-- 1. Swiper JS (Carrossel) -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
   <script>
-    /* 1. Fallback de Imagem */
-    function handleImgError(img){
-      img.style.display = 'none'; // ou substituir por placeholder
+    /* === CONFIGURAÇÃO UNIFICADA DOS CARROSSÉIS === */
+    const swiperOptions = {
+        effect: "coverflow",
+        grabCursor: true,
+        centeredSlides: true,
+        slidesPerView: "auto",
+        coverflowEffect: {
+            rotate: 0, 
+            stretch: 0,
+            depth: 100, 
+            modifier: 2.5,
+            slideShadows: true,
+        },
+        pagination: {
+            clickable: true,
+        },
+        loop: true,
+        autoplay: {
+            delay: 4000,
+            disableOnInteraction: false,
+        },
+        observer: true, 
+        observeParents: true,
+    };
+
+    /* Inicializar as 3 instâncias separadamente */
+    var swiperBares = new Swiper(".mySwiper-bares", { 
+        ...swiperOptions, 
+        pagination: { el: ".mySwiper-bares .swiper-pagination" } 
+    });
+    
+    var swiperModa = new Swiper(".mySwiper-moda", { 
+        ...swiperOptions, 
+        pagination: { el: ".mySwiper-moda .swiper-pagination" } 
+    });
+    
+    var swiperMini = new Swiper(".mySwiper-mini", { 
+        ...swiperOptions, 
+        pagination: { el: ".mySwiper-mini .swiper-pagination" } 
+    });
+
+    /* === LÓGICA DAS ABAS (TABS) === */
+    function switchTrendTab(segment) {
+        // 1. Atualizar estilo dos botões
+        document.querySelectorAll('.trend-tab-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        const clickedBtn = document.querySelector(`button[onclick="switchTrendTab('${segment}')"]`);
+        if(clickedBtn) clickedBtn.classList.add('active');
+
+        // 2. Esconder todos os wrappers
+        document.getElementById('wrapper-bares').style.display = 'none';
+        document.getElementById('wrapper-moda').style.display = 'none';
+        document.getElementById('wrapper-mini').style.display = 'none';
+
+        // 3. Mostrar o selecionado
+        const selectedWrapper = document.getElementById(`wrapper-${segment}`);
+        selectedWrapper.style.display = 'block';
+
+        // 4. Atualizar Swiper para recalcular layout
+        if(segment === 'bares') swiperBares.update();
+        if(segment === 'moda') swiperModa.update();
+        if(segment === 'mini') swiperMini.update();
     }
 
-    /* 2. Filtro de Cards */
+    /* === LÓGICA DE FILTRO DE CARDS === */
     (function(){
       const searchInput = document.getElementById('searchInput');
       const chips = document.querySelectorAll('.chip');
@@ -377,41 +695,6 @@
       });
 
       searchInput.addEventListener('input', filter);
-    })();
-
-    /* 3. Lógica do Preview O Ponto Certo */
-    (function(){
-      const btn = document.getElementById('opc-toggle');
-      const box = document.getElementById('opcPreviewBox');
-      const status = document.getElementById('opcStatus');
-      let iframeLoaded = false;
-
-      btn.addEventListener('click', () => {
-        if(!iframeLoaded){
-          status.innerText = "Carregando preview...";
-          // Cria iframe dinamicamente para não pesar o carregamento inicial
-          const iframe = document.createElement('iframe');
-          iframe.src = "https://opontocerto.sebrae.com.br/painel";
-          iframe.style.width = "100%";
-          iframe.style.height = "100%";
-          iframe.style.border = "none";
-          iframe.setAttribute('loading','lazy');
-          iframe.setAttribute('referrerpolicy','no-referrer');
-          
-          iframe.onload = () => {
-            status.innerText = "Preview interativo ativo.";
-            document.getElementById('opcFallbackImg').style.display = 'none';
-          };
-          
-          box.appendChild(iframe);
-          iframeLoaded = true;
-          btn.innerText = "Recarregar Preview";
-        } else {
-          // Apenas recarrega se clicar de novo
-          const iframe = box.querySelector('iframe');
-          if(iframe) iframe.src = iframe.src;
-        }
-      });
     })();
   </script>
 
