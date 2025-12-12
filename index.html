@@ -282,6 +282,7 @@
         padding: 24px;
         transition: all 0.3s ease;
         user-select: none;
+        cursor: pointer; /* Indica que é clicável */
     }
 
     .swiper-slide-active {
@@ -339,6 +340,21 @@
 
     .swiper-pagination-bullet { background: #fff; opacity: 0.3; }
     .swiper-pagination-bullet-active { background: var(--accent); opacity: 1; }
+    
+    /* Setas de Navegação (Customizadas para o tema) */
+    .swiper-button-next, .swiper-button-prev {
+        color: var(--accent); /* Cor da seta */
+        background: rgba(255, 255, 255, 0.8);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        backdrop-filter: blur(4px);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+    .swiper-button-next:after, .swiper-button-prev:after {
+        font-size: 18px;
+        font-weight: bold;
+    }
 
     /* ===== FOOTER ===== */
     footer { border-top: 1px solid var(--border); padding: 40px 0; margin-top: 80px; color: var(--muted); font-size: 14px; }
@@ -526,6 +542,9 @@
                         <p class="card-desc">Use IA no estoque e gestão para liberar o garçom focando exclusivamente na hospitalidade humana.</p>
                     </div>
                 </div>
+                <!-- Setas de Navegação -->
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
                 <div class="swiper-pagination"></div>
             </div>
           </div>
@@ -560,6 +579,9 @@
                         <p class="card-desc">IA que simula o caimento da roupa reduz em até 40% a taxa de devolução no e-commerce.</p>
                     </div>
                 </div>
+                <!-- Setas de Navegação -->
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
                 <div class="swiper-pagination"></div>
             </div>
           </div>
@@ -594,6 +616,9 @@
                         <p class="card-desc">O mercadinho vira ponto de retirada de encomendas (pick-up point) gerando fluxo extra de clientes.</p>
                     </div>
                 </div>
+                <!-- Setas de Navegação -->
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
                 <div class="swiper-pagination"></div>
             </div>
           </div>
@@ -692,12 +717,11 @@
         pagination: {
             clickable: true,
         },
-        loop: true,
-        /* Autoplay Contínuo */
-        autoplay: {
-            delay: 4000,
-            disableOnInteraction: false, // Continua mesmo se o usuário interagir
-            pauseOnMouseEnter: true, // Pausa quando o mouse está em cima para leitura
+        /* REMOVIDO AUTOPLAY PARA MELHOR NAVEGAÇÃO MANUAL */
+        // loop: true, // Loop pode confundir se a navegação for manual estrita
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
         },
         observer: true, 
         observeParents: true,
@@ -706,17 +730,29 @@
     /* Inicializar as 3 instâncias separadamente */
     var swiperBares = new Swiper(".mySwiper-bares", { 
         ...swiperOptions, 
-        pagination: { el: ".mySwiper-bares .swiper-pagination" } 
+        pagination: { el: ".mySwiper-bares .swiper-pagination" },
+        navigation: {
+            nextEl: '.mySwiper-bares .swiper-button-next',
+            prevEl: '.mySwiper-bares .swiper-button-prev',
+        }
     });
     
     var swiperModa = new Swiper(".mySwiper-moda", { 
         ...swiperOptions, 
-        pagination: { el: ".mySwiper-moda .swiper-pagination" } 
+        pagination: { el: ".mySwiper-moda .swiper-pagination" },
+        navigation: {
+            nextEl: '.mySwiper-moda .swiper-button-next',
+            prevEl: '.mySwiper-moda .swiper-button-prev',
+        }
     });
     
     var swiperMini = new Swiper(".mySwiper-mini", { 
         ...swiperOptions, 
-        pagination: { el: ".mySwiper-mini .swiper-pagination" } 
+        pagination: { el: ".mySwiper-mini .swiper-pagination" },
+        navigation: {
+            nextEl: '.mySwiper-mini .swiper-button-next',
+            prevEl: '.mySwiper-mini .swiper-button-prev',
+        }
     });
 
     /* === LÓGICA DAS ABAS (TABS) === */
@@ -737,19 +773,10 @@
         const selectedWrapper = document.getElementById(`wrapper-${segment}`);
         selectedWrapper.style.display = 'block';
 
-        // 4. Atualizar Swiper para recalcular layout e REINICIAR AUTOPLAY
-        if(segment === 'bares') {
-            swiperBares.update();
-            swiperBares.autoplay.start();
-        }
-        if(segment === 'moda') {
-            swiperModa.update();
-            swiperModa.autoplay.start();
-        }
-        if(segment === 'mini') {
-            swiperMini.update();
-            swiperMini.autoplay.start();
-        }
+        // 4. Atualizar Swiper para recalcular layout
+        if(segment === 'bares') swiperBares.update();
+        if(segment === 'moda') swiperModa.update();
+        if(segment === 'mini') swiperMini.update();
     }
 
     /* === LÓGICA DE FILTRO DE CARDS E SINCRONIA COM CARROSSEL === */
