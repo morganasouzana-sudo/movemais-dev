@@ -64,7 +64,15 @@
     header{background:rgba(15, 51, 54, 0.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:40}
     .nav{display:flex;align-items:center;justify-content:space-between;padding:12px 0;height:70px;position:relative}
     
-    .page-title-header {font-weight: 800; font-size: 18px; color: var(--text); letter-spacing: -0.5px;}
+    /* Ajuste para logo no header (Esquerda) */
+    .page-title-header {
+        display: flex; 
+        align-items: center;
+    }
+    .page-title-header img {
+        height: 28px; /* Tamanho ajustado para o header */
+        width: auto;
+    }
     
     .brand { position: absolute; left: 50%; transform: translateX(-50%); display: flex; align-items: center; }
     .brand img {height: 53px; background: transparent !important; padding: 0 !important; border-radius: 0; transition: transform 0.3s ease;}
@@ -196,7 +204,7 @@
         width: 300px;
         height: 400px;
         /* === MUDANÇA: BRANCO GELO / CINZA CLARO === */
-        background: linear-gradient(135deg, #f8fafc, #e2e8f0); 
+        background: linear-gradient(135deg, #f1f5f9, #e2e8f0); /* Gelo mais suave */
         
         border: 1px solid rgba(255, 255, 255, 0.2);
         border-radius: 20px;
@@ -211,8 +219,8 @@
     }
 
     .swiper-slide-active {
-        /* Card ativo fica Branco Puro para destaque máximo */
-        background: #ffffff;
+        /* Card ativo fica um pouco mais destacado, mas não branco puro */
+        background: #f8fafc;
         border: 2px solid var(--accent); /* Borda Verde do tema */
         box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.25);
         z-index: 2;
@@ -300,10 +308,12 @@
   <header>
     <div class="inner">
       <div class="nav">
-        <!-- Título Esquerda (Desktop) -->
-        <div class="page-title-header">Mercados.</div>
+        <!-- Título Esquerda (Desktop) - SUBSTITUÍDO POR LOGO -->
+        <div class="page-title-header">
+            <img src="./assets/logo-movemais.svg" alt="Move Mais">
+        </div>
 
-        <!-- Logo Central -->
+        <!-- Logo Central (Mantido conforme solicitado, mas agora temos dois logos. Se quiser remover este, me avise) -->
         <a href="index.html" class="brand">
           <img src="./assets/logo-movemais.svg" alt="Move Mais Sebrae"
        style="background: transparent !important; background-color: transparent !important;">
@@ -663,13 +673,22 @@
         const selectedWrapper = document.getElementById(`wrapper-${segment}`);
         selectedWrapper.style.display = 'block';
 
-        // 4. Atualizar Swiper para recalcular layout
-        if(segment === 'bares') swiperBares.update();
-        if(segment === 'moda') swiperModa.update();
-        if(segment === 'mini') swiperMini.update();
+        // 4. Atualizar Swiper para recalcular layout e REINICIAR AUTOPLAY
+        if(segment === 'bares') {
+            swiperBares.update();
+            swiperBares.autoplay.start();
+        }
+        if(segment === 'moda') {
+            swiperModa.update();
+            swiperModa.autoplay.start();
+        }
+        if(segment === 'mini') {
+            swiperMini.update();
+            swiperMini.autoplay.start();
+        }
     }
 
-    /* === LÓGICA DE FILTRO DE CARDS === */
+    /* === LÓGICA DE FILTRO DE CARDS E SINCRONIA COM CARROSSEL === */
     (function(){
       const searchInput = document.getElementById('searchInput');
       const chips = document.querySelectorAll('.chip');
@@ -691,9 +710,18 @@
 
       chips.forEach(chip => {
         chip.addEventListener('click', () => {
+          // 1. Lógica padrão de filtro
           chips.forEach(c => c.classList.remove('active'));
           chip.classList.add('active');
           filter();
+
+          // 2. Sincronia com o Carrossel
+          const filterVal = chip.dataset.filter;
+          if(filterVal === 'bares') switchTrendTab('bares');
+          if(filterVal === 'moda') switchTrendTab('moda');
+          if(filterVal === 'mini') switchTrendTab('mini');
+          // Se for "all", podemos resetar para o padrão (bares) ou manter o atual
+          if(filterVal === 'all') switchTrendTab('bares'); 
         });
       });
 
