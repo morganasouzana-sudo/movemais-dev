@@ -653,13 +653,13 @@
       searchInput.addEventListener('input', filter);
     })();
 
-    /* === TERMÔMETRO DO MERCADO (INTEGRAÇÃO GITHUB) === */
+    /* === TERMÔMETRO DO MERCADO (INTEGRAÇÃO GITHUB via jsDelivr) === */
     
     let ibgeData = {}; // Variável global para armazenar dados do GitHub
 
-    // URL do arquivo JSON Raw do seu GitHub
-    // ATENÇÃO: Verifique se o branch é 'main' ou 'master' caso dê erro 404
-    const DATA_URL = "https://raw.githubusercontent.com/morganasouzana-sudo/movemais-dev/main/20251212061327.json";
+    // MUDANÇA: URL alterada para usar o CDN jsDelivr em vez de raw.githubusercontent.com
+    // Isso evita erros 403 de hotlinking e melhora o cache
+    const DATA_URL = "https://cdn.jsdelivr.net/gh/morganasouzana-sudo/movemais-dev@main/20251212061327.json";
 
     async function carregarDadosExternos() {
         const statusDiv = document.getElementById('ibge-status');
