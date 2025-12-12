@@ -70,11 +70,10 @@
         align-items: center;
     }
     .page-title-header img {
-        height: 53px; /* Aumentado para 53px conforme solicitado */
+        height: 53px; 
         width: auto;
     }
     
-    /* .brand central removida no HTML, mantendo estilo caso precise no futuro */
     .brand { position: absolute; left: 50%; transform: translateX(-50%); display: flex; align-items: center; }
     
     .menu { display:flex; gap:20px; font-size:13px; font-weight:600; font-family: 'Inter', sans-serif; }
@@ -85,7 +84,27 @@
     .hero-grid { display:grid; grid-template-columns: 1fr 500px; gap:60px; align-items:center; }
 
     .hero-panel { position: relative; z-index: 2; }
-    .hero-title { font-size: clamp(40px, 5vw, 64px); line-height: 1.05; margin: 0 0 24px; font-weight: 800; background: linear-gradient(to right, #fff, #bfcfce); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    
+    /* === NOVO ESTILO DO TÍTULO HERO === */
+    .hero-title { 
+        font-size: clamp(40px, 5vw, 64px); 
+        line-height: 1.1; 
+        margin: 0 0 24px; 
+        font-weight: 800; 
+        color: #fff;
+    }
+    
+    .hero-brand-highlight {
+        display: block;
+        color: var(--accent); /* Verde da marca */
+        font-size: 0.6em; /* Um pouco menor que o texto principal */
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 10px;
+        font-weight: 700;
+        opacity: 0.9;
+    }
+
     .hero-lead { font-size: 18px; color: var(--muted); margin-bottom: 32px; max-width: 600px; }
     
     .hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; }
@@ -412,7 +431,13 @@
       <!-- Texto Hero -->
       <div class="hero-panel">
         <div style="display:inline-block; background:rgba(63,122,87,0.2); color:#4fd17c; font-size:11px; font-weight:700; padding:6px 12px; border-radius:100px; margin-bottom:16px; border:1px solid rgba(63,122,87,0.3);">BETA v1.0</div>
-        <h1 class="hero-title">Inteligência de<br>Mercado.</h1>
+        
+        <!-- TÍTULO ATUALIZADO COM MOVE+ SEBRAE -->
+        <h1 class="hero-title">
+            <span class="hero-brand-highlight">Move+ Sebrae</span>
+            Inteligência de<br>Mercado.
+        </h1>
+        
         <p class="hero-lead">Canal digital que reúne insights, análises e recomendações estratégicas para apoiar a Rede Sebrae e os pequenos negócios.</p>
         
         <div class="hero-ctas">
