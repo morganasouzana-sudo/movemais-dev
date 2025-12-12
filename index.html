@@ -70,14 +70,13 @@
         align-items: center;
     }
     .page-title-header img {
-        height: 28px; /* Tamanho ajustado para o header */
+        height: 53px; /* Aumentado para 53px conforme solicitado */
         width: auto;
     }
     
+    /* .brand central removida no HTML, mantendo estilo caso precise no futuro */
     .brand { position: absolute; left: 50%; transform: translateX(-50%); display: flex; align-items: center; }
-    .brand img {height: 53px; background: transparent !important; padding: 0 !important; border-radius: 0; transition: transform 0.3s ease;}
-    .brand:hover img { transform: scale(1.05); }
-
+    
     .menu { display:flex; gap:20px; font-size:13px; font-weight:600; font-family: 'Inter', sans-serif; }
     .menu a:hover { color: #fff; text-decoration: underline; text-underline-offset: 4px; }
 
@@ -379,12 +378,6 @@
         <div class="page-title-header">
             <img src="./assets/logo-movemais.svg" alt="Move Mais">
         </div>
-
-        <!-- Logo Central (Mantido conforme solicitado, mas agora temos dois logos. Se quiser remover este, me avise) -->
-        <a href="index.html" class="brand">
-          <img src="./assets/logo-movemais.svg" alt="Move Mais Sebrae"
-       style="background: transparent !important; background-color: transparent !important;">
-        </a>
 
         <!-- Menu Direita -->
         <nav class="menu">
