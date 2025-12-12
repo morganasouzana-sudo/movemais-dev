@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
-  <!-- Plotly.js (Biblioteca Gráfica) -->
+  <!-- Plotly.js (Biblioteca Gráfica - Mantida caso precise no futuro, mas não usada agora) -->
   <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
 
   <style>
@@ -685,46 +685,19 @@
       </div>
   </section>
 
-  <!-- BLOCO 3: TERMÔMETRO DO MERCADO (IBGE) -->
+  <!-- BLOCO 3: TERMÔMETRO DO MERCADO (IBGE) - EM BREVE -->
   <section class="inner" style="margin-bottom: 60px;">
     <!-- Container do Painel -->
-    <div style="background: #1e1e1e; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
-      <div style="text-align: center; margin-bottom: 20px;">
+    <div style="background: #1e1e1e; padding: 40px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); text-align: center; border: 1px solid rgba(255,255,255,0.1);">
+      <div style="margin-bottom: 20px;">
         <h2 style="margin: 0; color: #00C851;">Termômetro do Mercado</h2>
-        <p style="font-size: 0.9em; color: #aaaaaa; margin-top: 5px;">Dados Oficiais: SIDRA/IBGE</p>
+        <p style="font-size: 0.9em; color: #aaaaaa; margin-top: 5px;">Acompanhe os principais indicadores econômicos do setor.</p>
       </div>
 
-      <!-- Abas do Termômetro IBGE -->
-      <div class="ibge-tabs">
-        <button class="ibge-tab-btn active" onclick="switchIBGESector('bares')">Bares e Restaurantes</button>
-        <button class="ibge-tab-btn" onclick="switchIBGESector('moda')">Varejo de Moda</button>
-        <button class="ibge-tab-btn" onclick="switchIBGESector('mini')">Minimercados</button>
-      </div>
-
-      <!-- KPIs DINÂMICOS (Serão preenchidos pela API/Mock) -->
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 30px;">
-        <!-- KPI 1: Referência -->
-        <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; text-align: center; border: 1px solid rgba(255,255,255,0.1);">
-          <div style="font-size: 0.85em; color: #aaa; text-transform: uppercase;">Mês de Referência</div>
-          <div id="kpi-mes" style="font-size: 1.2em; font-weight: bold; color: #fff; margin: 5px 0;">...</div>
-        </div>
-        <!-- KPI 2: Inflação -->
-        <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; text-align: center; border: 1px solid rgba(255,255,255,0.1);">
-          <div style="font-size: 0.85em; color: #aaa; text-transform: uppercase;">Inflação (Mês)</div>
-          <div id="kpi-inflacao" style="font-size: 1.5em; font-weight: bold; color: #ff4444; margin: 5px 0;">...</div>
-        </div>
-        <!-- KPI 3: Volume -->
-        <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; text-align: center; border: 1px solid rgba(255,255,255,0.1);">
-          <div style="font-size: 0.85em; color: #aaa; text-transform: uppercase;">Volume (Índice)</div>
-          <div id="kpi-volume" style="font-size: 1.5em; font-weight: bold; color: #00C851; margin: 5px 0;">...</div>
-        </div>
-      </div>
-      
-      <div id="grafico-setor" style="width: 100%; height: 500px; position: relative;">
-        <!-- Loading ou Mensagem de Status -->
-        <div id="ibge-status" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: #aaaaaa; font-weight: bold; font-size: 1.2em;">
-            Carregando dados...
-        </div>
+      <div style="padding: 40px 20px; background: rgba(255,255,255,0.02); border-radius: 8px; border: 1px dashed rgba(255,255,255,0.1);">
+          <i class="fa-solid fa-chart-line" style="font-size: 48px; color: var(--accent); margin-bottom: 16px; opacity: 0.8;"></i>
+          <h3 style="color: #fff; margin-bottom: 8px;">Em Breve</h3>
+          <p style="color: var(--muted); max-width: 500px; margin: 0 auto;">Estamos integrando os dados oficiais do IBGE para trazer informações atualizadas sobre inflação e volume de serviços do seu setor.</p>
       </div>
     </div>
   </section>
@@ -922,110 +895,6 @@
 
       searchInput.addEventListener('input', filter);
     })();
-
-    /* === LÓGICA DO TERMÔMETRO IBGE (ABAS E DADOS) === */
-    
-    // Dados "Mock" (Baseados em PDFs reais ou placeholders se não houver)
-    const ibgeData = {
-        bares: {
-            mes: "Dezembro 2025",
-            inflacao: "0.62%",
-            volume: "108.2",
-            // Dados para o gráfico (Reais do relatório de Restaurantes)
-            chartX: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"],
-            chartVol: [92.5, 91.0, 94.2, 93.8, 95.5, 98.0, 101.2, 102.5, 100.8, 103.5, 105.0, 108.2],
-            chartInf: [0.45, 0.38, 0.42, 0.51, 0.40, 0.35, 0.29, 0.31, 0.45, 0.50, 0.55, 0.62],
-            hasData: true
-        },
-        moda: {
-            hasData: false, // Sem PDF específico -> Não exibir dados fictícios
-            message: "Aguardando atualização dos dados oficiais do IBGE para Varejo de Moda."
-        },
-        mini: {
-            hasData: false, // Sem PDF específico -> Não exibir dados fictícios
-            message: "Aguardando atualização dos dados oficiais do IBGE para Minimercados."
-        }
-    };
-
-    function switchIBGESector(sector) {
-        // 1. Atualizar Abas
-        document.querySelectorAll('.ibge-tab-btn').forEach(btn => btn.classList.remove('active'));
-        const activeBtn = document.querySelector(`.ibge-tab-btn[onclick="switchIBGESector('${sector}')"]`);
-        if(activeBtn) activeBtn.classList.add('active');
-
-        const data = ibgeData[sector];
-        const statusDiv = document.getElementById('ibge-status');
-        const kpiMes = document.getElementById('kpi-mes');
-        const kpiInf = document.getElementById('kpi-inflacao');
-        const kpiVol = document.getElementById('kpi-volume');
-
-        if (data.hasData) {
-            // Mostrar Gráfico e Dados
-            statusDiv.style.display = 'none';
-            // Atualizar KPIs
-            kpiMes.innerText = data.mes;
-            kpiInf.innerText = data.inflacao;
-            kpiVol.innerText = data.volume;
-            // Renderizar Gráfico
-            renderizarGrafico(data.chartX, data.chartVol, data.chartInf);
-        } else {
-            // Ocultar Gráfico e Mostrar Mensagem
-            Plotly.purge('grafico-setor'); // Limpar gráfico anterior
-            statusDiv.style.display = 'block';
-            statusDiv.innerHTML = `<i class="fa-solid fa-clock-rotate-left" style="font-size:24px; margin-bottom:10px;"></i><br>${data.message}`;
-            
-            // Limpar KPIs visualmente
-            kpiMes.innerText = "-";
-            kpiInf.innerText = "-";
-            kpiVol.innerText = "-";
-        }
-    }
-
-    function renderizarGrafico(eixoX, eixoY_Volume, eixoY_Inflacao) {
-        var trace1 = {
-            x: eixoX,
-            y: eixoY_Volume,
-            name: 'Volume de Vendas (Índice)',
-            type: 'scatter',
-            mode: 'lines+markers',
-            line: {color: '#00C851', width: 4, shape: 'spline'},
-            marker: {size: 8, color: '#fff', line: {color: '#00C851', width: 2}}
-        };
-
-        var trace2 = {
-            x: eixoX,
-            y: eixoY_Inflacao,
-            name: 'Inflação Mensal (%)',
-            type: 'bar',
-            yaxis: 'y2',
-            marker: {
-                color: 'rgba(255, 68, 68, 0.3)', 
-                line: {color: 'rgba(255, 68, 68, 0.8)', width: 1}
-            },
-            hoverinfo: 'y'
-        };
-
-        var data = [trace1, trace2];
-
-        var layout = {
-            title: false,
-            paper_bgcolor: 'rgba(0,0,0,0)',
-            plot_bgcolor: 'rgba(0,0,0,0)',
-            font: { color: '#e0e0e0', family: 'Segoe UI' },
-            xaxis: { showgrid: false, color: '#aaaaaa', tickfont: {size: 11} },
-            yaxis: { title: 'Índice de Volume', titlefont: {color: '#00C851', size: 12}, tickfont: {color: '#00C851'}, showgrid: true, gridcolor: '#333', zerolinecolor: '#444' },
-            yaxis2: { title: 'Inflação (%)', titlefont: {color: '#ff4444', size: 12}, tickfont: {color: '#ff4444'}, overlaying: 'y', side: 'right', showgrid: false, range: [0, 1.5] },
-            legend: { x: 0.5, y: 1.15, xanchor: 'center', orientation: 'h', font: { color: '#fff' } },
-            margin: { l: 60, r: 60, t: 60, b: 40 },
-            hovermode: 'x unified'
-        };
-
-        Plotly.newPlot('grafico-setor', data, layout, {responsive: true, displayModeBar: false});
-    }
-
-    // Inicia com Bares (que tem dados)
-    switchIBGESector('bares');
-
   </script>
 
 </body>
