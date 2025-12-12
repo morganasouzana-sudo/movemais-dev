@@ -1,0 +1,761 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Move+ Inteligência</title>
+  <meta name="description" content="Canal digital que reúne insights, análises e recomendações para apoiar a Rede Sebrae e os Pequenos Negócios.">
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- DEPENDÊNCIAS DO CARROSSEL (Swiper + FontAwesome) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Plotly.js (Biblioteca Gráfica) -->
+  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+
+  <style>
+    /* ===== GLOBAL RESET / IFRAME-FRIENDLY ===== */
+    :root{
+      --bg:#0f3336;
+      --card-bg: rgba(255,255,255,0.04);
+      --text: #ffffff;
+      --muted: #bfcfce;
+      --accent: #3f7a57;
+      --accent-2: #2f5f46;
+      --accent-hover: #2f5f46;
+      --border: rgba(255,255,255,0.06);
+      --gutter: 20px;
+      --max-inner: 1200px;
+      --radius: 14px;
+    }
+
+    /* HARD RESET */
+    html, body, #app {
+      width: 100vw !important;
+      min-height: 100vh !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      overflow-x: hidden !important;
+      background-color: var(--bg) !important;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; border: 0 none !important; outline: 0 !important; }
+    img { display: block; max-width: 100%; height: auto; }
+
+    /* ESTILOS GERAIS */
+    html { background-color: var(--bg); }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+    }
+    
+    h1, h2, h3, .page-title-header, .btn, .chip, .brand { font-family: 'Unbounded', sans-serif; }
+
+    a{color:inherit;text-decoration:none;transition:0.2s}
+    a:hover{color:var(--accent)}
+    
+    .inner{max-width:var(--max-inner);margin:0 auto;padding:0 var(--gutter)}
+
+    /* HEADER */
+    header{background:rgba(15, 51, 54, 0.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:40}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:12px 0;height:70px;position:relative}
+    
+    .page-title-header { display: flex; align-items: center; }
+    .page-title-header img { height: 53px; width: auto; }
+    
+    .menu { display:flex; gap:20px; font-size:13px; font-weight:600; font-family: 'Inter', sans-serif; }
+    .menu a:hover { color: #fff; text-decoration: underline; text-underline-offset: 4px; }
+
+    /* HERO GRID */
+    .hero { padding: 60px 0 40px; border-bottom: 1px solid var(--border); position: relative; overflow: hidden; }
+    .hero-grid { display:grid; grid-template-columns: 1fr 500px; gap:60px; align-items:center; }
+    .hero-panel { position: relative; z-index: 2; }
+    
+    .hero-title { 
+        font-size: clamp(40px, 5vw, 64px); 
+        line-height: 1.1; 
+        margin: 0 0 24px; 
+        font-weight: 800; 
+        color: #fff;
+    }
+    
+    .hero-brand-highlight {
+        display: block;
+        color: var(--accent);
+        font-size: 0.6em;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 10px;
+        font-weight: 700;
+        opacity: 0.9;
+    }
+
+    .hero-lead { font-size: 18px; color: var(--muted); margin-bottom: 32px; max-width: 600px; }
+    
+    .hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; }
+    .btn { display: inline-flex; align-items: center; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 14px; cursor: pointer; transition: all 0.2s; border: 1px solid transparent; }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: var(--accent-hover); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(63, 122, 87, 0.4); }
+    .btn-outline { background: transparent; border-color: rgba(255,255,255,0.2); color: #fff; }
+    .btn-outline:hover { border-color: #fff; background: rgba(255,255,255,0.05); }
+
+    /* IMAGE COLUMNS (Animation) */
+    .image-columns { display:flex; gap:16px; height: 500px; overflow: hidden; mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent); -webkit-mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent); }
+    .col { width: 50%; display: flex; flex-direction: column; gap: 16px; }
+    
+    .tile { border-radius: 12px; overflow: hidden; position: relative; height: 280px; flex-shrink: 0; border: 1px solid var(--border); background: #000; transition: transform 0.3s; }
+    .tile img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: opacity 0.3s; }
+    .tile:hover img { opacity: 1; transform: scale(1.05); }
+    .pill { position: absolute; bottom: 12px; left: 12px; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); color: #fff; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.2); }
+
+    @keyframes scrollUp { 0% { transform: translateY(0); } 100% { transform: translateY(-50%); } }
+    .stack.animated { animation: scrollUp 40s linear infinite; }
+    .col-2 .stack.animated { animation-direction: reverse; animation-duration: 45s; }
+
+    /* CONTROLS */
+    .controls-section { padding: 20px 0; border-bottom: 1px solid var(--border); background: rgba(0,0,0,0.2); }
+    .controls { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
+    
+    .search-wrap { position: relative; flex: 1; max-width: 400px; }
+    .search-wrap input { width: 100%; background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 10px 16px; border-radius: 8px; color: #fff; font-family: 'Inter', sans-serif; font-size: 14px; }
+    .search-wrap input:focus { outline: none; border-color: var(--accent); background: rgba(255,255,255,0.08); }
+    
+    .chips { display: flex; gap: 8px; }
+    .chip { padding: 8px 16px; border-radius: 100px; background: rgba(255,255,255,0.05); color: var(--muted); font-size: 12px; font-weight: 600; cursor: pointer; border: 1px solid transparent; transition: all 0.2s; }
+    .chip:hover { background: rgba(255,255,255,0.1); color: #fff; }
+    .chip.active { background: var(--accent); color: #fff; border-color: var(--accent-2); }
+
+    .section-title { font-size: 24px; margin-bottom: 24px; display: flex; align-items: center; gap: 12px; }
+    .section-title::before { content: ''; width: 6px; height: 24px; background: var(--accent); border-radius: 2px; display: block; }
+
+    /* DESTAQUE O PONTO CERTO */
+    .opontocerto-card { 
+        position: relative;
+        background: linear-gradient(135deg, rgba(63, 122, 87, 0.15) 0%, rgba(15, 51, 54, 0.4) 100%); 
+        border: 1px solid var(--accent); 
+        border-radius: 16px; 
+        padding: 32px; 
+        display: grid; 
+        grid-template-columns: 1fr 350px; 
+        gap: 32px; 
+        align-items: center; 
+        margin-top: 40px; 
+        box-shadow: 0 0 40px rgba(63, 122, 87, 0.15);
+        overflow: hidden;
+    }
+
+    .opc-bg-icon { position: absolute; top: -10px; left: -10px; font-size: 200px; color: var(--accent); opacity: 0.05; z-index: 0; pointer-events: none; transform: rotate(-15deg); }
+    .opc-info { position: relative; z-index: 1; }
+
+    .highlight-header { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
+    .highlight-badge { display: inline-flex; align-items: center; gap: 6px; background: linear-gradient(90deg, #f59e0b, #d97706); color: #fff; font-family: 'Unbounded', sans-serif; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 6px 12px; border-radius: 100px; width: fit-content; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4); }
+    .highlight-title { font-family: 'Unbounded', sans-serif; font-size: 40px; font-weight: 700; color: #fff; line-height: 1.1; margin: 0; letter-spacing: -1px; }
+    
+    .preview-box { height: 240px; background: #000; border-radius: 12px; border: 1px solid var(--border); overflow: hidden; display: flex; align-items: center; justify-content: center; position: relative; z-index: 1; }
+    
+    .insight-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 24px; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s; }
+    .insight-card:hover { transform: translateY(-4px); box-shadow: 0 10px 30px rgba(0,0,0,0.3); border-color: rgba(255,255,255,0.1); }
+    .insight-card h3 { font-size: 18px; margin: 0 0 12px; line-height: 1.4; color: #fff; }
+    .insight-card p { font-size: 14px; color: var(--muted); margin-bottom: 20px; flex-grow: 1; }
+    
+    .card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 20px; border-top: 1px solid var(--border); }
+    .source-link { font-size: 12px; color: var(--muted); text-decoration: underline; }
+
+    /* CARROSSEL DE TENDÊNCIAS */
+    .trends-section { margin-top: 60px; position: relative; padding: 40px 0; background: radial-gradient(circle at center, rgba(63, 122, 87, 0.15) 0%, transparent 70%); }
+
+    .trends-tabs { display: flex; justify-content: flex-start; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
+    .trend-tab-btn { background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border); color: var(--muted); padding: 10px 24px; border-radius: 100px; font-family: 'Unbounded', sans-serif; font-size: 12px; cursor: pointer; transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 0.5px; }
+    .trend-tab-btn:hover { background: rgba(255, 255, 255, 0.1); color: #fff; }
+    .trend-tab-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); box-shadow: 0 4px 12px rgba(63, 122, 87, 0.3); }
+
+    /* IBGE TABS */
+    .ibge-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
+    .ibge-tab-btn { background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border); color: var(--muted); padding: 8px 16px; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; }
+    .ibge-tab-btn:hover { background: rgba(255,255,255,0.1); color:#fff; }
+    .ibge-tab-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    /* SWIPER CUSTOMIZAÇÃO */
+    .swiper-container-wrapper { width: 100%; animation: fadeIn 0.5s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    .swiper { width: 100%; padding-top: 30px; padding-bottom: 60px; margin-left: 0; }
+    .swiper-slide { width: 300px; height: 400px; background: linear-gradient(135deg, #f1f5f9, #e2e8f0); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 20px; box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.15); display: flex; flex-direction: column; justify-content: center; padding: 24px; transition: all 0.3s ease; user-select: none; cursor: pointer; }
+    .swiper-slide-active { background: #f8fafc; border: 2px solid var(--accent); box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.25); z-index: 2; transform: scale(1.02); }
+
+    .card-icon { font-size: 2.5rem; margin-bottom: 1.5rem; background: linear-gradient(135deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .card-tag { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: #64748b; margin-bottom: 0.5rem; font-weight: 600; font-family: 'Unbounded', sans-serif; }
+    .card-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; line-height: 1.4; font-family: 'Unbounded', sans-serif; color: #0f172a; }
+    .card-desc { font-size: 0.9rem; line-height: 1.6; color: #334155; font-weight: 400; }
+    .card-source { margin-top: auto; font-size: 0.7rem; color: var(--accent); font-style: italic; padding-top: 1rem; font-weight: 600; }
+
+    .swiper-pagination-bullet { background: #fff; opacity: 0.3; }
+    .swiper-pagination-bullet-active { background: var(--accent); opacity: 1; }
+    
+    .swiper-button-next, .swiper-button-prev { color: var(--accent); background: rgba(255, 255, 255, 0.8); width: 40px; height: 40px; border-radius: 50%; backdrop-filter: blur(4px); box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+    .swiper-button-next:after, .swiper-button-prev:after { font-size: 18px; font-weight: bold; }
+
+    /* FOOTER */
+    footer { border-top: 1px solid var(--border); padding: 40px 0; margin-top: 80px; color: var(--muted); font-size: 14px; }
+    .footer-content { display: flex; justify-content: space-between; align-items: center; }
+    .footer-links { display: flex; gap: 24px; }
+    
+    .insights-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 40px; }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 40px; text-align: center; }
+      .hero-ctas { justify-content: center; }
+      .hero-lead { margin-left: auto; margin-right: auto; }
+      .image-columns { display: none; }
+      .opontocerto-card { grid-template-columns: 1fr; }
+      .nav { padding: 0 20px; }
+      .brand { position: static; transform: none; margin-right: auto; }
+      .page-title-header { display: none; }
+      .swiper-slide { width: 270px; height: 360px; }
+      .card-title { font-size: 1rem; }
+      .trends-tabs { gap: 8px; justify-content: center; }
+      .trend-tab-btn { padding: 8px 16px; font-size: 11px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+  <!-- HEADER -->
+  <header>
+    <div class="inner">
+      <div class="nav">
+        <div class="page-title-header">
+            <img src="./assets/logo-movemais.svg" alt="Move Mais">
+        </div>
+        <nav class="menu">
+          <a href="sobre.html">Sobre</a>
+          <a href="#todos-insights">Insights</a>
+          <a href="contato.html">Contato</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="inner hero-grid">
+      <div class="hero-panel">
+        <div style="display:inline-block; background:rgba(63,122,87,0.2); color:#4fd17c; font-size:11px; font-weight:700; padding:6px 12px; border-radius:100px; margin-bottom:16px; border:1px solid rgba(63,122,87,0.3);">BETA v1.0</div>
+        <h1 class="hero-title">
+            <span class="hero-brand-highlight">Move+ Sebrae</span>
+            Inteligência de<br>Mercado.
+        </h1>
+        <p class="hero-lead">Canal digital que reúne insights, análises e recomendações estratégicas para apoiar a Rede Sebrae e os pequenos negócios.</p>
+        <div class="hero-ctas">
+          <a href="#todos-insights" class="btn btn-primary">Ver Insights</a>
+          <a href="https://opontocerto.sebrae.com.br/painel" target="_blank" class="btn btn-outline">O Ponto Certo ↗</a>
+        </div>
+        <div style="margin-top: 40px; padding: 20px; background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border);">
+          <strong style="color: #fff; display: block; margin-bottom: 8px;">Sobre o Canal</strong>
+          <p style="font-size: 14px; color: var(--muted); margin: 0;">Um hub de conhecimento rápido. Publicamos boletins mensais, estudos de tendência e alertas por segmento para facilitar a tomada de decisão.</p>
+        </div>
+      </div>
+      <div class="image-columns" aria-hidden="true">
+        <div class="col">
+          <div class="stack animated">
+            <div class="tile"><img src="./assets/hero-minimercado.webp" alt=""><div class="pill">Minimercados</div></div>
+            <div class="tile"><img src="./assets/feira_livre.webp" alt=""><div class="pill">Feiras</div></div>
+            <div class="tile"><img src="./assets/frutas_feira.webp" alt=""><div class="pill">Hortifruti</div></div>
+            <div class="tile"><img src="./assets/hero-minimercado.webp" alt=""><div class="pill">Minimercados</div></div>
+            <div class="tile"><img src="./assets/feira_livre.webp" alt=""><div class="pill">Feiras</div></div>
+          </div>
+        </div>
+        <div class="col col-2">
+          <div class="stack animated">
+            <div class="tile"><img src="./assets/loja_roupas_feira.webp" alt=""><div class="pill">Moda</div></div>
+            <div class="tile"><img src="./assets/mulher_sentada_cafeteria.webp" alt=""><div class="pill">Food Service</div></div>
+            <div class="tile"><img src="./assets/cabide_roupas_masculinas.webp" alt=""><div class="pill">Varejo</div></div>
+            <div class="tile"><img src="./assets/loja_roupas_feira.webp" alt=""><div class="pill">Moda</div></div>
+            <div class="tile"><img src="./assets/mulher_sentada_cafeteria.webp" alt=""><div class="pill">Food Service</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTROLS / FILTERS -->
+  <section class="controls-section">
+    <div class="inner controls">
+      <div class="search-wrap">
+        <input type="text" id="searchInput" placeholder="Buscar insights (ex: delivery, moda, 2025)...">
+      </div>
+      <div class="chips">
+        <div class="chip active" data-filter="all">Todos</div>
+        <div class="chip" data-filter="bares">Bares & Restaurantes</div>
+        <div class="chip" data-filter="moda">Varejo de Moda</div>
+        <div class="chip" data-filter="mini">Minimercados</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BLOCO 1: DESTAQUE O PONTO CERTO -->
+  <section class="inner" style="margin-bottom: 60px;">
+    <div class="opontocerto-card">
+      <i class="fa-solid fa-location-dot opc-bg-icon"></i> 
+      <div class="opc-info">
+        <div class="highlight-header">
+            <span class="highlight-badge"><i class="fa-solid fa-star"></i> Destaque</span>
+            <h3 class="highlight-title">O Ponto Certo</h3>
+        </div>
+        <p style="color:var(--muted); margin-bottom:24px; font-size: 16px;">Ferramenta de geomarketing para encontrar a localização ideal. Visualize dados demográficos, concorrência e potencial de consumo no mapa.</p>
+        <div style="display:flex; gap:12px;">
+          <a href="https://opontocerto.sebrae.com.br/painel" target="_blank" class="btn btn-primary" style="padding: 14px 28px; font-size: 15px; box-shadow: 0 4px 15px rgba(63, 122, 87, 0.4);">Abrir Painel Completo ↗</a>
+        </div>
+      </div>
+      <div class="opc-preview">
+        <div class="preview-box" id="opcPreviewBox">
+          <video autoplay loop muted playsinline style="width: 100%; height: 100%; object-fit: cover; opacity: 0.9;">
+            <source src="./assets/opontocertoSebrae.mp4?v=2" type="video/mp4">
+            <div style="padding:20px; text-align:center; color:#fff;">
+                <i class="fa-solid fa-play-circle" style="font-size:32px; margin-bottom:10px; opacity:0.5;"></i><br>
+                Visualização do Vídeo
+            </div>
+          </video>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BLOCO 2: CARROSSEL DE TENDÊNCIAS COM ABAS -->
+  <section class="trends-section" style="margin-bottom: 60px;">
+      <div class="inner">
+          <h2 class="section-title" style="justify-content: flex-start; margin-bottom: 20px;">Tendências 2026</h2>
+          
+          <div class="trends-tabs">
+            <button class="trend-tab-btn active" onclick="switchTrendTab('bares')">Bares e Restaurantes</button>
+            <button class="trend-tab-btn" onclick="switchTrendTab('moda')">Varejo de Moda</button>
+            <button class="trend-tab-btn" onclick="switchTrendTab('mini')">Minimercados</button>
+          </div>
+          
+          <!-- WRAPPER 1: BARES E RESTAURANTES -->
+          <div id="wrapper-bares" class="swiper-container-wrapper">
+            <div class="swiper mySwiper-bares">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="card-icon"><i class="fa-solid fa-chart-line"></i></div>
+                        <div class="card-tag">Panorama</div>
+                        <h3 class="card-title">Eficiência Operacional</h3>
+                        <p class="card-desc">2026 será sobre otimizar cada processo. Não crescer a qualquer custo, mas crescer com margem.</p>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="card-icon"><i class="fa-solid fa-money-bill-trend-up"></i></div>
+                        <div class="card-tag">Dados 2025</div>
+                        <h3 class="card-title">Lucratividade em Alta</h3>
+                        <p class="card-desc">Apenas 16% das empresas no vermelho em Ago/25. Lucro voltou para 43% do setor.</p>
+                        <span class="card-source">Fonte: Abrasel</span>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="card-icon"><i class="fa-solid fa-utensils"></i></div>
+                        <div class="card-tag">Tendência</div>
+                        <h3 class="card-title">Conceito 'High & Low'</h3>
+                        <p class="card-desc">Misturar ingredientes populares com toques sofisticados gera valor percebido (Ex: Ovo frito + Trufas).</p>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="card-icon"><i class="fa-solid fa-robot"></i></div>
+                        <div class="card-tag">Tecnologia</div>
+                        <h3 class="card-title">'Tech & Touch'</h3>
+                        <p class="card-desc">Use IA no estoque e gestão para liberar o garçom focando exclusivamente na hospitalidade humana.</p>
+                    </div>
+                </div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-pagination"></div>
+            </div>
+          </div>
+
+          <!-- WRAPPER 2: VAREJO DE MODA -->
+          <div id="wrapper-moda" class="swiper-container-wrapper" style="display: none;">
+            <div class="swiper mySwiper-moda">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="card-icon"><i class="fa-solid fa-shirt"></i></div>
+                        <div class="card-tag">Panorama</div>
+                        <h3 class="card-title">O Fim das Estações?</h3>
+                        <p class="card-desc">O modelo tradicional Primavera/Verão perde força. Coleções 'cápsula' mensais aumentam a recorrência de compra.</p>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="card-icon"><i class="fa-brands fa-instagram"></i></div>
+                        <div class="card-tag">Dados 2025</div>
+                        <h3 class="card-title">Social Commerce</h3>
+                        <p class="card-desc">Vendas diretas via redes sociais cresceram 35%. O vendedor agora é um criador de conteúdo.</p>
+                        <span class="card-source">Fonte: E-commerce Brasil</span>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="card-icon"><i class="fa-solid fa-recycle"></i></div>
+                        <div class="card-tag">Tendência 2026</div>
+                        <h3 class="card-title">Resale & Repair</h3>
+                        <p class="card-desc">Marcas premium lançando serviços de reparo e revenda de usados para atrair a Geração Z.</p>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="card-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                        <div class="card-tag">Tecnologia</div>
+                        <h3 class="card-title">Provador Virtual</h3>
+                        <p class="card-desc">IA que simula o caimento da roupa reduz em até 40% a taxa de devolução no e-commerce.</p>
+                    </div>
+                </div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-pagination"></div>
+            </div>
+          </div>
+
+          <!-- WRAPPER 3: MINIMERCADOS -->
+          <div id="wrapper-mini" class="swiper-container-wrapper" style="display: none;">
+            <div class="swiper mySwiper-mini">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="card-icon"><i class="fa-solid fa-shop"></i></div>
+                        <div class="card-tag">Panorama</div>
+                        <h3 class="card-title">Vizinhança é Poder</h3>
+                        <p class="card-desc">O consumidor troca o hipermercado pela conveniência. O tempo é a moeda mais valiosa de 2026.</p>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="card-icon"><i class="fa-solid fa-basket-shopping"></i></div>
+                        <div class="card-tag">Dados 2025</div>
+                        <h3 class="card-title">Ticket Médio +18%</h3>
+                        <p class="card-desc">Lojas de bairro aumentaram a receita focando em perecíveis e padaria de alta qualidade.</p>
+                        <span class="card-source">Fonte: ABRAS</span>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="card-icon"><i class="fa-solid fa-carrot"></i></div>
+                        <div class="card-tag">Tendência</div>
+                        <h3 class="card-title">'Fresh & Go'</h3>
+                        <p class="card-desc">Explosão de refeições prontas saudáveis e frutas cortadas para consumo imediato.</p>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="card-icon"><i class="fa-solid fa-box-open"></i></div>
+                        <div class="card-tag">Futuro</div>
+                        <h3 class="card-title">Hub Logístico</h3>
+                        <p class="card-desc">O mercadinho vira ponto de retirada de encomendas (pick-up point) gerando fluxo extra de clientes.</p>
+                    </div>
+                </div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-pagination"></div>
+            </div>
+          </div>
+
+      </div>
+  </section>
+
+  <!-- BLOCO 3: TERMÔMETRO DO MERCADO (CARREGAMENTO EXTERNO) -->
+  <section class="inner" style="margin-bottom: 60px;">
+    <div style="background: #1e1e1e; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
+      <div style="text-align: center; margin-bottom: 20px;">
+        <h2 style="margin: 0; color: #00C851;">Termômetro do Mercado</h2>
+        <p style="font-size: 0.9em; color: #aaaaaa; margin-top: 5px;">Dados Oficiais: SIDRA/IBGE (Sincronizado via GitHub)</p>
+      </div>
+
+      <!-- Abas do Termômetro IBGE -->
+      <div class="ibge-tabs">
+        <button class="ibge-tab-btn active" onclick="switchIBGESector('restaurante')">Bares e Restaurantes</button>
+        <button class="ibge-tab-btn" onclick="switchIBGESector('moda')">Varejo de Moda</button>
+        <button class="ibge-tab-btn" onclick="switchIBGESector('mercado')">Minimercados</button>
+        <button class="ibge-tab-btn" onclick="switchIBGESector('farma')">Farmácias</button>
+      </div>
+
+      <!-- KPIs DINÂMICOS -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 30px;">
+        <!-- KPI 1 -->
+        <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; text-align: center; border: 1px solid rgba(255,255,255,0.1);">
+          <div style="font-size: 0.85em; color: #aaa; text-transform: uppercase;">Mês de Referência</div>
+          <div id="kpi-mes" style="font-size: 1.2em; font-weight: bold; color: #fff; margin: 5px 0;">...</div>
+        </div>
+        <!-- KPI 2 -->
+        <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; text-align: center; border: 1px solid rgba(255,255,255,0.1);">
+          <div style="font-size: 0.85em; color: #aaa; text-transform: uppercase;">Inflação (Mês)</div>
+          <div id="kpi-inflacao" style="font-size: 1.5em; font-weight: bold; color: #ff4444; margin: 5px 0;">...</div>
+        </div>
+        <!-- KPI 3 -->
+        <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; text-align: center; border: 1px solid rgba(255,255,255,0.1);">
+          <div style="font-size: 0.85em; color: #aaa; text-transform: uppercase;">Volume (Índice)</div>
+          <div id="kpi-volume" style="font-size: 1.5em; font-weight: bold; color: #00C851; margin: 5px 0;">...</div>
+        </div>
+      </div>
+      
+      <div id="grafico-setor" style="width: 100%; height: 500px; position: relative;">
+        <!-- Loading -->
+        <div id="ibge-status" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: #aaaaaa; font-weight: bold; font-size: 1.2em;">
+            <i class="fa-solid fa-sync fa-spin" style="margin-bottom:10px; font-size:24px;"></i><br>
+            Conectando ao GitHub...
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BLOCO 4: ÚLTIMOS INSIGHTS (GRID) -->
+  <section id="todos-insights" class="inner" style="padding-top:20px; padding-bottom:60px;">
+    <h2 class="section-title">Últimos Insights</h2>
+    <div class="insights-grid" id="insightsGrid">
+      <article class="insight-card" data-tags="sazonalidade delivery" data-seg="bares">
+        <div class="chip active" style="width:fit-content; margin-bottom:12px; font-size:10px;">DEZ/2025</div>
+        <h3>Bares & Restaurantes</h3>
+        <p>Confraternizações impulsionam faturamento; digitalização (delivery e reservas) é decisiva para captar demanda.</p>
+        <div class="card-footer">
+          <a href="#" class="btn btn-outline" style="font-size:12px; padding:8px 16px;">Ler Insight</a>
+          <a href="https://abrasel.com.br" target="_blank" class="source-link">Fonte: Abrasel</a>
+        </div>
+      </article>
+      <article class="insight-card" data-tags="omnichannel redes social" data-seg="moda">
+        <div class="chip active" style="width:fit-content; margin-bottom:12px; font-size:10px;">DEZ/2025</div>
+        <h3>Varejo de Moda</h3>
+        <p>Omnichannel e redes sociais aceleram conversão. Logística de troca e click & collect são diferenciais.</p>
+        <div class="card-footer">
+          <a href="#" class="btn btn-outline" style="font-size:12px; padding:8px 16px;">Ler Insight</a>
+          <a href="https://ecommercebrasil.com.br" target="_blank" class="source-link">Fonte: E-commerce Brasil</a>
+        </div>
+      </article>
+      <article class="insight-card" data-tags="conveniência proximidade apps" data-seg="mini">
+        <div class="chip active" style="width:fit-content; margin-bottom:12px; font-size:10px;">DEZ/2025</div>
+        <h3>Minimercados</h3>
+        <p>Proximidade e apps locais ampliam alcance. Giro rápido de estoque é chave para rentabilidade.</p>
+        <div class="card-footer">
+          <a href="#" class="btn btn-outline" style="font-size:12px; padding:8px 16px;">Ler Insight</a>
+          <a href="https://abras.com.br" target="_blank" class="source-link">Fonte: ABRAS</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- CONTATO -->
+  <section class="inner" style="margin-bottom:40px;">
+    <div style="background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 40px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
+      <div>
+        <h3 style="margin: 0 0 8px; color: #fff;">Tem sugestões ou dúvidas?</h3>
+        <p style="margin: 0; color: var(--muted);">Envie seu feedback para nossa equipe de inteligência.</p>
+      </div>
+      <a href="contato.html" class="btn btn-primary">Entrar em Contato</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="inner footer-content">
+      <div>
+        <strong>Mercados.</strong> <span style="color:var(--muted)">Hub de Inteligência</span>
+        <div style="margin-top:8px; font-size:12px;">© 2025 Sebrae • Versão Beta</div>
+      </div>
+      <div class="footer-links">
+        <a href="politica_privacidade.html">Política de Privacidade</a>
+        <a href="termos_uso.html">Termos de Uso</a>
+      </div>
+    </div>
+  </footer>
+  </div> <!-- #app -->
+
+  <!-- SCRIPTS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+  <script>
+    /* === CONFIGURAÇÃO UNIFICADA DOS CARROSSÉIS === */
+    const swiperOptions = {
+        effect: "coverflow",
+        grabCursor: true,
+        centeredSlides: false,
+        slidesPerView: "auto",
+        spaceBetween: 20,
+        coverflowEffect: {
+            rotate: 0, 
+            stretch: 0,
+            depth: 0,
+            modifier: 1,
+            slideShadows: false,
+        },
+        pagination: { clickable: true },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        observer: true, 
+        observeParents: true,
+    };
+
+    var swiperBares = new Swiper(".mySwiper-bares", { 
+        ...swiperOptions, 
+        pagination: { el: ".mySwiper-bares .swiper-pagination" },
+        navigation: { nextEl: '.mySwiper-bares .swiper-button-next', prevEl: '.mySwiper-bares .swiper-button-prev' }
+    });
+    
+    var swiperModa = new Swiper(".mySwiper-moda", { 
+        ...swiperOptions, 
+        pagination: { el: ".mySwiper-moda .swiper-pagination" },
+        navigation: { nextEl: '.mySwiper-moda .swiper-button-next', prevEl: '.mySwiper-moda .swiper-button-prev' }
+    });
+    
+    var swiperMini = new Swiper(".mySwiper-mini", { 
+        ...swiperOptions, 
+        pagination: { el: ".mySwiper-mini .swiper-pagination" },
+        navigation: { nextEl: '.mySwiper-mini .swiper-button-next', prevEl: '.mySwiper-mini .swiper-button-prev' }
+    });
+
+    /* === LÓGICA DAS ABAS (TABS) === */
+    function switchTrendTab(segment) {
+        document.querySelectorAll('.trend-tab-btn').forEach(btn => btn.classList.remove('active'));
+        const clickedBtn = document.querySelector(`button[onclick="switchTrendTab('${segment}')"]`);
+        if(clickedBtn) clickedBtn.classList.add('active');
+
+        document.getElementById('wrapper-bares').style.display = 'none';
+        document.getElementById('wrapper-moda').style.display = 'none';
+        document.getElementById('wrapper-mini').style.display = 'none';
+
+        document.getElementById(`wrapper-${segment}`).style.display = 'block';
+
+        if(segment === 'bares') swiperBares.update();
+        if(segment === 'moda') swiperModa.update();
+        if(segment === 'mini') swiperMini.update();
+    }
+
+    /* === LÓGICA DE FILTRO === */
+    (function(){
+      const searchInput = document.getElementById('searchInput');
+      const chips = document.querySelectorAll('.chip');
+      const cards = document.querySelectorAll('.insight-card');
+
+      function filter(){
+        const term = searchInput.value.toLowerCase();
+        const activeChip = document.querySelector('.chip.active').dataset.filter;
+
+        cards.forEach(card => {
+          const text = card.innerText.toLowerCase();
+          const seg = card.dataset.seg;
+          const matchTerm = text.includes(term);
+          const matchSeg = activeChip === 'all' || seg === activeChip;
+          card.style.display = (matchTerm && matchSeg) ? 'flex' : 'none';
+        });
+      }
+
+      chips.forEach(chip => {
+        chip.addEventListener('click', () => {
+          chips.forEach(c => c.classList.remove('active'));
+          chip.classList.add('active');
+          filter();
+
+          const filterVal = chip.dataset.filter;
+          if(filterVal === 'bares') switchTrendTab('bares');
+          if(filterVal === 'moda') switchTrendTab('moda');
+          if(filterVal === 'mini') switchTrendTab('mini');
+          if(filterVal === 'all') switchTrendTab('bares'); 
+        });
+      });
+      searchInput.addEventListener('input', filter);
+    })();
+
+    /* === TERMÔMETRO DO MERCADO (INTEGRAÇÃO GITHUB) === */
+    
+    let ibgeData = {}; // Variável global para armazenar dados do GitHub
+
+    // URL do arquivo JSON Raw do seu GitHub
+    // ATENÇÃO: Verifique se o branch é 'main' ou 'master' caso dê erro 404
+    const DATA_URL = "https://raw.githubusercontent.com/morganasouzana-sudo/movemais-dev/main/20251212061327.json";
+
+    async function carregarDadosExternos() {
+        const statusDiv = document.getElementById('ibge-status');
+        
+        try {
+            statusDiv.style.display = 'block';
+            
+            const response = await fetch(DATA_URL);
+            
+            if (!response.ok) throw new Error(`Erro na conexão: ${response.status} (Verifique o branch/nome do arquivo)`);
+            
+            ibgeData = await response.json();
+            
+            // Renderiza a aba padrão (Bares e Restaurantes)
+            switchIBGESector('restaurante');
+            
+        } catch (error) {
+            console.error("Erro no carregamento:", error);
+            statusDiv.innerHTML = `<i class="fa-solid fa-triangle-exclamation" style="color:#ff4444; font-size:24px; margin-bottom:10px;"></i><br>
+            Não foi possível carregar os dados do GitHub.<br>
+            <span style="font-size:0.8em; color:#888;">${error.message}</span>`;
+        }
+    }
+
+    function switchIBGESector(sector) {
+        // 1. Atualizar Botões
+        document.querySelectorAll('.ibge-tab-btn').forEach(btn => btn.classList.remove('active'));
+        const activeBtn = document.querySelector(`.ibge-tab-btn[onclick="switchIBGESector('${sector}')"]`);
+        if(activeBtn) activeBtn.classList.add('active');
+
+        // 2. Verificar se dados existem
+        if (!ibgeData[sector]) {
+            // Se os dados não carregaram ou a chave 'sector' não existe no JSON
+            return;
+        }
+
+        const data = ibgeData[sector];
+        const statusDiv = document.getElementById('ibge-status');
+        
+        // 3. Pegar últimos valores
+        const lastVol = data.chartVol[data.chartVol.length - 1];
+        const lastInf = data.chartInf[data.chartInf.length - 1];
+
+        // 4. Atualizar KPIs
+        document.getElementById('kpi-mes').innerText = data.mes;
+        document.getElementById('kpi-inflacao').innerText = lastInf.toFixed(2) + "%";
+        document.getElementById('kpi-volume').innerText = lastVol.toFixed(1);
+        
+        // 5. Renderizar Gráfico
+        statusDiv.style.display = 'none';
+        renderizarGrafico(data.chartX, data.chartVol, data.chartInf, data.labelY);
+    }
+
+    function renderizarGrafico(eixoX, eixoY_Volume, eixoY_Inflacao, labelY) {
+        var trace1 = {
+            x: eixoX,
+            y: eixoY_Volume,
+            name: labelY + ' (Índice)',
+            type: 'scatter',
+            mode: 'lines+markers',
+            line: {color: '#00C851', width: 4, shape: 'spline'},
+            marker: {size: 8, color: '#fff', line: {color: '#00C851', width: 2}}
+        };
+
+        var trace2 = {
+            x: eixoX,
+            y: eixoY_Inflacao,
+            name: 'Inflação Mensal (%)',
+            type: 'bar',
+            yaxis: 'y2',
+            marker: {
+                color: 'rgba(255, 68, 68, 0.3)', 
+                line: {color: 'rgba(255, 68, 68, 0.8)', width: 1}
+            },
+            hoverinfo: 'y'
+        };
+
+        var layout = {
+            title: false,
+            paper_bgcolor: 'rgba(0,0,0,0)',
+            plot_bgcolor: 'rgba(0,0,0,0)',
+            font: { color: '#e0e0e0', family: 'Segoe UI' },
+            xaxis: { showgrid: false, color: '#aaaaaa', tickfont: {size: 11} },
+            yaxis: { title: labelY, titlefont: {color: '#00C851', size: 12}, tickfont: {color: '#00C851'}, showgrid: true, gridcolor: '#333', zerolinecolor: '#444' },
+            yaxis2: { title: 'Inflação (%)', titlefont: {color: '#ff4444', size: 12}, tickfont: {color: '#ff4444'}, overlaying: 'y', side: 'right', showgrid: false },
+            legend: { x: 0.5, y: 1.15, xanchor: 'center', orientation: 'h', font: { color: '#fff' } },
+            margin: { l: 60, r: 60, t: 60, b: 40 },
+            hovermode: 'x unified'
+        };
+
+        Plotly.newPlot('grafico-setor', [trace1, trace2], layout, {responsive: true, displayModeBar: false});
+    }
+
+    // Inicia o carregamento dos dados externos
+    carregarDadosExternos();
+
+  </script>
+</body>
+</html>
